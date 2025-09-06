@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LogiMeta">
         <activity
+            android:name=".EscolherModuloActivity"
+            android:exported="false" />
+        <activity
             android:name=".SaveScreenActivity"
             android:exported="false" />
         <activity

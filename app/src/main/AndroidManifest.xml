@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LogiMeta">
         <activity
+            android:name=".SaveScreenActivity"
+            android:exported="false" />
+        <activity
             android:name=".ColetaDeDadosActivity"
             android:exported="false" />
         <activity

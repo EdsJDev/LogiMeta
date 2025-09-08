@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LogiMeta">
         <activity
+            android:name=".HistoricoDeTestesActivity"
+            android:exported="false" />
+        <activity
             android:name=".EscolherModuloActivity"
             android:exported="false" />
         <activity

@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="50dp"
         android:text="Módulo Selecionado"
         android:textColor="#a2b427"
         android:textSize="24sp"
@@ -25,7 +25,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="28dp"
         android:text="Nome do separador"
         android:textColor="#a2b427"
         android:textSize="24sp"
@@ -39,7 +39,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="8dp"
         android:text="Total de endereços na tarefa"
         android:textColor="#a2b427"
@@ -54,7 +54,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="8dp"
         android:text="Quantidade de Itens"
         android:textColor="#a2b427"
@@ -78,7 +78,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/padd"
-        android:layout_width="400dp"
+        android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
@@ -88,7 +88,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="390dp"
+            android:layout_width="370dp"
             android:layout_height="48dp"
             android:hint="módulo"
             android:padding="4dp" />
@@ -96,7 +96,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
-        android:layout_width="400dp"
+        android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
@@ -107,7 +107,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView6">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="390dp"
+            android:layout_width="370dp"
             android:layout_height="48dp"
             android:hint="endereços"
             android:padding="4dp" />
@@ -115,7 +115,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout2"
-        android:layout_width="400dp"
+        android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
@@ -126,15 +126,16 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="390dp"
+            android:layout_width="370dp"
             android:layout_height="48dp"
             android:hint="itens"
             android:padding="4dp" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout3"
-        android:layout_width="400dp"
+        android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:padding="4dp"
         app:boxBackgroundColor="#c08a52"
@@ -143,7 +144,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="390dp"
+            android:layout_width="370dp"
             android:layout_height="48dp"
             android:hint="nome"
             android:padding="4dp"
@@ -154,13 +155,23 @@
         android:id="@+id/button5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="35dp"
         android:text="INICIAR"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
+
+    <ImageView
+        android:id="@+id/voltar_imageView"
+        android:layout_width="54dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button5"
+        app:srcCompat="@drawable/turnback" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

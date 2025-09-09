@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 class MainActivity : AppCompatActivity() {
 
     lateinit var btn_NovoTeste: Button
+    lateinit var historico_button: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +20,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         btn_NovoTeste = findViewById(R.id.btn_NovoTeste)
+        historico_button = findViewById(R.id.historico_button)
 
+        historico_button.setOnClickListener {
+            val intent = Intent(this, HistoricoDeTestesActivity::class.java)
+            startActivity(intent)
+        }
 
         btn_NovoTeste.setOnClickListener {
             val intent = Intent(this, PreencherDadosActivity::class.java)

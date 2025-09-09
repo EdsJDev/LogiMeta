@@ -24,6 +24,7 @@ class ColetaDeDadosActivity : AppCompatActivity() {
         finalizaButton = findViewById(R.id.finalizar_button)
 
         finalizaButton.setOnClickListener {
+
             val intent = Intent(this, SaveScreenActivity::class.java)
             startActivity(intent)
         }

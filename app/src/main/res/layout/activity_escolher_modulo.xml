@@ -39,7 +39,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/button10"
+        android:id="@+id/avancar_escolher_modulo_button"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="500dp"
@@ -47,21 +47,21 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button11"
+        app:layout_constraintEnd_toStartOf="@+id/voltar_escolher_modulo_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout8" />
 
     <Button
-        android:id="@+id/button11"
+        android:id="@+id/voltar_escolher_modulo_button"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:text="Voltar"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/button10"
+        app:layout_constraintBottom_toBottomOf="@+id/avancar_escolher_modulo_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button10"
-        app:layout_constraintTop_toTopOf="@+id/button10" />
+        app:layout_constraintStart_toEndOf="@+id/avancar_escolher_modulo_button"
+        app:layout_constraintTop_toTopOf="@+id/avancar_escolher_modulo_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var btn_NovoTeste: Button
     lateinit var historico_button: Button
+    lateinit var media_geral_button: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,9 +22,15 @@ class MainActivity : AppCompatActivity() {
 
         btn_NovoTeste = findViewById(R.id.btn_NovoTeste)
         historico_button = findViewById(R.id.historico_button)
+        media_geral_button = findViewById(R.id.media_geral_button)
 
         historico_button.setOnClickListener {
             val intent = Intent(this, HistoricoDeTestesActivity::class.java)
+            startActivity(intent)
+        }
+
+        media_geral_button.setOnClickListener {
+            val intent = Intent(this, EscolherModuloActivity::class.java)
             startActivity(intent)
         }
 

@@ -1,9 +1,14 @@
 package com.example.logimeta
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -11,26 +16,72 @@ import androidx.core.view.WindowInsetsCompat
 
 class PreencherDadosActivity : AppCompatActivity() {
 
-    lateinit var voltar_imageView: ImageView
-    lateinit var iniciar_button: Button
+    private lateinit var moduloAutoCompleteTextView: AutoCompleteTextView
+    private var moduloSelecionado: String? = null
+    private lateinit var voltarImageView: ImageView
+    private lateinit var iniciarButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_preencher_dados)
 
-        voltar_imageView = findViewById(R.id.voltar_imageView)
-        iniciar_button = findViewById(R.id.iniciar_button)
+        voltarImageView = findViewById(R.id.voltar_imageView)
+        iniciarButton = findViewById(R.id.iniciar_button)
+        moduloAutoCompleteTextView = findViewById(R.id.moduloSelecionado_AutoCompleteTextView)
 
-        iniciar_button.setOnClickListener {
-            val intent = Intent(this, ColetaDeDadosActivity::class.java)
-            startActivity(intent)
+        val modulos = arrayOf(
+            "Plantas alto giro",
+            "Plantas baixo giro",
+            "Natalino alto giro",
+            "Natalinos baixo giro",
+            "Arvores alto giro",
+            "Arvores baixo giro",
+            "Vasos rua 23",
+            "Vasos alto giro rua 9 até 11",
+            "Vasos baixo giro rua 9 até 11",
+            "Rua 8 Saldo base alto giro",
+            "Rua 8 Saldo base baixo giro",
+            "Rua 6 e 7 alto giro",
+            "Rua 6 e 7 baixo giro",
+            "Mezanino 1",
+            "Mezanino 2",
+            "Mezanino Pulmão",
+            "Pulmão Rua 61 até 05",
+            "Pulmão rua 09 até 16",
+            "Pulmão Natalinos",
+            "Produtos Pesados",
+            "Indefinido"
+        )
+        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, modulos)
+        moduloAutoCompleteTextView.setAdapter(adapter)
+
+        moduloAutoCompleteTextView.setOnClickListener {
+            moduloAutoCompleteTextView.showDropDown()
         }
 
-        voltar_imageView.setOnClickListener {
+        moduloAutoCompleteTextView.setOnItemClickListener { parent, _, position, _ ->
+            moduloSelecionado = parent.getItemAtPosition(position).toString()
+        }
+
+        iniciarButton.setOnClickListener {
+            if (moduloSelecionado != null) {
+                val intent = Intent(this, ColetaDeDadosActivity::class.java)
+                // Opcional: passa o dado para a próxima tela
+                intent.putExtra("MODULO_SELECIONADO", moduloSelecionado)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Por favor, selecione um módulo.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        voltarImageView.setOnClickListener {
             finish()
         }
 
+        val corDropdown = ColorDrawable(Color.parseColor("#622229"))
+        @Suppress("DEPRECATION")
+        moduloAutoCompleteTextView.setDropDownBackgroundDrawable(corDropdown)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -39,3 +90,5 @@ class PreencherDadosActivity : AppCompatActivity() {
         }
     }
 }
+
+

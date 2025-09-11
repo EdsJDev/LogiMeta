@@ -81,6 +81,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView6">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/totalEnderecos_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number|numberDecimal"
@@ -113,6 +114,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/totalItens_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number|numberDecimal"
@@ -146,6 +148,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nomeSeparador_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"

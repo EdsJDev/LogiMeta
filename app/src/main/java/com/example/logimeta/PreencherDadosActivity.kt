@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -21,6 +22,12 @@ class PreencherDadosActivity : AppCompatActivity() {
     private lateinit var voltarImageView: ImageView
     private lateinit var iniciarButton: Button
 
+    private lateinit var totalEnderecosEditText: EditText
+
+    private lateinit var totalItensEditText: EditText
+
+    private lateinit var nomeSeparadorEditText: EditText
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -29,6 +36,11 @@ class PreencherDadosActivity : AppCompatActivity() {
         voltarImageView = findViewById(R.id.voltar_imageView)
         iniciarButton = findViewById(R.id.iniciar_button)
         moduloAutoCompleteTextView = findViewById(R.id.moduloSelecionado_AutoCompleteTextView)
+        totalEnderecosEditText = findViewById(R.id.totalEnderecos_editText)
+        totalItensEditText = findViewById(R.id.totalItens_editText)
+        nomeSeparadorEditText = findViewById(R.id.nomeSeparador_editText)
+
+
 
         val modulos = arrayOf(
             "Plantas alto giro",
@@ -67,9 +79,15 @@ class PreencherDadosActivity : AppCompatActivity() {
         iniciarButton.setOnClickListener {
             if (moduloSelecionado != null) {
                 val intent = Intent(this, ColetaDeDadosActivity::class.java)
-                // Opcional: passa o dado para a próxima tela
                 intent.putExtra("MODULO_SELECIONADO", moduloSelecionado)
+                intent.putExtra("TOTAL_ENDERECOS", totalEnderecosEditText.text.toString())
+                intent.putExtra("TOTAL_ITENS", totalItensEditText.text.toString())
+                intent.putExtra("NOME_SEPARADOR", nomeSeparadorEditText.text.toString())
+
+
                 startActivity(intent)
+
+
             } else {
                 Toast.makeText(this, "Por favor, selecione um módulo.", Toast.LENGTH_SHORT).show()
             }

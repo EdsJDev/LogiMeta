@@ -1,5 +1,5 @@
 package com.example.logimeta
-
+import RegistroColeta
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -11,7 +11,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat // Importar para cores de recursos
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.textfield.TextInputEditText
@@ -22,6 +21,11 @@ class ColetaDeDadosActivity : AppCompatActivity() {
     lateinit var finalizaButton: Button
     lateinit var proximoButton: Button
     lateinit var contadorTextView: TextView
+
+    private val ListaDeDados = mutableListOf<RegistroColeta>()
+
+
+
 
     lateinit var rua_referente_ao_endereco_TextInputEditText: TextInputEditText
     lateinit var quantidade_de_itens_coletados_TextInputEditText: TextInputEditText
@@ -43,6 +47,9 @@ class ColetaDeDadosActivity : AppCompatActivity() {
 
     private var corOriginalBotao: Int = 0 // Será inicializada no onCreate
 
+    private val DEBUG_PREFIX = "SaveScreenData: "
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -63,6 +70,16 @@ class ColetaDeDadosActivity : AppCompatActivity() {
         embalagem_nao_button = findViewById(R.id.embalado_nao_button)
         embalado_sim_button = findViewById(R.id.embalado_sim_button)
 
+
+        val bundle = intent.extras
+
+        val moduloSelecionado = bundle?.getString("MODULO_SELECIONADO")
+        val totalEnderecos = bundle?.getString("TOTAL_ENDERECOS")
+        val totalItens = bundle?.getString("TOTAL_ITENS")
+        val nomeSeparador = bundle?.getString("NOME_SEPARADOR")
+
+
+
         resetarSelecaoBotoesVisualmente() // Chama para garantir estado inicial visual
 
         iniciarCronometro()
@@ -71,50 +88,70 @@ class ColetaDeDadosActivity : AppCompatActivity() {
             produtoFoiEmbalado = true
             embalado_sim_button.setBackgroundColor(Color.parseColor("#4CAF50"))
             embalagem_nao_button.setBackgroundColor(corOriginalBotao)
-            Toast.makeText(this, "Produto marcado como embalado", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Produto marcado como embalado", Toast.LENGTH_SHORT).show()
         }
 
         embalagem_nao_button.setOnClickListener {
             produtoFoiEmbalado = false
             embalagem_nao_button.setBackgroundColor(Color.parseColor("#F44336"))
             embalado_sim_button.setBackgroundColor(corOriginalBotao)
-            Toast.makeText(this, "Produto marcado como NÃO embalado", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Produto marcado como NÃO embalado", Toast.LENGTH_SHORT).show()
         }
 
         corte_no_endereco_sim_button.setOnClickListener {
             corteNoEndereco = true
             corte_no_endereco_sim_button.setBackgroundColor(Color.parseColor("#4CAF50"))
             corte_no_endereco_nao_button.setBackgroundColor(corOriginalBotao)
-            Toast.makeText(this, "Corte no endereço: Sim", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Corte no endereço: Sim", Toast.LENGTH_SHORT).show()
         }
 
         corte_no_endereco_nao_button.setOnClickListener {
             corteNoEndereco = false
             corte_no_endereco_nao_button.setBackgroundColor(Color.parseColor("#F44336"))
             corte_no_endereco_sim_button.setBackgroundColor(corOriginalBotao)
-            Toast.makeText(this, "Corte no endereço: Não", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Corte no endereço: Não", Toast.LENGTH_SHORT).show()
         }
 
         finalizaButton.setOnClickListener {
-            if (produtoFoiEmbalado == null) {
-                Toast.makeText(this, "Por favor, selecione se o produto foi embalado.", Toast.LENGTH_LONG).show()
-                return@setOnClickListener
-            }
-            if (corteNoEndereco == null) {
-                Toast.makeText(this, "Por favor, selecione se houve corte no endereço.", Toast.LENGTH_LONG).show()
-                return@setOnClickListener
-            }
+//            if (produtoFoiEmbalado == null) {
+//                Toast.makeText(this, "Por favor, selecione se o produto foi embalado.", Toast.LENGTH_LONG).show()
+//                return@setOnClickListener
+//            }
+//            if (corteNoEndereco == null) {
+//                Toast.makeText(this, "Por favor, selecione se houve corte no endereço.", Toast.LENGTH_LONG).show()
+//                return@setOnClickListener
+//            }
+            // Dentro do finalizaButton.setOnClickListener na ColetaDeDadosActivity
             val intent = Intent(this, SaveScreenActivity::class.java)
-            intent.putStringArrayListExtra("tempos", ArrayList(listaTempos))
-            intent.putExtra("rua_referente_ao_endereco", rua_referente_ao_endereco_TextInputEditText.text.toString())
-            intent.putExtra("quantidade_de_itens_coletados", quantidade_de_itens_coletados_TextInputEditText.text.toString())
-            intent.putExtra("PRODUTO_FOI_EMBALADO", produtoFoiEmbalado)
-            intent.putExtra("CORTE_NO_ENDERECO", corteNoEndereco)
-            startActivity(intent)
-        }
+                intent.putExtra("lista", ArrayList(ListaDeDados))
+                startActivity(intent)
+            }
 
         proximoButton.setOnClickListener {
-            salvarTempo()
+
+            var modulo = moduloSelecionado
+            var enderecos = totalEnderecos
+            var itens = totalItens
+            var nomeDoSeparador = nomeSeparador
+            var tempoDoEndereco = contadorTextView.text
+            var ruaReferenteAoEndereco: String = rua_referente_ao_endereco_TextInputEditText.text.toString()
+            var quantidadeDeItensColetados: String = quantidade_de_itens_coletados_TextInputEditText.text.toString()
+            var oprodutoFoiEmbalado = produtoFoiEmbalado
+            var cortesNoEndereco = corteNoEndereco
+
+            val registro = RegistroColeta(
+                modulo,
+                enderecos?.toIntOrNull(),
+                itens?.toIntOrNull(),
+                nomeDoSeparador,
+                tempoDoEndereco.toString(),
+                ruaReferenteAoEndereco,
+                quantidadeDeItensColetados,
+                oprodutoFoiEmbalado,
+                cortesNoEndereco
+            )
+            ListaDeDados.add(registro)
+            //salvarTempo()
             reiniciarCronometro()
             resetarEstadoSelecao() // Chama a função para resetar
         }
@@ -145,11 +182,11 @@ class ColetaDeDadosActivity : AppCompatActivity() {
         // Reseta o feedback visual dos botões
         resetarSelecaoBotoesVisualmente()
 
-        // Opcional: Limpar campos de texto também, se fizer sentido para o seu fluxo
-        // rua_referente_ao_endereco_TextInputEditText.text = null
-        // quantidade_de_itens_coletados_TextInputEditText.text = null
+        // Opcional: Limpar campos de texto também
+         //rua_referente_ao_endereco_TextInputEditText.text = null
+         quantidade_de_itens_coletados_TextInputEditText.text = null
 
-        Toast.makeText(this, "Pronto para nova coleta.", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, "Pronto para nova coleta.", Toast.LENGTH_SHORT).show()
     }
 
     private fun iniciarCronometro() {
@@ -166,6 +203,8 @@ class ColetaDeDadosActivity : AppCompatActivity() {
             }
         })
     }
+
+
 
     private fun salvarTempo() {
         // ... (código de salvar tempo) ...
@@ -185,4 +224,3 @@ class ColetaDeDadosActivity : AppCompatActivity() {
         handler.removeCallbacksAndMessages(null)
     }
 }
-

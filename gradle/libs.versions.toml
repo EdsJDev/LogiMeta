@@ -9,6 +9,8 @@ appcompat = "1.7.1"
 material = "1.13.0"
 activity = "1.10.1"
 constraintlayout = "2.2.1"
+ksp = "2.0.21-1.0.21"  # ADICIONADO - Verifique a versão mais recente do KSP compatível com sua versão Kotlin (2.0.21)
+room = "2.6.1"         # ADICIONADO - Versão estável mais recente do Room
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -20,7 +22,13 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
+# --- DEPENDÊNCIAS DO ROOM ADICIONADAS ---
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" } # Usado por ksp
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" } # Opcional, mas recomendado
+androidx-room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" } # Opcional, para testes
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-
+google-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" } # ADICIONADO - Plugin KSP

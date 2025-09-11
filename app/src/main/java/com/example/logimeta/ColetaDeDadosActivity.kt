@@ -151,7 +151,7 @@ class ColetaDeDadosActivity : AppCompatActivity() {
                 cortesNoEndereco
             )
             ListaDeDados.add(registro)
-            //salvarTempo()
+            salvarTempo()
             reiniciarCronometro()
             resetarEstadoSelecao() // Chama a função para resetar
         }

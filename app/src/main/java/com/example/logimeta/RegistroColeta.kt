@@ -10,5 +10,6 @@ data class RegistroColeta(
     val ruaEndereco: String,
     val qtdItensColetados: String,
     val produtoFoiEmbalado: Boolean?,
-    val corteNoEndereco: Boolean?
+    val corteNoEndereco: Boolean?,
+    val caixaFechada: Boolean?
  ): Serializable

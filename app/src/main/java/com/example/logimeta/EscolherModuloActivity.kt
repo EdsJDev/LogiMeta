@@ -31,7 +31,29 @@ class EscolherModuloActivity : AppCompatActivity() {
         voltar_escolher_modulo_button = findViewById(R.id.voltar_escolher_modulo_button)
         autoCompleteTextViewModulo = findViewById(R.id.moduloSelecionadoAutoCompleteTextView)
 
-        val modulos = arrayOf("Plantas alto giro", "Plantas baixo giro", "Natalino alto giro", "Natalinos baixo giro", "Arvores alto giro", "Arvores baixo giro", "Vasos rua 23", "Vasos alto giro rua 9 até 11", "Vasos baixo giro rua 9 até 11", "Rua 8 Saldo base alto giro", "Rua 8 Saldo base baixo giro", "Rua 6 e 7 alto giro", "Rua 6 e 7 baixo giro", "Mezanino 1", "Mezanino 2", "Mezanino Pulmão", "Pulmão Rua 61 até 05", "Pulmão rua 09 até 16", "Pulmão Natalinos", "Produtos Pesados", "Indefinido")
+        val modulos = arrayOf(
+            "Plantas alto giro",
+            "Plantas baixo giro",
+            "Natalino alto giro",
+            "Natalinos baixo giro",
+            "Arvores alto giro",
+            "Arvores baixo giro",
+            "Vasos rua 23",
+            "Vasos alto giro rua 9 até 11",
+            "Vasos baixo giro rua 9 até 11",
+            "Rua 8 Saldo base alto giro",
+            "Rua 8 Saldo base baixo giro",
+            "Rua 6 e 7 alto giro",
+            "Rua 6 e 7 baixo giro",
+            "Mezanino 1",
+            "Mezanino 2",
+            "Mezanino Pulmão",
+            "Pulmão Rua 61 até 05",
+            "Pulmão rua 09 até 16",
+            "Pulmão Natalinos",
+            "Produtos Pesados",
+            "Indefinido"
+        )
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, modulos)
 

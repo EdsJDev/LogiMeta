@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.logimeta.database.DatabaseHelper
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +24,8 @@ class MainActivity : AppCompatActivity() {
         btn_NovoTeste = findViewById(R.id.btn_NovoTeste)
         historico_button = findViewById(R.id.historico_button)
         media_geral_button = findViewById(R.id.media_geral_button)
+
+
 
         historico_button.setOnClickListener {
             val intent = Intent(this, HistoricoDeTestesActivity::class.java)

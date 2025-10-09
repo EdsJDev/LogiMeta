@@ -24,31 +24,25 @@ class ColetaDeDadosActivity : AppCompatActivity() {
 
     private val ListaDeDados = mutableListOf<RegistroColeta>()
 
-
-
-
     lateinit var rua_referente_ao_endereco_TextInputEditText: TextInputEditText
     lateinit var quantidade_de_itens_coletados_TextInputEditText: TextInputEditText
-
     lateinit var corte_no_endereco_sim_button: Button
     lateinit var corte_no_endereco_nao_button: Button
-
     lateinit var embalagem_nao_button: Button
     lateinit var embalado_sim_button: Button
 
+    lateinit var caixa_fechada_sim_button: Button
+    lateinit var caixa_fechada_nao_button: Button
     private var produtoFoiEmbalado: Boolean? = null
     private var corteNoEndereco: Boolean? = null
+    private var caixaFechada: Boolean? = null
 
     private var segundos = 0
     private var rodando = true
     private val handler = Handler(Looper.getMainLooper())
-
     private val listaTempos = mutableListOf<String>()
-
     private var corOriginalBotao: Int = 0 // Será inicializada no onCreate
-
     private val DEBUG_PREFIX = "SaveScreenData: "
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +64,8 @@ class ColetaDeDadosActivity : AppCompatActivity() {
         embalagem_nao_button = findViewById(R.id.embalado_nao_button)
         embalado_sim_button = findViewById(R.id.embalado_sim_button)
 
+        caixa_fechada_sim_button = findViewById(R.id.caixa_fechada_sim_button)
+        caixa_fechada_nao_button = findViewById(R.id.caixa_fechada_nao_button)
 
         val bundle = intent.extras
 
@@ -77,8 +73,6 @@ class ColetaDeDadosActivity : AppCompatActivity() {
         val totalEnderecos = bundle?.getString("TOTAL_ENDERECOS")
         val totalItens = bundle?.getString("TOTAL_ITENS")
         val nomeSeparador = bundle?.getString("NOME_SEPARADOR")
-
-
 
         resetarSelecaoBotoesVisualmente() // Chama para garantir estado inicial visual
 
@@ -112,6 +106,20 @@ class ColetaDeDadosActivity : AppCompatActivity() {
             //Toast.makeText(this, "Corte no endereço: Não", Toast.LENGTH_SHORT).show()
         }
 
+        caixa_fechada_sim_button.setOnClickListener {
+            caixaFechada = true
+            caixa_fechada_sim_button.setBackgroundColor(Color.parseColor("#4CAF50"))
+            caixa_fechada_nao_button.setBackgroundColor(corOriginalBotao)
+            //Toast.makeText(this, "Caixa fechada: Sim", Toast.LENGTH_SHORT).show()
+        }
+
+        caixa_fechada_nao_button.setOnClickListener {
+            caixaFechada = false
+            caixa_fechada_nao_button.setBackgroundColor(Color.parseColor("#F44336"))
+            caixa_fechada_sim_button.setBackgroundColor(corOriginalBotao)
+            //Toast.makeText(this, "Caixa fechada: Não", Toast.LENGTH_SHORT).show()
+        }
+
         finalizaButton.setOnClickListener {
 //            if (produtoFoiEmbalado == null) {
 //                Toast.makeText(this, "Por favor, selecione se o produto foi embalado.", Toast.LENGTH_LONG).show()
@@ -129,28 +137,60 @@ class ColetaDeDadosActivity : AppCompatActivity() {
 
         proximoButton.setOnClickListener {
 
-            var modulo = moduloSelecionado
+            //var modulo = moduloSelecionado
             var enderecos = totalEnderecos
             var itens = totalItens
-            var nomeDoSeparador = nomeSeparador
+            //var nomeDoSeparador = nomeSeparador
             var tempoDoEndereco = contadorTextView.text
-            var ruaReferenteAoEndereco: String = rua_referente_ao_endereco_TextInputEditText.text.toString()
-            var quantidadeDeItensColetados: String = quantidade_de_itens_coletados_TextInputEditText.text.toString()
-            var oprodutoFoiEmbalado = produtoFoiEmbalado
-            var cortesNoEndereco = corteNoEndereco
+            //var ruaReferenteAoEndereco: String = rua_referente_ao_endereco_TextInputEditText.text.toString()
+            //var quantidadeDeItensColetados: String = quantidade_de_itens_coletados_TextInputEditText.text.toString()
+            //var oprodutoFoiEmbalado = produtoFoiEmbalado
+            //var cortesNoEndereco = corteNoEndereco
 
             val registro = RegistroColeta(
-                modulo,
+                moduloSelecionado,
                 enderecos?.toIntOrNull(),
                 itens?.toIntOrNull(),
-                nomeDoSeparador,
+                nomeSeparador,
                 tempoDoEndereco.toString(),
-                ruaReferenteAoEndereco,
-                quantidadeDeItensColetados,
-                oprodutoFoiEmbalado,
-                cortesNoEndereco
+                rua_referente_ao_endereco_TextInputEditText.text.toString(),
+                quantidade_de_itens_coletados_TextInputEditText.text.toString(),
+                produtoFoiEmbalado,
+                corteNoEndereco,
+                caixaFechada
             )
             ListaDeDados.add(registro)
+
+            for (Lista in ListaDeDados){
+                println("Nome do separador: ${Lista.nomeSeparador}")
+                println("Módulo selecionado: ${Lista.moduloSelecionado}")
+                println("Total de endereços: ${Lista.totalEnderecos}")
+                println("Total de itens: ${Lista.totalItens}")
+
+                // observar este ponto repetido depois
+                println("Nome do separador: ${Lista.nomeSeparador}")
+                // -------------------------------------
+
+                println("Tempo do endereço: ${Lista.tempoColeta}")
+                println("Rua referente ao endereço: ${Lista.ruaEndereco}")
+                println("Quantidade de itens coletados: ${Lista.qtdItensColetados}")
+                println(
+                    "Produto foi embalado? ${
+                        if (Lista.produtoFoiEmbalado == true) "Sim" else "Não"
+                    }"
+                )
+                println(
+                    "Corte no endereço? ${
+                        if (Lista.corteNoEndereco == true) "Sim" else "Não"
+                    }"
+                )
+                println(
+                    "Caixa fechada? ${
+                        if (Lista.caixaFechada == true) "Sim" else "Não"
+                    }"
+                )
+            }
+
             salvarTempo()
             reiniciarCronometro()
             resetarEstadoSelecao() // Chama a função para resetar
@@ -172,12 +212,14 @@ class ColetaDeDadosActivity : AppCompatActivity() {
         embalagem_nao_button.setBackgroundColor(corOriginalBotao)
         corte_no_endereco_sim_button.setBackgroundColor(corOriginalBotao)
         corte_no_endereco_nao_button.setBackgroundColor(corOriginalBotao)
+        caixa_fechada_sim_button.setBackgroundColor(corOriginalBotao)
     }
 
     private fun resetarEstadoSelecao() {
         // Reseta as variáveis de estado lógico
         produtoFoiEmbalado = null
         corteNoEndereco = null
+        caixaFechada = null
 
         // Reseta o feedback visual dos botões
         resetarSelecaoBotoesVisualmente()
@@ -203,9 +245,6 @@ class ColetaDeDadosActivity : AppCompatActivity() {
             }
         })
     }
-
-
-
     private fun salvarTempo() {
         // ... (código de salvar tempo) ...
         val tempoAtual = contadorTextView.text.toString()
@@ -224,3 +263,6 @@ class ColetaDeDadosActivity : AppCompatActivity() {
         handler.removeCallbacksAndMessages(null)
     }
 }
+
+
+// botão caixa fechada implementado //

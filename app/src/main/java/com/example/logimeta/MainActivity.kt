@@ -15,11 +15,38 @@ class MainActivity : AppCompatActivity() {
     lateinit var historico_button: Button
     lateinit var media_geral_button: Button
 
+    private val bancoDeDados by lazy {
+        DatabaseHelper(this)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+
+        // teste para verificar se o banco de dados está funcionando
+        try {
+            bancoDeDados.writableDatabase.execSQL(
+                "INSERT INTO SessaoColeta (" +
+                        "    nome_separador," +
+                        "    modulo_selecionado," +
+                        "    total_enderecos," +
+                        "    total_itens" +
+                        ")" +
+                        "VALUES (" +
+                        "    'Alice Silva'," +
+                        "    'Mod A - Picking Lento'," +
+                        "    25," +
+                        "    150" +
+                        ");"
+            )
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
+        // fim do teste
+
+
 
         btn_NovoTeste = findViewById(R.id.btn_NovoTeste)
         historico_button = findViewById(R.id.historico_button)

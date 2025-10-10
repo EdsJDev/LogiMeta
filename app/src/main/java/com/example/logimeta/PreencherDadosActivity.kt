@@ -77,19 +77,17 @@ class PreencherDadosActivity : AppCompatActivity() {
         }
 
         iniciarButton.setOnClickListener {
-            if (moduloSelecionado != null) {
+            if (moduloSelecionado != null && nomeSeparadorEditText.text.toString().isNotEmpty()) {
                 val intent = Intent(this, ColetaDeDadosActivity::class.java)
                 intent.putExtra("MODULO_SELECIONADO", moduloSelecionado)
                 intent.putExtra("TOTAL_ENDERECOS", totalEnderecosEditText.text.toString())
                 intent.putExtra("TOTAL_ITENS", totalItensEditText.text.toString())
                 intent.putExtra("NOME_SEPARADOR", nomeSeparadorEditText.text.toString())
-
-
                 startActivity(intent)
-
-
-            } else {
+            } else if (moduloSelecionado == null){
                 Toast.makeText(this, "Por favor, selecione um módulo.", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Por favor, preencha o nome do separador.", Toast.LENGTH_SHORT).show()
             }
         }
 

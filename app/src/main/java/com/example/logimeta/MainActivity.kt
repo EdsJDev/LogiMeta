@@ -7,7 +7,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.logimeta.database.ColetaDAO
 import com.example.logimeta.database.DatabaseHelper
+import com.example.logimeta.databinding.ActivityMainBinding
+import kotlin.getValue
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,11 +22,17 @@ class MainActivity : AppCompatActivity() {
         DatabaseHelper(this)
     }
 
+    private val binding by lazy {
+        ActivityMainBinding.inflate(layoutInflater)
+    }
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
 
         // teste para verificar se o banco de dados está funcionando
         try {

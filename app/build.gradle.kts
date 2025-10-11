@@ -19,10 +19,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // ✅ Se quiser gerar schemas para Room (opcional, mas recomendado)
-        ksp {
-            arg("room.schemaLocation", "$projectDir/schemas")
-        }
+//         ✅ Se quiser gerar schemas para Room (opcional, mas recomendado)
+
     }
 
     buildTypes {
@@ -40,6 +38,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 }
 
@@ -70,4 +72,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+}
+
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
 }

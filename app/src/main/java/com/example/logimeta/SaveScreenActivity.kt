@@ -1,18 +1,19 @@
 package com.example.logimeta
-import RegistroColeta
-import android.content.ContentValues
+import com.example.logimeta.model.RegistroColeta
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.logimeta.database.DatabaseHelper
+import com.example.logimeta.database.ColetaDAO
 import com.example.logimeta.databinding.ActivitySaveScreenBinding
+import com.example.logimeta.model.SessaoColeta
+import kotlin.getValue
 
 class SaveScreenActivity : AppCompatActivity() {
-
     private var listaColeta: ArrayList<RegistroColeta>? = null
     private var moduloSelecionado: String? = null
     private var totalEnderecos: String? = null
@@ -23,8 +24,8 @@ class SaveScreenActivity : AppCompatActivity() {
         ActivitySaveScreenBinding.inflate(layoutInflater)
     }
 
-    private val bancoDeDados by lazy {
-        DatabaseHelper(this)
+    private val coletaDAO by lazy {
+        ColetaDAO(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,56 +58,28 @@ class SaveScreenActivity : AppCompatActivity() {
     }
 
     private fun salvar() {
-        val sessaoValues = ContentValues().apply {
-            put("nome_separador", nomeSeparador)
-            put("modulo_selecionado", moduloSelecionado)
-            put("total_enderecos", totalEnderecos)
-            put("total_itens", totalItens)
+        val sessaoParaSalvar = SessaoColeta(
+            nomeSeparador = nomeSeparador ?: "",
+            moduloSelecionado = moduloSelecionado ?: "",
+            totalEnderecos = (totalEnderecos ?: "0").toInt(),
+            totalItens = (totalItens ?: "0").toInt()
+        )
+
+        // Se a lista for nula, usamos uma lista vazia para evitar erros
+        val registrosParaSalvar = listaColeta ?: emptyList()
+
+        Log.d("info_db", "Activity: Chamando o DAO para salvar a coleta completa.")
+        val sucesso = coletaDAO.salvarColetaCompleta(sessaoParaSalvar, registrosParaSalvar)
+
+        if (sucesso) {
+            Log.i("info_db", "Activity: DAO retornou sucesso. Navegando para a próxima tela.")
+            val intent = Intent(this, HistoricoDeTestesActivity::class.java)
+            startActivity(intent)
+            finish()
+        } else {
+            Log.e("info_db", "Activity: DAO retornou falha. O salvamento não foi concluído.")
+            Toast.makeText(this, "Erro ao salvar os dados. Tente novamente.", Toast.LENGTH_LONG).show()
         }
-
-        val idNovaSessao: Long
-        try {
-            idNovaSessao = bancoDeDados.writableDatabase.insert("SessaoColeta", null, sessaoValues)
-
-            if (idNovaSessao == -1L) {
-                Log.e("info_db", "ERRO: Falha ao inserir na tabela SessaoColeta.")
-                return
-            } else {
-                Log.i("info_db", "SUCESSO: SessaoColeta salva com o ID: $idNovaSessao")
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Log.e("info_db", "ERRO CRÍTICO ao salvar na tabela SessaoColeta: ${e.message}")
-            return
-        }
-
-        Log.d("info_db", "Iniciando loop. Tamanho da listaColeta: ${listaColeta?.size}")
-
-        listaColeta?.forEach { registro ->
-            println(listaColeta?.size)
-            val registroValues = ContentValues().apply {
-                put("id_sessao", idNovaSessao)
-                put("tempo_coleta", registro.tempoColeta)
-                put("rua_endereco", registro.ruaEndereco)
-                put("qtd_itens_coletados", registro.qtdItensColetados)
-                put("produto_embalado", registro.produtoFoiEmbalado)
-                put("corte_no_endereco", registro.corteNoEndereco)
-                put("caixa_fechada", registro.caixaFechada)
-            }
-
-            try {
-                bancoDeDados.writableDatabase.insert("RegistroColeta", null, registroValues)
-                Log.i("info_db", "SUCESSO: Registro salvo para o endereço '${registro.ruaEndereco}'.")
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Log.e("info_db", "ERRO ao salvar registro para o endereço '${registro.ruaEndereco}': ${e.message}")
-            }
-        }
-
-        Log.i("info_db", "Processo de salvamento concluído. Navegando para HistoricoDeTestesActivity.")
-        val intent = Intent(this, HistoricoDeTestesActivity::class.java)
-        startActivity(intent)
-        finish()
     }
 
     private fun naoSalvar() {

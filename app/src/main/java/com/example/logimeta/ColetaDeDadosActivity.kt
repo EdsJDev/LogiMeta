@@ -1,5 +1,5 @@
 package com.example.logimeta
-import RegistroColeta
+import com.example.logimeta.model.RegistroColeta
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle

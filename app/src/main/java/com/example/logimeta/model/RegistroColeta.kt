@@ -1,3 +1,4 @@
+package com.example.logimeta.model
 
 import java.io.Serializable
 

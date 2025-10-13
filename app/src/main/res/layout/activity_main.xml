@@ -44,12 +44,12 @@
 
     <ImageView
         android:id="@+id/imageView5"
-        android:layout_width="280dp"
-        android:layout_height="150dp"
+        android:layout_width="206dp"
+        android:layout_height="193dp"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/img" />
+        app:srcCompat="@drawable/logologimeta" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

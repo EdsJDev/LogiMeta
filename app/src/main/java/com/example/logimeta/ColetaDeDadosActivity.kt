@@ -82,56 +82,47 @@ class ColetaDeDadosActivity : AppCompatActivity() {
             produtoFoiEmbalado = true
             embalado_sim_button.setBackgroundColor(Color.parseColor("#4CAF50"))
             embalagem_nao_button.setBackgroundColor(corOriginalBotao)
-            //Toast.makeText(this, "Produto marcado como embalado", Toast.LENGTH_SHORT).show()
         }
 
         embalagem_nao_button.setOnClickListener {
             produtoFoiEmbalado = false
             embalagem_nao_button.setBackgroundColor(Color.parseColor("#F44336"))
             embalado_sim_button.setBackgroundColor(corOriginalBotao)
-            //Toast.makeText(this, "Produto marcado como NÃO embalado", Toast.LENGTH_SHORT).show()
         }
 
         corte_no_endereco_sim_button.setOnClickListener {
             corteNoEndereco = true
             corte_no_endereco_sim_button.setBackgroundColor(Color.parseColor("#4CAF50"))
             corte_no_endereco_nao_button.setBackgroundColor(corOriginalBotao)
-            //Toast.makeText(this, "Corte no endereço: Sim", Toast.LENGTH_SHORT).show()
         }
 
         corte_no_endereco_nao_button.setOnClickListener {
             corteNoEndereco = false
             corte_no_endereco_nao_button.setBackgroundColor(Color.parseColor("#F44336"))
             corte_no_endereco_sim_button.setBackgroundColor(corOriginalBotao)
-            //Toast.makeText(this, "Corte no endereço: Não", Toast.LENGTH_SHORT).show()
         }
 
         caixa_fechada_sim_button.setOnClickListener {
             caixaFechada = true
             caixa_fechada_sim_button.setBackgroundColor(Color.parseColor("#4CAF50"))
             caixa_fechada_nao_button.setBackgroundColor(corOriginalBotao)
-            //Toast.makeText(this, "Caixa fechada: Sim", Toast.LENGTH_SHORT).show()
         }
 
         caixa_fechada_nao_button.setOnClickListener {
             caixaFechada = false
             caixa_fechada_nao_button.setBackgroundColor(Color.parseColor("#F44336"))
             caixa_fechada_sim_button.setBackgroundColor(corOriginalBotao)
-            //Toast.makeText(this, "Caixa fechada: Não", Toast.LENGTH_SHORT).show()
         }
 
         finalizaButton.setOnClickListener {
-//            if (produtoFoiEmbalado == null) {
-//                Toast.makeText(this, "Por favor, selecione se o produto foi embalado.", Toast.LENGTH_LONG).show()
-//                return@setOnClickListener
-//            }
-//            if (corteNoEndereco == null) {
-//                Toast.makeText(this, "Por favor, selecione se houve corte no endereço.", Toast.LENGTH_LONG).show()
-//                return@setOnClickListener
-//            }
             // Dentro do finalizaButton.setOnClickListener na ColetaDeDadosActivity
-            val intent = Intent(this, SaveScreenActivity::class.java)
-                intent.putExtra("lista", ArrayList(ListaDeDados))
+            val intent = Intent(this, SaveScreenActivity::class.java).apply{
+                putExtra("MODULO_SELECIONADO", moduloSelecionado)
+                putExtra("TOTAL_ENDERECOS", totalEnderecos)
+                putExtra("TOTAL_ITENS", totalItens)
+                putExtra("NOME_SEPARADOR", nomeSeparador)
+                putExtra("lista", ArrayList(ListaDeDados))
+            }
                 startActivity(intent)
             }
 
@@ -140,18 +131,15 @@ class ColetaDeDadosActivity : AppCompatActivity() {
             //var modulo = moduloSelecionado
             var enderecos = totalEnderecos
             var itens = totalItens
-            //var nomeDoSeparador = nomeSeparador
             var tempoDoEndereco = contadorTextView.text
-            //var ruaReferenteAoEndereco: String = rua_referente_ao_endereco_TextInputEditText.text.toString()
-            //var quantidadeDeItensColetados: String = quantidade_de_itens_coletados_TextInputEditText.text.toString()
-            //var oprodutoFoiEmbalado = produtoFoiEmbalado
-            //var cortesNoEndereco = corteNoEndereco
+
+
+            moduloSelecionado
+            enderecos?.toIntOrNull()
+            itens?.toIntOrNull()
+            nomeSeparador
 
             val registro = RegistroColeta(
-                moduloSelecionado,
-                enderecos?.toIntOrNull(),
-                itens?.toIntOrNull(),
-                nomeSeparador,
                 tempoDoEndereco.toString(),
                 rua_referente_ao_endereco_TextInputEditText.text.toString(),
                 quantidade_de_itens_coletados_TextInputEditText.text.toString(),
@@ -160,17 +148,11 @@ class ColetaDeDadosActivity : AppCompatActivity() {
                 caixaFechada
             )
             ListaDeDados.add(registro)
-
+            println("Nome do separador: ${nomeSeparador}")
+            println("Módulo selecionado: moduloSelecionado}")
+            println("Total de endereços: ${totalEnderecos}")
+            println("Total de itens: ${totalItens}")
             for (Lista in ListaDeDados){
-                println("Nome do separador: ${Lista.nomeSeparador}")
-                println("Módulo selecionado: ${Lista.moduloSelecionado}")
-                println("Total de endereços: ${Lista.totalEnderecos}")
-                println("Total de itens: ${Lista.totalItens}")
-
-                // observar este ponto repetido depois
-                println("Nome do separador: ${Lista.nomeSeparador}")
-                // -------------------------------------
-
                 println("Tempo do endereço: ${Lista.tempoColeta}")
                 println("Rua referente ao endereço: ${Lista.ruaEndereco}")
                 println("Quantidade de itens coletados: ${Lista.qtdItensColetados}")
@@ -213,6 +195,7 @@ class ColetaDeDadosActivity : AppCompatActivity() {
         corte_no_endereco_sim_button.setBackgroundColor(corOriginalBotao)
         corte_no_endereco_nao_button.setBackgroundColor(corOriginalBotao)
         caixa_fechada_sim_button.setBackgroundColor(corOriginalBotao)
+        caixa_fechada_nao_button.setBackgroundColor(corOriginalBotao)
     }
 
     private fun resetarEstadoSelecao() {

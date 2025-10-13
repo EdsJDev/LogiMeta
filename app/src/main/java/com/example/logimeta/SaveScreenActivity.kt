@@ -3,7 +3,6 @@ import RegistroColeta
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -21,10 +20,6 @@ class SaveScreenActivity : AppCompatActivity() {
     private var totalItens: String? = null
     private var nomeSeparador: String? = null
 
-
-    lateinit var saveButton: Button
-    lateinit var notSaveButton: Button
-
     private val binding by lazy {
         ActivitySaveScreenBinding.inflate(layoutInflater)
     }
@@ -33,23 +28,10 @@ class SaveScreenActivity : AppCompatActivity() {
         DatabaseHelper(this)
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
-
-        with(binding) {
-            saveButton.setOnClickListener {
-                salvar()
-            }
-            notSaveButton.setOnClickListener {
-               // naoSalvar()
-            }
-        }
-
-        saveButton = findViewById(R.id.save_button)
-        notSaveButton = findViewById(R.id.not_save_button)
 
         val bundle = intent.extras
         if (bundle != null) {
@@ -58,25 +40,15 @@ class SaveScreenActivity : AppCompatActivity() {
             totalItens = bundle.getString("TOTAL_ITENS")
             nomeSeparador = bundle.getString("NOME_SEPARADOR")
             listaColeta = intent.getSerializableExtra("lista") as? ArrayList<RegistroColeta>
-
         }
-        println("-------------------------------")
-        println(listaColeta?.firstOrNull()?.tempoColeta)
-        println(moduloSelecionado)
-        println("--------------------------------")
+        //println(listaColeta?.firstOrNull()?.tempoColeta) // teste para verificar se os dados estão chegando com null
 
-
-        notSaveButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+        binding.notSaveButton.setOnClickListener {
+            naoSalvar()
         }
 
-        saveButton.setOnClickListener {
-            val intent = Intent(this, HistoricoDeTestesActivity::class.java)
+        binding.saveButton.setOnClickListener {
             salvar()
-            startActivity(intent)
-            finish()
         }
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -86,7 +58,7 @@ class SaveScreenActivity : AppCompatActivity() {
     }
 
     fun salvar() {
-        val sql_coleta = "INSERT INTO SessaoColeta (" +
+        val sqlColeta = "INSERT INTO SessaoColeta (" +
                 "nome_separador," +
                 "modulo_selecionado," +
                 "total_enderecos," +
@@ -101,7 +73,7 @@ class SaveScreenActivity : AppCompatActivity() {
 
 
         try {
-            bancoDeDados.writableDatabase.execSQL(sql_coleta)
+            bancoDeDados.writableDatabase.execSQL(sqlColeta)
             Log.i("info_db", "Dados salvos com sucesso (SessãoColeta)")
         } catch (e: Exception) {
             e.printStackTrace()
@@ -111,7 +83,7 @@ class SaveScreenActivity : AppCompatActivity() {
         Log.d("info_db", "Iniciando loop. Tamanho da listaColeta: ${listaColeta?.size}")
 
         listaColeta?.forEach { registro ->
-            val sql_registro = "INSERT INTO RegistroColeta (" +
+            val sqlRegistro = "INSERT INTO RegistroColeta (" +
                     "id_sessao," +
                     " tempo_coleta," +
                     " rua_endereco," +
@@ -130,7 +102,7 @@ class SaveScreenActivity : AppCompatActivity() {
                     ");"
 
             try {
-                bancoDeDados.writableDatabase.execSQL(sql_registro)
+                bancoDeDados.writableDatabase.execSQL(sqlRegistro)
                 Log.i(
                     "info_db",
                     "SUCESSO: Registro salvo para o endereço '${registro.ruaEndereco}'."
@@ -143,8 +115,12 @@ class SaveScreenActivity : AppCompatActivity() {
                 )
             }
         }
+
+        val intent = Intent(this, HistoricoDeTestesActivity::class.java)
+        startActivity(intent)
     }
     fun naoSalvar() {
-
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 }

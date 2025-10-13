@@ -11,7 +11,6 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, "logi.db", nul
         try {
             db?.execSQL("""
                 CREATE TABLE SessaoColeta (
-                -- Chave Primária, única e auto-incrementada
                 id_sessao INTEGER PRIMARY KEY AUTOINCREMENT,
                 nome_separador TEXT NOT NULL,
                 modulo_selecionado TEXT NOT NULL,
@@ -24,7 +23,6 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, "logi.db", nul
             db?.execSQL("""
                 CREATE TABLE RegistroColeta (
                 id_coleta INTEGER PRIMARY KEY AUTOINCREMENT,
-                -- Coluna que armazena a referência (o valor deve existir na SessaoColeta)
                 id_sessao INTEGER NOT NULL, 
                 tempo_coleta TEXT,
                 rua_endereco TEXT,
@@ -32,8 +30,6 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, "logi.db", nul
                 produto_embalado INTEGER,
                 corte_no_endereco INTEGER,
                 caixa_fechada INTEGER,
-                
-                -- Restrição de Chave Estrangeira
                 FOREIGN KEY (id_sessao) 
                     REFERENCES SessaoColeta(id_sessao) 
                     ON DELETE CASCADE

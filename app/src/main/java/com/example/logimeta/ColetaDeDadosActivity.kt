@@ -21,28 +21,24 @@ class ColetaDeDadosActivity : AppCompatActivity() {
     lateinit var finalizaButton: Button
     lateinit var proximoButton: Button
     lateinit var contadorTextView: TextView
-
     private val ListaDeDados = mutableListOf<RegistroColeta>()
-
     lateinit var rua_referente_ao_endereco_TextInputEditText: TextInputEditText
     lateinit var quantidade_de_itens_coletados_TextInputEditText: TextInputEditText
     lateinit var corte_no_endereco_sim_button: Button
     lateinit var corte_no_endereco_nao_button: Button
     lateinit var embalagem_nao_button: Button
     lateinit var embalado_sim_button: Button
-
     lateinit var caixa_fechada_sim_button: Button
     lateinit var caixa_fechada_nao_button: Button
     private var produtoFoiEmbalado: Boolean? = null
     private var corteNoEndereco: Boolean? = null
     private var caixaFechada: Boolean? = null
-
     private var segundos = 0
     private var rodando = true
     private val handler = Handler(Looper.getMainLooper())
     private val listaTempos = mutableListOf<String>()
     private var corOriginalBotao: Int = 0 // Será inicializada no onCreate
-    private val DEBUG_PREFIX = "SaveScreenData: "
+    //private val DEBUG_PREFIX = "SaveScreenData: "
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

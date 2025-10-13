@@ -2,12 +2,13 @@ package com.example.logimeta
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.logimeta.database.ColetaDAO
+
 import com.example.logimeta.database.DatabaseHelper
 import com.example.logimeta.databinding.ActivityMainBinding
 import kotlin.getValue
@@ -47,6 +48,9 @@ class MainActivity : AppCompatActivity() {
                         "    150" +
                         ");"
             )
+            Log.i("info_db", "Dados salvos com sucesso")
+
+
         }catch (e: Exception){
             e.printStackTrace()
         }

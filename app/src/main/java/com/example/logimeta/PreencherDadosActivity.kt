@@ -40,8 +40,6 @@ class PreencherDadosActivity : AppCompatActivity() {
         totalItensEditText = findViewById(R.id.totalItens_editText)
         nomeSeparadorEditText = findViewById(R.id.nomeSeparador_editText)
 
-
-
         val modulos = arrayOf(
             "Plantas alto giro",
             "Plantas baixo giro",

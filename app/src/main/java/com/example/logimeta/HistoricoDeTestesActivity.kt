@@ -6,8 +6,6 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 class HistoricoDeTestesActivity : AppCompatActivity() {
 
@@ -22,8 +20,7 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
 
         historico_voltar_button = findViewById(R.id.historico_voltar_button)
 
-        // Exibir o histórico em um TextView
-        val historicoTextView = findViewById<TextView>(R.id.textView34) // ou crie outro TextView só para isso
+        val historicoTextView = findViewById<TextView>(R.id.textView34)
         val builder = StringBuilder()
 
         for ((index, coleta) in ColetaRepository.historico.withIndex()) {

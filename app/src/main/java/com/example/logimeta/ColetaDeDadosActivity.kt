@@ -120,6 +120,8 @@ class ColetaDeDadosActivity : AppCompatActivity() {
                 putExtra("lista", ArrayList(ListaDeDados))
             }
                 startActivity(intent)
+                ListaDeDados.clear() // Limpar a lista após o clique no botão "Finalizar"
+
             }
 
         proximoButton.setOnClickListener {

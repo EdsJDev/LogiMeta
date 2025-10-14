@@ -21,7 +21,7 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, "logi.db", nul
         """)
 
             db?.execSQL("""
-                CREATE TABLE com.example.logimeta.model.RegistroColeta (
+                CREATE TABLE RegistroColeta (
                 id_coleta INTEGER PRIMARY KEY AUTOINCREMENT,
                 id_sessao INTEGER NOT NULL, 
                 tempo_coleta TEXT,

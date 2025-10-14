@@ -3,20 +3,21 @@ package com.example.logimeta.database
 import android.content.ContentValues
 import android.content.Context
 import android.util.Log
+import com.example.logimeta.model.Coleta
 import com.example.logimeta.model.RegistroColeta
 import com.example.logimeta.model.SessaoColeta
 
-class ColetaDAO(context: Context){
+class ColetaDAO(context: Context) {
     private val dbHelper = DatabaseHelper(context)
     private val escrita = dbHelper.writableDatabase
     private val leitura = dbHelper.readableDatabase
 
-    /**
-     * Salva uma sessão de coleta completa, incluindo a sessão principal
-     * e todos os seus registros de coleta associados, usando uma transação.
-     * @return Boolean Retorna 'true' se a operação for bem-sucedida, 'false' caso contrário.
-     */
     fun salvarColetaCompleta(sessao: SessaoColeta, registros: List<RegistroColeta>): Boolean {
+        /**
+         * Salva uma sessão de coleta completa, incluindo a sessão principal
+         * e todos os seus registros de coleta associados, usando uma transação.
+         * @return Boolean Retorna 'true' se a operação for bem-sucedida, 'false' caso contrário.
+         */
         escrita.beginTransaction()
         try {
             val sessaoValues = ContentValues().apply {
@@ -58,6 +59,9 @@ class ColetaDAO(context: Context){
     // override fun salvar(coleta: Coleta): Boolean { ... }
     // override fun atualizar(coleta: Coleta): Boolean { ... }
     // override fun excluir(id: Int): Boolean { ... }
-    // override fun listar(): List<Coleta> { ... }
+    fun listar(): List<Coleta> {
+        val listaColeta = mutableListOf<Coleta>()
+        return listaColeta
+    }
 }
 

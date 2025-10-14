@@ -2,7 +2,6 @@ package com.example.logimeta
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -32,31 +31,29 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
 
-        // teste para verificar se o banco de dados está funcionando
-        try {
-            bancoDeDados.writableDatabase.execSQL(
-                "INSERT INTO SessaoColeta (" +
-                        "    nome_separador," +
-                        "    modulo_selecionado," +
-                        "    total_enderecos," +
-                        "    total_itens" +
-                        ")" +
-                        "VALUES (" +
-                        "    'Alice Silva'," +
-                        "    'Mod A - Picking Lento'," +
-                        "    25," +
-                        "    150" +
-                        ");"
-            )
-            Log.i("info_db", "Dados salvos com sucesso")
-
-
-        }catch (e: Exception){
-            e.printStackTrace()
-        }
-        // fim do teste
-
-
+//        // teste para verificar se o banco de dados está funcionando
+//        try {
+//            bancoDeDados.writableDatabase.execSQL(
+//                "INSERT INTO SessaoColeta (" +
+//                        "    nome_separador," +
+//                        "    modulo_selecionado," +
+//                        "    total_enderecos," +
+//                        "    total_itens" +
+//                        ")" +
+//                        "VALUES (" +
+//                        "    'Alice Silva'," +
+//                        "    'Mod A - Picking Lento'," +
+//                        "    25," +
+//                        "    150" +
+//                        ");"
+//            )
+//            Log.i("info_db", "Dados salvos com sucesso")
+//
+//
+//        }catch (e: Exception){
+//            e.printStackTrace()
+//        }
+//        // fim do teste
 
         btn_NovoTeste = findViewById(R.id.btn_NovoTeste)
         historico_button = findViewById(R.id.historico_button)

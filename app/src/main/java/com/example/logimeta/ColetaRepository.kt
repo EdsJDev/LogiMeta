@@ -1,5 +1,7 @@
 package com.example.logimeta
 
+import com.example.logimeta.model.Coleta
+
 object ColetaRepository {
     val historico = mutableListOf<Coleta>()
 

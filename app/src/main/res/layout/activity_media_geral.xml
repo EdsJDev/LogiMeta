@@ -23,7 +23,7 @@
         android:id="@+id/textView53"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="45dp"
         android:text="Média Geral"
         android:textColor="#a2b427"
         android:textSize="28sp"

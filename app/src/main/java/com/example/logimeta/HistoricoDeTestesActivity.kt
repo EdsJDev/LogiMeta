@@ -2,44 +2,51 @@ package com.example.logimeta
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.logimeta.database.DatabaseHelper
+import com.example.logimeta.databinding.ActivityHistoricoDeTestesBinding
 
 class HistoricoDeTestesActivity : AppCompatActivity() {
 
+    private val bancoDeDados by lazy {
+        DatabaseHelper(this)
+    }
 
-    lateinit var historico_voltar_button: Button
-
+   private val binding by lazy {
+        ActivityHistoricoDeTestesBinding.inflate(layoutInflater)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_historico_de_testes)
+        setContentView(binding.root)
 
-        historico_voltar_button = findViewById(R.id.historico_voltar_button)
+        listar()
 
-        val historicoTextView = findViewById<TextView>(R.id.textView34)
-        val builder = StringBuilder()
 
-        for ((index, coleta) in ColetaRepository.historico.withIndex()) {
-            builder.append("Teste ${index + 1}\n")
-            builder.append("Nome: ${coleta.nomeSeparador}\n")
-            builder.append("Módulo: ${coleta.modulo}\n")
-            builder.append("Endereços: ${coleta.enderecos}\n")
-            builder.append("Itens: ${coleta.itens}\n")
-            builder.append("Itens não embalados: ${coleta.itensNaoEmbalados}\n")
-            builder.append("Tempo c/ embalagem: ${coleta.tempoMedioComEmbalagem}\n")
-            builder.append("Tempo s/ embalagem: ${coleta.tempoMedioSemEmbalagem}\n")
-            builder.append("----------------------\n")
-        }
-
-        historicoTextView.text = builder.toString()
-
-        historico_voltar_button.setOnClickListener {
+        binding.historicoVoltarButton.setOnClickListener {
             intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
+    }
+
+    fun listar (){
+        val sql =  "SELECT * FROM SessaoColeta"
+        val cursor = bancoDeDados.readableDatabase.rawQuery(sql, null)
+        cursor.moveToLast()
+        val idSessao = cursor.getInt(cursor.getColumnIndexOrThrow("id_sessao"))
+        val nomeSeparador = cursor.getString(cursor.getColumnIndexOrThrow("nome_separador"))
+        val moduloSelecionado = cursor.getString(cursor.getColumnIndexOrThrow("modulo_selecionado"))
+        val totalEnderecos = cursor.getInt(cursor.getColumnIndexOrThrow("total_enderecos"))
+        val totalItens = cursor.getInt(cursor.getColumnIndexOrThrow("total_itens"))
+        cursor.close()
+        Log.i("info_db", "RETORNO DO BANCO DE DADOS ID da sessão: $idSessao")
+        Log.i("info_db", "RETORNO DO BANCO DE DADOS Nome do separador: $nomeSeparador")
+        Log.i("info_db", "RETORNO DO BANCO DE DADOS Módulo selecionado: $moduloSelecionado")
+        Log.i("info_db", "RETORNO DO BANCO DE DADOS Total de endereços: $totalEnderecos")
+        Log.i("info_db", "RETORNO DO BANCO DE DADOS Total de itens: $totalItens")
     }
 }

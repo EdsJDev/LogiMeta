@@ -1,4 +1,4 @@
-package com.example.logimeta
+package com.example.logimeta.model
 
 data class Coleta(
     val nomeSeparador: String,
@@ -7,5 +7,6 @@ data class Coleta(
     val itens: Int,
     val tempoMedioComEmbalagem: String,
     val tempoMedioSemEmbalagem: String,
+    //val tempoMedioCaixaFechada: String,
     val itensNaoEmbalados: Int
 )

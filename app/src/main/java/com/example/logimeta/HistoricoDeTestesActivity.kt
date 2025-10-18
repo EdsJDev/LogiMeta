@@ -29,10 +29,7 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
 
-        // Carrega a lista de sessões disponíveis do banco de dados.
         carregarSessoesDisponiveis()
-
-        // Configura os cliques dos botões de navegação.
         configurarNavegacao()
 
         binding.historicoVoltarButton.setOnClickListener {
@@ -42,8 +39,7 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
     }
 
     /**
-     * Busca todos os IDs de sessão no banco de dados, ordena do mais antigo ao mais recente,
-     * e exibe a sessão mais recente (a última da lista).
+     * Busca todos os IDs de sessão, ordena e exibe a sessão mais recente.
      */
     private fun carregarSessoesDisponiveis() {
         val ids = mutableListOf<Int>()
@@ -60,24 +56,20 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
         listaDeSessoes = ids
         Log.d("info_db_nav", "Sessões encontradas: $listaDeSessoes")
 
-        // Verifica se alguma sessão foi encontrada.
         if (listaDeSessoes.isNotEmpty()) {
-            // Define a posição inicial para a última sessão (a mais recente).
             posicaoAtual = listaDeSessoes.size - 1
             exibirDadosDaSessao(posicaoAtual)
         } else {
-            // Se não houver sessões, limpa a tela.
             Log.w("info_db_nav", "Nenhuma sessão encontrada no histórico.")
             limparTela()
         }
     }
 
     /**
-     * Configura os listeners de clique para os botões de navegação 'previous' e 'next'.
+     * Configura os listeners de clique para os botões de navegação.
      */
     private fun configurarNavegacao() {
         binding.nextImageView.setOnClickListener {
-            // Avança para a próxima posição se não estiver no final da lista.
             if (posicaoAtual < listaDeSessoes.size - 1) {
                 posicaoAtual++
                 exibirDadosDaSessao(posicaoAtual)
@@ -85,7 +77,6 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
         }
 
         binding.previousImageView.setOnClickListener {
-            // Retrocede para a posição anterior se não estiver no início da lista.
             if (posicaoAtual > 0) {
                 posicaoAtual--
                 exibirDadosDaSessao(posicaoAtual)
@@ -94,8 +85,7 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
     }
 
     /**
-     * Busca e exibe todos os dados (informações da sessão, totais e médias)
-     * para uma sessão específica, com base em sua posição na lista.
+     * Busca e exibe os dados para uma sessão específica.
      */
     private fun exibirDadosDaSessao(posicao: Int) {
         if (listaDeSessoes.isEmpty() || posicao < 0 || posicao >= listaDeSessoes.size) {
@@ -107,10 +97,8 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
         val idSessao = listaDeSessoes[posicao]
         Log.d("info_db_nav", "Exibindo dados para a sessão ID: $idSessao (Posição: $posicao)")
 
-        // Atualiza a visibilidade dos botões de navegação.
         atualizarVisibilidadeBotoes()
 
-        // Busca e exibe as informações principais da sessão.
         val sqlSessao = "SELECT *, strftime('%d/%m/%Y - %H:%M', data_sessao, 'localtime') AS data_formatada FROM SessaoColeta WHERE id_sessao = ?"
         val cursorSessao = bancoDeDados.readableDatabase.rawQuery(sqlSessao, arrayOf(idSessao.toString()))
 
@@ -119,10 +107,14 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
             binding.nomeTextView.text = cursorSessao.getString(cursorSessao.getColumnIndexOrThrow("nome_separador"))
             binding.moduloTextView.text = cursorSessao.getString(cursorSessao.getColumnIndexOrThrow("modulo_selecionado"))
             binding.dataTextView.text = cursorSessao.getString(cursorSessao.getColumnIndexOrThrow("data_formatada"))
+            cursorSessao.close()
+        } else {
+            Log.e("info_db_nav", "Sessão com ID $idSessao não encontrada no banco de dados.")
+            cursorSessao.close()
+            limparTela()
+            return
         }
-        cursorSessao.close()
 
-        // Busca os registros de coleta para calcular totais e médias.
         val sqlRegistros = "SELECT * FROM RegistroColeta WHERE id_sessao = ?"
         val cursorRegistros = bancoDeDados.readableDatabase.rawQuery(sqlRegistros, arrayOf(idSessao.toString()))
 
@@ -130,6 +122,7 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
         var totalTempoEmSegundos: Long = 0
         var totalItensColetados: Int = 0
         var totalComSaco: Int = 0
+        var totalSemSaco: Int = 0
         var totalCaixaFechada: Int = 0
         var tempoCategoriaComSaco: Long = 0
         var tempoCategoriaSemSaco: Long = 0
@@ -148,44 +141,49 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
                 }
             }
 
-            val produtoEmbalado = cursorRegistros.getInt(cursorRegistros.getColumnIndexOrThrow("produto_embalado")) == 1
-            val caixaFechada = cursorRegistros.getInt(cursorRegistros.getColumnIndexOrThrow("caixa_fechada")) == 1
-
             totalItensColetados += cursorRegistros.getInt(cursorRegistros.getColumnIndexOrThrow("qtd_itens_coletados"))
 
+            // --- LÓGICA DE CONTAGEM EXCLUSIVA ---
+            val caixaFechada = cursorRegistros.getInt(cursorRegistros.getColumnIndexOrThrow("caixa_fechada")) == 1
+
+            // Processa 'caixa fechada' como prioridade.
+            if (caixaFechada) {
+                totalCaixaFechada++
+                tempoCategoriaCaixaFechada += segundosDaLinha
+                // Pula para o próximo registro, ignorando a contagem de 'saco fruta'.
+                continue
+            }
+
+            // Este bloco só será executado se o item NÃO for de caixa fechada.
+            val produtoEmbalado = cursorRegistros.getInt(cursorRegistros.getColumnIndexOrThrow("produto_embalado")) == 1
             if (produtoEmbalado) {
                 totalComSaco++
                 tempoCategoriaComSaco += segundosDaLinha
             } else {
+                totalSemSaco++ // Contagem direta
                 tempoCategoriaSemSaco += segundosDaLinha
-            }
-            if (caixaFechada) {
-                totalCaixaFechada++
-                tempoCategoriaCaixaFechada += segundosDaLinha
             }
         }
         cursorRegistros.close()
 
-        // Calcula os totais e médias finais.
-        val totalSemSaco = totalEnderecos - totalComSaco
         val mediaGeral = if (totalEnderecos > 0) totalTempoEmSegundos / totalEnderecos else 0
         val mediaComSaco = if (totalComSaco > 0) tempoCategoriaComSaco / totalComSaco else 0
         val mediaSemSaco = if (totalSemSaco > 0) tempoCategoriaSemSaco / totalSemSaco else 0
         val mediaCaixaFechada = if (totalCaixaFechada > 0) tempoCategoriaCaixaFechada / totalCaixaFechada else 0
 
-        // Formata os resultados para exibição.
         val tempoTotalFormatado = formatarSegundos(totalTempoEmSegundos)
         val mediaGeralFormatada = formatarSegundos(mediaGeral)
         val mediaComSacoFormatada = formatarSegundos(mediaComSaco)
         val mediaSemSacoFormatada = formatarSegundos(mediaSemSaco)
         val mediaCaixaFechadaFormatada = formatarSegundos(mediaCaixaFechada)
 
-        // Atribui todos os valores à UI.
         binding.tempoTotalTextView.text = tempoTotalFormatado
         binding.itensTextView.text = totalItensColetados.toString()
         binding.enderecosTextView.text = totalEnderecos.toString()
         binding.itensComSacoFrutaTextView.text = totalComSaco.toString()
         binding.itensSemSacoFrutaTextView.text = totalSemSaco.toString()
+        binding.itensCaixaFechadaTextView.text = totalCaixaFechada.toString()
+
         binding.tempoMedioTotalTextView.text = mediaGeralFormatada
         binding.tempoComSacoFrutaTextView.text = mediaComSacoFormatada
         binding.tempoSemSacoFrutaTextView.text = mediaSemSacoFormatada
@@ -194,8 +192,6 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
 
     /**
      * Atualiza a visibilidade dos botões de navegação.
-     * Oculta o botão 'previous' se estiver no primeiro item.
-     * Oculta o botão 'next' se estiver no último item.
      */
     private fun atualizarVisibilidadeBotoes() {
         binding.previousImageView.visibility = if (posicaoAtual > 0) View.VISIBLE else View.INVISIBLE
@@ -203,8 +199,7 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
     }
 
     /**
-     * Limpa todos os campos de texto da tela e oculta os botões de navegação.
-     * Usado quando não há histórico para exibir.
+     * Limpa os campos de texto da tela e oculta os botões de navegação.
      */
     private fun limparTela() {
         binding.idTextView.text = "-"
@@ -216,15 +211,16 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
         binding.enderecosTextView.text = "0"
         binding.itensComSacoFrutaTextView.text = "0"
         binding.itensSemSacoFrutaTextView.text = "0"
+        binding.itensCaixaFechadaTextView.text = "0"
         binding.tempoMedioTotalTextView.text = "00:00:00"
         binding.tempoComSacoFrutaTextView.text = "00:00:00"
         binding.tempoSemSacoFrutaTextView.text = "00:00:00"
         binding.tempoCaixaFechadaTextView.text = "00:00:00"
-        atualizarVisibilidadeBotoes() // Garante que os botões fiquem ocultos.
+        atualizarVisibilidadeBotoes()
     }
 
     /**
-     * Converte um valor total em segundos para uma String no formato "HH:MM:SS".
+     * Converte um valor em segundos para uma String no formato "HH:MM:SS".
      */
     private fun formatarSegundos(segundosTotais: Long): String {
         if (segundosTotais <= 0) return "00:00:00"

@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="#000000"
     tools:context=".HistoricoDeTestesActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#7b2b33">
+        android:background="#7b2b33"
+        android:paddingBottom="32dp">
 
         <TextView
             android:id="@+id/textView36"
@@ -54,6 +54,7 @@
                     android:layout_height="wrap_content"
                     android:text="ID da Sessão:"
                     android:textColor="#a2b427"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -118,7 +119,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:text="WMS" />
 
-                <!-- ***** DATA ***** -->
+                <!-- Data -->
                 <TextView
                     android:id="@+id/textView13"
                     android:layout_width="wrap_content"
@@ -145,7 +146,7 @@
                     tools:text="20/10/2025 - 14:30" />
 
 
-                <!-- Linha Divisória -->
+                <!-- Linha Divisória 1 -->
                 <View
                     android:id="@+id/divider1"
                     android:layout_width="0dp"
@@ -154,7 +155,7 @@
                     android:background="#FFC400"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/dataTextView" /> <!-- Atualizado para ficar abaixo da data -->
+                    app:layout_constraintTop_toBottomOf="@id/dataTextView" />
 
                 <!-- Quantidade de Endereços -->
                 <TextView
@@ -188,10 +189,10 @@
                     android:layout_marginTop="8dp"
                     android:text="Itens Coletados:"
                     android:textColor="#a2b427"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView19"
-                    android:textSize="20sp" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
                 <TextView
                     android:id="@+id/itens_textView"
@@ -250,7 +251,31 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:text="5" />
 
-                <!-- Linha Divisória -->
+                <!-- Caixas Fechadas -->
+                <TextView
+                    android:id="@+id/label_caixa_fechada"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Caixas Fechadas:"
+                    android:textColor="#a2b427"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+                <TextView
+                    android:id="@+id/itens_caixaFechada_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFC107"
+                    android:textSize="20sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/label_caixa_fechada"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="3" />
+
+
+                <!-- Linha Divisória 2 -->
                 <View
                     android:id="@+id/divider2"
                     android:layout_width="0dp"
@@ -259,7 +284,7 @@
                     android:background="#FFC400"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textView9" />
+                    app:layout_constraintTop_toBottomOf="@id/label_caixa_fechada" />
 
                 <!-- TEMPO TOTAL -->
                 <TextView
@@ -406,11 +431,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:layout_marginBottom="32dp"
             android:text="Voltar"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/next_imageView"
             app:layout_constraintStart_toEndOf="@+id/previous_imageView"
             app:layout_constraintTop_toBottomOf="@+id/stats_card" />

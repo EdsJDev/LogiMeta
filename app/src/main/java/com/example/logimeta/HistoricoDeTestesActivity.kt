@@ -1,133 +1,157 @@
 package com.example.logimeta
 
 import android.content.Intent
-import java.util.concurrent.TimeUnit
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.logimeta.database.DatabaseHelper
 import com.example.logimeta.databinding.ActivityHistoricoDeTestesBinding
+import java.util.concurrent.TimeUnit
 
 class HistoricoDeTestesActivity : AppCompatActivity() {
-
-    private val bancoDeDados by lazy {
-        DatabaseHelper(this)
-    }
 
     private val binding by lazy {
         ActivityHistoricoDeTestesBinding.inflate(layoutInflater)
     }
+    private val bancoDeDados by lazy {
+        DatabaseHelper(this)
+    }
+
+    // Armazena os IDs de todas as sessões de coleta disponíveis.
+    private var listaDeSessoes = listOf<Int>()
+    // Controla o índice da sessão atualmente exibida na lista.
+    private var posicaoAtual = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
 
-        listar()
+        // Carrega a lista de sessões disponíveis do banco de dados.
+        carregarSessoesDisponiveis()
+
+        // Configura os cliques dos botões de navegação.
+        configurarNavegacao()
 
         binding.historicoVoltarButton.setOnClickListener {
-            intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
     }
 
-    /*
-     // Função de deleção para uso futuro.
-     // A sintaxe correta é "DELETE FROM", e a query precisa ser executada.
-     fun deletar() {
-         try {
-             val db = bancoDeDados.writableDatabase
-             // A cláusula ON DELETE CASCADE no seu DatabaseHelper cuidará da tabela RegistroColeta
-             db.execSQL("DELETE FROM SessaoColeta")
-             Log.i("info_db", "Todos os registros foram deletados.")
-             listar() // Atualiza a UI para refletir a exclusão
-         } catch (e: Exception) {
-             Log.e("info_db", "Erro ao deletar registros.", e)
-         }
-     }
-    */
-
-    fun listar() {
-        var idSessao: Int = 0
-
-        // 1. CORREÇÃO: Usar um alias claro (data_formatada) para a coluna de data para evitar ambiguidade.
-        val sql = "SELECT id_sessao, nome_separador, modulo_selecionado, total_enderecos, total_itens, " +
-                "strftime('%d/%m/%Y - %H:%M', data_sessao, 'localtime') AS data_formatada " +
-                "FROM SessaoColeta"
-
+    /**
+     * Busca todos os IDs de sessão no banco de dados, ordena do mais antigo ao mais recente,
+     * e exibe a sessão mais recente (a última da lista).
+     */
+    private fun carregarSessoesDisponiveis() {
+        val ids = mutableListOf<Int>()
+        val sql = "SELECT id_sessao FROM SessaoColeta ORDER BY id_sessao ASC"
         val cursor = bancoDeDados.readableDatabase.rawQuery(sql, null)
 
-        if (cursor != null && cursor.moveToLast()) {
-            idSessao = cursor.getInt(cursor.getColumnIndexOrThrow("id_sessao"))
-            binding.idTextView.text = idSessao.toString()
-            binding.nomeTextView.text = cursor.getString(cursor.getColumnIndexOrThrow("nome_separador"))
-            binding.moduloTextView.text = cursor.getString(cursor.getColumnIndexOrThrow("modulo_selecionado"))
-            // Usando o alias corrigido
-            binding.dataTextView.text = cursor.getString(cursor.getColumnIndexOrThrow("data_formatada"))
-            cursor.close()
+        if (cursor.moveToFirst()) {
+            do {
+                ids.add(cursor.getInt(cursor.getColumnIndexOrThrow("id_sessao")))
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+
+        listaDeSessoes = ids
+        Log.d("info_db_nav", "Sessões encontradas: $listaDeSessoes")
+
+        // Verifica se alguma sessão foi encontrada.
+        if (listaDeSessoes.isNotEmpty()) {
+            // Define a posição inicial para a última sessão (a mais recente).
+            posicaoAtual = listaDeSessoes.size - 1
+            exibirDadosDaSessao(posicaoAtual)
         } else {
-            Log.w("info_db", "Nenhuma SessaoColeta encontrada. Histórico vazio.")
-            // Limpa a UI para não mostrar dados de uma sessão anterior
-            binding.idTextView.text = "-"
-            binding.nomeTextView.text = "-"
-            binding.moduloTextView.text = "-"
-            binding.dataTextView.text = "-"
-            binding.tempoTotalTextView.text = "00:00:00"
-            binding.itensTextView.text = "0"
-            binding.enderecosTextView.text = "0"
-            binding.itensComSacoFrutaTextView.text = "0"
-            binding.itensSemSacoFrutaTextView.text = "0"
-            // Adicione aqui a limpeza dos campos de média também se você os tiver no layout
-            cursor?.close()
+            // Se não houver sessões, limpa a tela.
+            Log.w("info_db_nav", "Nenhuma sessão encontrada no histórico.")
+            limparTela()
+        }
+    }
+
+    /**
+     * Configura os listeners de clique para os botões de navegação 'previous' e 'next'.
+     */
+    private fun configurarNavegacao() {
+        binding.nextImageView.setOnClickListener {
+            // Avança para a próxima posição se não estiver no final da lista.
+            if (posicaoAtual < listaDeSessoes.size - 1) {
+                posicaoAtual++
+                exibirDadosDaSessao(posicaoAtual)
+            }
+        }
+
+        binding.previousImageView.setOnClickListener {
+            // Retrocede para a posição anterior se não estiver no início da lista.
+            if (posicaoAtual > 0) {
+                posicaoAtual--
+                exibirDadosDaSessao(posicaoAtual)
+            }
+        }
+    }
+
+    /**
+     * Busca e exibe todos os dados (informações da sessão, totais e médias)
+     * para uma sessão específica, com base em sua posição na lista.
+     */
+    private fun exibirDadosDaSessao(posicao: Int) {
+        if (listaDeSessoes.isEmpty() || posicao < 0 || posicao >= listaDeSessoes.size) {
+            Log.e("info_db_nav", "Posição inválida ou lista de sessões vazia.")
+            limparTela()
             return
         }
 
-        if (idSessao == 0) return
+        val idSessao = listaDeSessoes[posicao]
+        Log.d("info_db_nav", "Exibindo dados para a sessão ID: $idSessao (Posição: $posicao)")
 
-        // --- Início da Lógica de Somas e Médias ---
-        val sql2 = "SELECT * FROM RegistroColeta WHERE id_sessao = $idSessao"
-        val cursor2 = bancoDeDados.readableDatabase.rawQuery(sql2, null)
+        // Atualiza a visibilidade dos botões de navegação.
+        atualizarVisibilidadeBotoes()
 
-        // 2. OBTER A CONTAGEM TOTAL DE ENDEREÇOS (LINHAS) ANTES DO LOOP
-        val totalEnderecos = cursor2.count
+        // Busca e exibe as informações principais da sessão.
+        val sqlSessao = "SELECT *, strftime('%d/%m/%Y - %H:%M', data_sessao, 'localtime') AS data_formatada FROM SessaoColeta WHERE id_sessao = ?"
+        val cursorSessao = bancoDeDados.readableDatabase.rawQuery(sqlSessao, arrayOf(idSessao.toString()))
 
-        // Variáveis para TOTAIS
+        if (cursorSessao.moveToFirst()) {
+            binding.idTextView.text = cursorSessao.getInt(cursorSessao.getColumnIndexOrThrow("id_sessao")).toString()
+            binding.nomeTextView.text = cursorSessao.getString(cursorSessao.getColumnIndexOrThrow("nome_separador"))
+            binding.moduloTextView.text = cursorSessao.getString(cursorSessao.getColumnIndexOrThrow("modulo_selecionado"))
+            binding.dataTextView.text = cursorSessao.getString(cursorSessao.getColumnIndexOrThrow("data_formatada"))
+        }
+        cursorSessao.close()
+
+        // Busca os registros de coleta para calcular totais e médias.
+        val sqlRegistros = "SELECT * FROM RegistroColeta WHERE id_sessao = ?"
+        val cursorRegistros = bancoDeDados.readableDatabase.rawQuery(sqlRegistros, arrayOf(idSessao.toString()))
+
+        val totalEnderecos = cursorRegistros.count
         var totalTempoEmSegundos: Long = 0
         var totalItensColetados: Int = 0
         var totalComSaco: Int = 0
         var totalCaixaFechada: Int = 0
-        var totalCortes: Int = 0
-
-        // Variáveis para somar o TEMPO de cada categoria
         var tempoCategoriaComSaco: Long = 0
         var tempoCategoriaSemSaco: Long = 0
         var tempoCategoriaCaixaFechada: Long = 0
 
-        // 3. LOOP PARA PROCESSAR CADA REGISTRO (LINHA)
-        while (cursor2.moveToNext()) {
-            // Converte o tempo da linha atual para segundos
+        while (cursorRegistros.moveToNext()) {
             var segundosDaLinha: Long = 0
-            val tempoColetaStr = cursor2.getString(cursor2.getColumnIndexOrThrow("tempo_coleta"))
+            val tempoColetaStr = cursorRegistros.getString(cursorRegistros.getColumnIndexOrThrow("tempo_coleta"))
             if (!tempoColetaStr.isNullOrEmpty() && tempoColetaStr.contains(":")) {
                 try {
                     val partes = tempoColetaStr.split(":")
                     segundosDaLinha = (partes[0].toLong() * 60) + partes[1].toLong()
-                    totalTempoEmSegundos += segundosDaLinha // Acumula no total geral
+                    totalTempoEmSegundos += segundosDaLinha
                 } catch (e: Exception) {
                     Log.e("info_db_soma", "Erro ao converter tempo: '$tempoColetaStr'", e)
                 }
             }
 
-            // Lê as flags e valores da linha
-            val produtoEmbalado = cursor2.getInt(cursor2.getColumnIndexOrThrow("produto_embalado")) == 1
-            val caixaFechada = cursor2.getInt(cursor2.getColumnIndexOrThrow("caixa_fechada")) == 1
-            val corteNoEndereco = cursor2.getInt(cursor2.getColumnIndexOrThrow("corte_no_endereco")) == 1
+            val produtoEmbalado = cursorRegistros.getInt(cursorRegistros.getColumnIndexOrThrow("produto_embalado")) == 1
+            val caixaFechada = cursorRegistros.getInt(cursorRegistros.getColumnIndexOrThrow("caixa_fechada")) == 1
 
-            // Acumula os totais e os tempos por categoria
-            totalItensColetados += cursor2.getInt(cursor2.getColumnIndexOrThrow("qtd_itens_coletados"))
-            if (corteNoEndereco) totalCortes++
+            totalItensColetados += cursorRegistros.getInt(cursorRegistros.getColumnIndexOrThrow("qtd_itens_coletados"))
 
             if (produtoEmbalado) {
                 totalComSaco++
@@ -135,52 +159,74 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
             } else {
                 tempoCategoriaSemSaco += segundosDaLinha
             }
-
             if (caixaFechada) {
                 totalCaixaFechada++
                 tempoCategoriaCaixaFechada += segundosDaLinha
             }
         }
-        // 4. FECHE O CURSOR AQUI, APÓS O FIM DO LOOP
-        cursor2.close()
+        cursorRegistros.close()
 
-        // 5. FAÇA TODOS OS CÁLCULOS DEPOIS DE PROCESSAR OS DADOS
+        // Calcula os totais e médias finais.
         val totalSemSaco = totalEnderecos - totalComSaco
-
-        // Cálculo das médias, com proteção contra divisão por zero
         val mediaGeral = if (totalEnderecos > 0) totalTempoEmSegundos / totalEnderecos else 0
         val mediaComSaco = if (totalComSaco > 0) tempoCategoriaComSaco / totalComSaco else 0
         val mediaSemSaco = if (totalSemSaco > 0) tempoCategoriaSemSaco / totalSemSaco else 0
         val mediaCaixaFechada = if (totalCaixaFechada > 0) tempoCategoriaCaixaFechada / totalCaixaFechada else 0
 
-        // Formatação dos resultados para exibição
+        // Formata os resultados para exibição.
         val tempoTotalFormatado = formatarSegundos(totalTempoEmSegundos)
         val mediaGeralFormatada = formatarSegundos(mediaGeral)
         val mediaComSacoFormatada = formatarSegundos(mediaComSaco)
         val mediaSemSacoFormatada = formatarSegundos(mediaSemSaco)
         val mediaCaixaFechadaFormatada = formatarSegundos(mediaCaixaFechada)
 
-        // Logs de depuração
-        Log.d("info_db_media", "Média Geral: $mediaGeralFormatada")
-        Log.d("info_db_media", "Média Com Saco: $mediaComSacoFormatada")
-        Log.d("info_db_media", "Média Sem Saco: $mediaSemSacoFormatada")
-        Log.d("info_db_media", "Média Caixa Fechada: $mediaCaixaFechadaFormatada")
-
-        // 6. ATRIBUA TODOS OS VALORES À UI DE UMA SÓ VEZ
+        // Atribui todos os valores à UI.
         binding.tempoTotalTextView.text = tempoTotalFormatado
         binding.itensTextView.text = totalItensColetados.toString()
         binding.enderecosTextView.text = totalEnderecos.toString()
         binding.itensComSacoFrutaTextView.text = totalComSaco.toString()
         binding.itensSemSacoFrutaTextView.text = totalSemSaco.toString()
-
         binding.tempoMedioTotalTextView.text = mediaGeralFormatada
         binding.tempoComSacoFrutaTextView.text = mediaComSacoFormatada
         binding.tempoSemSacoFrutaTextView.text = mediaSemSacoFormatada
         binding.tempoCaixaFechadaTextView.text = mediaCaixaFechadaFormatada
     }
 
+    /**
+     * Atualiza a visibilidade dos botões de navegação.
+     * Oculta o botão 'previous' se estiver no primeiro item.
+     * Oculta o botão 'next' se estiver no último item.
+     */
+    private fun atualizarVisibilidadeBotoes() {
+        binding.previousImageView.visibility = if (posicaoAtual > 0) View.VISIBLE else View.INVISIBLE
+        binding.nextImageView.visibility = if (posicaoAtual < listaDeSessoes.size - 1) View.VISIBLE else View.INVISIBLE
+    }
+
+    /**
+     * Limpa todos os campos de texto da tela e oculta os botões de navegação.
+     * Usado quando não há histórico para exibir.
+     */
+    private fun limparTela() {
+        binding.idTextView.text = "-"
+        binding.nomeTextView.text = "-"
+        binding.moduloTextView.text = "-"
+        binding.dataTextView.text = "-"
+        binding.tempoTotalTextView.text = "00:00:00"
+        binding.itensTextView.text = "0"
+        binding.enderecosTextView.text = "0"
+        binding.itensComSacoFrutaTextView.text = "0"
+        binding.itensSemSacoFrutaTextView.text = "0"
+        binding.tempoMedioTotalTextView.text = "00:00:00"
+        binding.tempoComSacoFrutaTextView.text = "00:00:00"
+        binding.tempoSemSacoFrutaTextView.text = "00:00:00"
+        binding.tempoCaixaFechadaTextView.text = "00:00:00"
+        atualizarVisibilidadeBotoes() // Garante que os botões fiquem ocultos.
+    }
+
+    /**
+     * Converte um valor total em segundos para uma String no formato "HH:MM:SS".
+     */
     private fun formatarSegundos(segundosTotais: Long): String {
-        // Correção de consistência: retorna sempre no formato HH:MM:SS
         if (segundosTotais <= 0) return "00:00:00"
         val horas = TimeUnit.SECONDS.toHours(segundosTotais)
         val minutos = TimeUnit.SECONDS.toMinutes(segundosTotais) % 60

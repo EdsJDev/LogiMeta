@@ -188,6 +188,23 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
         binding.tempoComSacoFrutaTextView.text = mediaComSacoFormatada
         binding.tempoSemSacoFrutaTextView.text = mediaSemSacoFormatada
         binding.tempoCaixaFechadaTextView.text = mediaCaixaFechadaFormatada
+
+        // --- CÁLCULO DA PREVISÃO ---
+        var previsaoEm1h = 0
+        var previsaoEm7h20m = 0
+
+        if (mediaGeral > 0) {
+            // 1 hora = 3600 segundos
+            previsaoEm1h = (3600 / mediaGeral).toInt()
+
+            // 7 horas e 20 minutos = (7 * 3600) + (20 * 60) = 25200 + 1200 = 26400 segundos
+            val segundosEm7h20m = 26400
+            previsaoEm7h20m = (segundosEm7h20m / mediaGeral).toInt()
+        }
+
+        // --- ATUALIZAÇÃO DA UI ---
+        binding.tarefasEm1h.text = previsaoEm1h.toString()
+        binding.tarefasEm720h.text = previsaoEm7h20m.toString()
     }
 
     /**
@@ -216,6 +233,9 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
         binding.tempoComSacoFrutaTextView.text = "00:00:00"
         binding.tempoSemSacoFrutaTextView.text = "00:00:00"
         binding.tempoCaixaFechadaTextView.text = "00:00:00"
+        // Limpa os novos campos de previsão
+        binding.tarefasEm1h.text = "0"
+        binding.tarefasEm720h.text = "0"
         atualizarVisibilidadeBotoes()
     }
 

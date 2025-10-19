@@ -8,7 +8,7 @@
     tools:context=".MediaGeralActivity">
 
     <TextView
-        android:id="@+id/textView54"
+        android:id="@+id/tempo_geral_c_embalagem_textView"
         android:layout_width="387dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -17,7 +17,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView50" />
+        app:layout_constraintTop_toBottomOf="@+id/textView100" />
 
     <TextView
         android:id="@+id/textView53"
@@ -68,7 +68,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView39" />
+        app:layout_constraintTop_toBottomOf="@+id/moduloGeral_textView" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -81,7 +81,7 @@
         app:srcCompat="@drawable/arrow1" />
 
     <TextView
-        android:id="@+id/textView50"
+        android:id="@+id/textView100"
         android:layout_width="403dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -92,7 +92,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView51" />
+        app:layout_constraintTop_toBottomOf="@+id/tempo_geral_textView" />
 
     <TextView
         android:id="@+id/textView43"
@@ -106,10 +106,10 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView54" />
+        app:layout_constraintTop_toBottomOf="@+id/tempo_geral_c_embalagem_textView" />
 
     <TextView
-        android:id="@+id/textView41"
+        android:id="@+id/tempo_geral_sem_embalagemtextView"
         android:layout_width="387dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -132,10 +132,10 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView41" />
+        app:layout_constraintTop_toBottomOf="@+id/tempo_geral_sem_embalagemtextView" />
 
     <TextView
-        android:id="@+id/textView44"
+        android:id="@+id/quantidade_geral_itens_por_endereco_textView"
         android:layout_width="387dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -156,10 +156,10 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/imageView"
         app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView44" />
+        app:layout_constraintTop_toBottomOf="@+id/quantidade_geral_itens_por_endereco_textView" />
 
     <TextView
-        android:id="@+id/textView51"
+        android:id="@+id/tempo_geral_textView"
         android:layout_width="387dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -171,7 +171,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView35" />
 
     <TextView
-        android:id="@+id/textView39"
+        android:id="@+id/moduloGeral_textView"
         android:layout_width="387dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"

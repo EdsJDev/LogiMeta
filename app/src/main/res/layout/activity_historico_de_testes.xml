@@ -402,6 +402,62 @@
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView32"
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:text="00:01:25" />
+                
+                <View
+                    android:id="@+id/divider3"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#FFC400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tempo_caixa_fechada_textView" />
+
+                <TextView
+                    android:id="@+id/textView101"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Previsão em 1h:"
+                    android:textColor="#a2b427"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@id/tempo_caixa_fechada_textView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+                <TextView
+                    android:id="@+id/tarefas_em_1h"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFC107"
+                    android:textSize="20sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/textView101"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="20" />
+
+                <TextView
+                    android:id="@+id/textView102"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Previsão em 7:20h:"
+                    android:textColor="#a2b427"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@id/tempo_caixa_fechada_textView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tarefas_em_1h" />
+
+                <TextView
+                    android:id="@+id/tarefas_em_7_20h"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFC107"
+                    android:textSize="20sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/textView102"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="280" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>

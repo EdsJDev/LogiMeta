@@ -1,185 +1,296 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#7b2b33"
     tools:context=".MediaGeralActivity">
 
-    <TextView
-        android:id="@+id/tempo_geral_c_embalagem_textView"
-        android:layout_width="387dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:text="Tempo"
-        android:textColor="#FFC107"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView100" />
+        android:paddingBottom="32dp">
 
-    <TextView
-        android:id="@+id/textView53"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
-        android:text="Média Geral"
-        android:textColor="#a2b427"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/textView53"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="Média Geral"
+            android:textColor="#a2b427"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="61dp"
-        android:layout_height="135dp"
-        android:layout_marginStart="32dp"
-        app:layout_constraintBottom_toBottomOf="@+id/media_geral_voltar_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/media_geral_voltar_button"
-        app:srcCompat="@drawable/arrow2" />
+        <!-- CardView para agrupar todas as estatísticas -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/media_geral_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            app:cardBackgroundColor="#7b3c33"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView53">
 
-    <TextView
-        android:id="@+id/textView33"
-        android:layout_width="403dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:text="Módulo Realizado"
-        android:textColor="#a2b427"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView53" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                tools:layout_editor_absoluteX="-11dp"
+                tools:layout_editor_absoluteY="-17dp">
 
-    <TextView
-        android:id="@+id/textView35"
-        android:layout_width="403dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Tempo Médio por endereço"
-        android:textColor="#a2b427"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/moduloGeral_textView" />
+                <!-- Módulo Realizado -->
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="61dp"
-        android:layout_height="135dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintBottom_toBottomOf="@+id/media_geral_voltar_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/media_geral_voltar_button"
-        app:srcCompat="@drawable/arrow1" />
+                <TextView
+                    android:id="@+id/textView27"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="280"
+                    android:textColor="#FFC107"
+                    android:textSize="20sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/textView25"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
-    <TextView
-        android:id="@+id/textView100"
-        android:layout_width="403dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Tempo Médio end. c/embalagem"
-        android:textColor="#a2b427"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tempo_geral_textView" />
+                <TextView
+                    android:id="@+id/textView25"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Previsão em 7h20"
+                    android:textColor="#a2b427"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/textView27"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView24" />
 
-    <TextView
-        android:id="@+id/textView43"
-        android:layout_width="403dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Tempo Médio end. s/embalagem"
-        android:textColor="#a2b427"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tempo_geral_c_embalagem_textView" />
+                <TextView
+                    android:id="@+id/label_modulo_geral"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Módulo"
+                    android:textColor="#a2b427"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/moduloGeral_textView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tempo_geral_sem_embalagemtextView"
-        android:layout_width="387dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:text="Tempo"
-        android:textColor="#FFC107"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView43" />
+                <TextView
+                    android:id="@+id/moduloGeral_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFC107"
+                    android:textSize="20sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/label_modulo_geral"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="WMS" />
 
-    <TextView
-        android:id="@+id/textView49"
-        android:layout_width="403dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Quantidade média de itens por endereço"
-        android:textColor="#a2b427"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tempo_geral_sem_embalagemtextView" />
+                <!-- Tempo Médio por endereço -->
+                <TextView
+                    android:id="@+id/label_tempo_medio_geral"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Média por Endereço"
+                    android:textColor="#a2b427"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/tempo_geral_textView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/label_modulo_geral" />
 
-    <TextView
-        android:id="@+id/quantidade_geral_itens_por_endereco_textView"
-        android:layout_width="387dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:text="Itens"
-        android:textColor="#FFC107"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView49" />
+                <TextView
+                    android:id="@+id/tempo_geral_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFC107"
+                    android:textSize="20sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/label_tempo_medio_geral"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="00:01:15" />
 
-    <Button
-        android:id="@+id/media_geral_voltar_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Voltar"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/imageView"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/quantidade_geral_itens_por_endereco_textView" />
+                <!-- Tempo Médio end. c/embalagem -->
+                <TextView
+                    android:id="@+id/label_tempo_com_embalagem"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Com Saco Fruta"
+                    android:textColor="#a2b427"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/tempo_geral_c_embalagem_textView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/label_tempo_medio_geral" />
 
-    <TextView
-        android:id="@+id/tempo_geral_textView"
-        android:layout_width="387dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:text="Tempo"
-        android:textColor="#FFC107"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView35" />
+                <TextView
+                    android:id="@+id/tempo_geral_c_embalagem_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFC107"
+                    android:textSize="20sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/label_tempo_com_embalagem"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="00:01:25" />
 
-    <TextView
-        android:id="@+id/moduloGeral_textView"
-        android:layout_width="387dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:text="Módulo"
-        android:textColor="#FFC107"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView33" />
+                <!-- Tempo Médio end. s/embalagem -->
+                <TextView
+                    android:id="@+id/label_tempo_sem_embalagem"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Sem Saco Fruta"
+                    android:textColor="#a2b427"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/tempo_geral_sem_embalagemtextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/label_tempo_com_embalagem" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/tempo_geral_sem_embalagemtextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFC107"
+                    android:textSize="20sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/label_tempo_sem_embalagem"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="00:00:55" />
+
+                <!-- Caixa Fechada -->
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Caixa Fechada"
+                    android:textColor="#a2b427"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/textView23"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/label_tempo_sem_embalagem" />
+
+                <TextView
+                    android:id="@+id/textView23"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFC107"
+                    android:textSize="20sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/textView14"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="1000" />
+
+                <!-- Quantidade média de itens por endereço -->
+                <TextView
+                    android:id="@+id/label_qtd_media_itens"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Itens por Endereço"
+                    android:textColor="#a2b427"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/quantidade_geral_itens_por_endereco_textView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+                <TextView
+                    android:id="@+id/quantidade_geral_itens_por_endereco_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFC107"
+                    android:textSize="20sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/label_qtd_media_itens"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="75" />
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#FFC400"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/quantidade_geral_itens_por_endereco_textView" />
+
+                <TextView
+                    android:id="@+id/textView24"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Previsão em 1h"
+                    android:textColor="#a2b427"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/textView26"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+                <TextView
+                    android:id="@+id/textView26"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="40"
+                    android:textColor="#FFC107"
+                    android:textSize="20sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/textView24"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+
+                "
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Botões de navegação e voltar -->
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="32dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/media_geral_voltar_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/media_geral_voltar_button"
+            app:srcCompat="@drawable/arrow2"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="32dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/media_geral_voltar_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/media_geral_voltar_button"
+            app:srcCompat="@drawable/arrow1"
+            tools:visibility="visible" />
+
+        <Button
+            android:id="@+id/media_geral_voltar_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Voltar"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/imageView4"
+            app:layout_constraintTop_toBottomOf="@+id/media_geral_card" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

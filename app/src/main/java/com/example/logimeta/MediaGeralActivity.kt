@@ -131,6 +131,8 @@ class MediaGeralActivity : AppCompatActivity() {
             binding.moduloGeralTextView.text = nomeModulo
             binding.tempoGeralTextView.text = formatarSegundos(mediaGeralSegundos)
             binding.tempoGeralCEmbalagemTextView.text = formatarSegundos(mediaComEmbalagemSegundos)
+            //binding.tempoGeralSemEmbalagemTextView.text = formatarSegundos(mediaSemEmbalagemSegundos)
+
         //binding.mediaGeralTempoSemEmbalagemTextview.text = formatarSegundos(mediaSemEmbalagemSegundos)
 //        binding.mediaGeralQtdMediaItensTextview.text = String.format("%.1f", mediaItensPorEndereco) // Formata para uma casa decimal
 

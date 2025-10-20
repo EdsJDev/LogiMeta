@@ -178,12 +178,12 @@
                     android:textColor="#a2b427"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/textView23"
+                    app:layout_constraintEnd_toStartOf="@+id/tempo_geral_caixa_fechada_textView"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/label_tempo_sem_embalagem" />
 
                 <TextView
-                    android:id="@+id/textView23"
+                    android:id="@+id/tempo_geral_caixa_fechada_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FFC107"

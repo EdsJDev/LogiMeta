@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-// Removido o import do Compose que não é usado aqui
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.logimeta.database.DatabaseHelper
@@ -49,7 +48,7 @@ class MediaGeralActivity : AppCompatActivity() {
      * Busca os dados de um módulo específico, calcula as médias e atualiza a interface.
      */
     private fun calcularEExibirMedias() {
-        val moduloParaFiltrar = "Plantas baixo giro" // Módulo que você quer analisar
+        val moduloParaFiltrar = "Plantas alto giro" // Módulo que vai ser analizado
 
         val sql = """
             SELECT
@@ -77,6 +76,11 @@ class MediaGeralActivity : AppCompatActivity() {
         var totalSemEmbalagem = 0
         var tempoComEmbalagem: Long = 0
         var tempoSemEmbalagem: Long = 0
+
+        // Variáveis específicas para Caixa Fechada
+        var totalCaixaFechada = 0
+        var tempoCaixaFechada: Long = 0
+
         var nomeModulo = "Plantas baixo giro" // Valor padrão
 
         if (cursor.moveToFirst()) {
@@ -103,7 +107,9 @@ class MediaGeralActivity : AppCompatActivity() {
                 val caixaFechada = cursor.getInt(cursor.getColumnIndexOrThrow("caixa_fechada")) == 1
                 if (caixaFechada) {
                     // Lógica exclusiva: Se for caixa fechada, não conta como 'com/sem embalagem'
-                    continue
+                    totalCaixaFechada++ // Contador para média correta
+                    tempoCaixaFechada += segundosDaLinha
+                    continue // Pula para a próxima iteração do loop
                 }
 
                 val produtoEmbalado = cursor.getInt(cursor.getColumnIndexOrThrow("produto_embalado")) == 1
@@ -127,17 +133,16 @@ class MediaGeralActivity : AppCompatActivity() {
         val mediaSemEmbalagemSegundos = if (totalSemEmbalagem > 0) tempoSemEmbalagem / totalSemEmbalagem else 0
         val mediaItensPorEndereco = if (totalEnderecos > 0) totalItens.toDouble() / totalEnderecos else 0.0
 
-        // --- Atualização da Interface do Usuário (UI) - NOMES CORRIGIDOS AQUI ---
-            binding.moduloGeralTextView.text = nomeModulo
-            binding.tempoGeralTextView.text = formatarSegundos(mediaGeralSegundos)
-            binding.tempoGeralCEmbalagemTextView.text = formatarSegundos(mediaComEmbalagemSegundos)
-            //binding.tempoGeralSemEmbalagemTextView.text = formatarSegundos(mediaSemEmbalagemSegundos)
+        // Lógica correta para a média de Caixa Fechada
+        val mediaCaixaFechadaSegundos = if (totalCaixaFechada > 0) tempoCaixaFechada / totalCaixaFechada else 0L
 
-        //binding.mediaGeralTempoSemEmbalagemTextview.text = formatarSegundos(mediaSemEmbalagemSegundos)
-//        binding.mediaGeralQtdMediaItensTextview.text = String.format("%.1f", mediaItensPorEndereco) // Formata para uma casa decimal
-
-
-
+        // --- Atualização da Interface do Usuário (UI) ---
+        binding.moduloGeralTextView.text = nomeModulo
+        binding.tempoGeralTextView.text = formatarSegundos(mediaGeralSegundos)
+        binding.tempoGeralCEmbalagemTextView.text = formatarSegundos(mediaComEmbalagemSegundos)
+        binding.tempoGeralSemEmbalagemtextView.text = formatarSegundos(mediaSemEmbalagemSegundos)
+        binding.tempoGeralCaixaFechadaTextView.text = formatarSegundos(mediaCaixaFechadaSegundos)
+        binding.quantidadeGeralItensPorEnderecoTextView.text = mediaItensPorEndereco.toInt().toString()
 
         Log.d(TAG, "Cálculos concluídos e UI atualizada.")
     }

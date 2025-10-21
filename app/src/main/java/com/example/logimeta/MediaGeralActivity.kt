@@ -3,6 +3,7 @@ package com.example.logimeta
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -28,8 +29,17 @@ class MediaGeralActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
 
-        // Chama a função principal que busca, calcula e exibe os dados
-        calcularEExibirMedias()
+        // 1. Pega o dado enviado pela Intent da tela anterior.
+        val moduloSelecionado = intent.getStringExtra(EscolherModuloActivity.MODULO_SELECIONADO_EXTRA)
+
+        // 2. Verifica se o dado não é nulo e chama a função de cálculo.
+        if (moduloSelecionado != null) {
+            calcularEExibirMedias(moduloSelecionado)
+        } else {
+            // Trata o caso em que nenhum módulo foi passado.
+            Toast.makeText(this, "Erro: Módulo não especificado.", Toast.LENGTH_LONG).show()
+            finish() // Fecha a activity se não houver módulo para evitar erros.
+        }
 
         binding.mediaGeralVoltarButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
@@ -45,10 +55,10 @@ class MediaGeralActivity : AppCompatActivity() {
     }
 
     /**
-     * Busca os dados de um módulo específico, calcula as médias e atualiza a interface.
+     * Busca os dados de um módulo específico (recebido via Intent de EscolherModuloActivity), calcula as médias e atualiza a interface.
+     * 3. A função agora recebe o módulo como parâmetro.
      */
-    private fun calcularEExibirMedias() {
-        val moduloParaFiltrar = "Plantas alto giro" // Módulo que vai ser analizado
+    private fun calcularEExibirMedias(moduloParaFiltrar: String) {
 
         val sql = """
             SELECT
@@ -65,7 +75,7 @@ class MediaGeralActivity : AppCompatActivity() {
                 sc.modulo_selecionado = ?
         """.trimIndent()
 
-        // O '?' é substituído pelo valor em arrayOf() de forma segura
+        // 4. Passa o parâmetro para a consulta de forma segura.
         val cursor = bancoDeDados.readableDatabase.rawQuery(sql, arrayOf(moduloParaFiltrar))
 
         // Variáveis para armazenar os totais
@@ -81,10 +91,11 @@ class MediaGeralActivity : AppCompatActivity() {
         var totalCaixaFechada = 0
         var tempoCaixaFechada: Long = 0
 
-        var nomeModulo = "Plantas baixo giro" // Valor padrão
+        var nomeModulo = moduloParaFiltrar // Usa o valor recebido como padrão.
 
         if (cursor.moveToFirst()) {
             totalEnderecos = cursor.count // O total de endereços é o número de linhas retornadas
+            // Pega o nome do módulo diretamente do banco para garantir consistência.
             nomeModulo = cursor.getString(cursor.getColumnIndexOrThrow("modulo_selecionado"))
 
             do {
@@ -131,9 +142,9 @@ class MediaGeralActivity : AppCompatActivity() {
         val mediaGeralSegundos = if (totalEnderecos > 0) totalTempoSegundos / totalEnderecos else 0
         val mediaComEmbalagemSegundos = if (totalComEmbalagem > 0) tempoComEmbalagem / totalComEmbalagem else 0
         val mediaSemEmbalagemSegundos = if (totalSemEmbalagem > 0) tempoSemEmbalagem / totalSemEmbalagem else 0
-        val mediaItensPorEndereco = if (totalEnderecos > 0) totalItens / totalEnderecos else 0.0
+        val mediaItensPorEndereco = if (totalEnderecos > 0) totalItens.toDouble() / totalEnderecos else 0.0
 
-        // Lógica correta para a média de Caixa Fechada
+        // média de Caixa Fechada
         val mediaCaixaFechadaSegundos = if (totalCaixaFechada > 0) tempoCaixaFechada / totalCaixaFechada else 0L
 
         // --- Atualização da Interface do Usuário (UI) ---
@@ -142,9 +153,10 @@ class MediaGeralActivity : AppCompatActivity() {
         binding.tempoGeralCEmbalagemTextView.text = formatarSegundos(mediaComEmbalagemSegundos)
         binding.tempoGeralSemEmbalagemtextView.text = formatarSegundos(mediaSemEmbalagemSegundos)
         binding.tempoGeralCaixaFechadaTextView.text = formatarSegundos(mediaCaixaFechadaSegundos)
-        binding.quantidadeGeralItensPorEnderecoTextView.text = mediaItensPorEndereco.toString()
+        // Corrigido: formata o Double para exibir com uma casa decimal.
+        binding.quantidadeGeralItensPorEnderecoTextView.text = String.format("%.1f", mediaItensPorEndereco)
 
-        Log.d(TAG, "Cálculos concluídos e UI atualizada.")
+        Log.d(TAG, "Cálculos concluídos e UI atualizada para o módulo: $nomeModulo")
     }
 
     /**

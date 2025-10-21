@@ -131,7 +131,7 @@ class MediaGeralActivity : AppCompatActivity() {
         val mediaGeralSegundos = if (totalEnderecos > 0) totalTempoSegundos / totalEnderecos else 0
         val mediaComEmbalagemSegundos = if (totalComEmbalagem > 0) tempoComEmbalagem / totalComEmbalagem else 0
         val mediaSemEmbalagemSegundos = if (totalSemEmbalagem > 0) tempoSemEmbalagem / totalSemEmbalagem else 0
-        val mediaItensPorEndereco = if (totalEnderecos > 0) totalItens.toDouble() / totalEnderecos else 0.0
+        val mediaItensPorEndereco = if (totalEnderecos > 0) totalItens / totalEnderecos else 0.0
 
         // Lógica correta para a média de Caixa Fechada
         val mediaCaixaFechadaSegundos = if (totalCaixaFechada > 0) tempoCaixaFechada / totalCaixaFechada else 0L
@@ -142,7 +142,7 @@ class MediaGeralActivity : AppCompatActivity() {
         binding.tempoGeralCEmbalagemTextView.text = formatarSegundos(mediaComEmbalagemSegundos)
         binding.tempoGeralSemEmbalagemtextView.text = formatarSegundos(mediaSemEmbalagemSegundos)
         binding.tempoGeralCaixaFechadaTextView.text = formatarSegundos(mediaCaixaFechadaSegundos)
-        binding.quantidadeGeralItensPorEnderecoTextView.text = mediaItensPorEndereco.toInt().toString()
+        binding.quantidadeGeralItensPorEnderecoTextView.text = mediaItensPorEndereco.toString()
 
         Log.d(TAG, "Cálculos concluídos e UI atualizada.")
     }

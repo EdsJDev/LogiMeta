@@ -8,10 +8,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.logimeta.database.DatabaseHelper
 import com.example.logimeta.databinding.ActivityMediaGeralBinding
+import com.example.logimeta.model.ResultadosCalculados
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
-import kotlin.math.roundToInt
 
 class MediaGeralActivity : AppCompatActivity() {
 
@@ -32,7 +36,8 @@ class MediaGeralActivity : AppCompatActivity() {
         val moduloSelecionado = intent.getStringExtra(EscolherModuloActivity.MODULO_SELECIONADO_EXTRA)
 
         if (moduloSelecionado != null) {
-            calcularEExibirMedias(moduloSelecionado)
+            // Inicia o processo de cálculo em uma corrotina para não bloquear a UI Thread
+            carregarEExibirMediasAsync(moduloSelecionado)
         } else {
             Toast.makeText(this, "Erro: Módulo não especificado.", Toast.LENGTH_LONG).show()
             finish()
@@ -51,24 +56,42 @@ class MediaGeralActivity : AppCompatActivity() {
         }
     }
 
-    private fun calcularEExibirMedias(moduloParaFiltrar: String) {
+    private fun carregarEExibirMediasAsync(moduloParaFiltrar: String) {
+        lifecycleScope.launch {
+            // Executa a tarefa pesada em uma thread de background (IO)
+            val resultados: ResultadosCalculados? = withContext(Dispatchers.IO) {
+                calcularMedias(moduloParaFiltrar)
+            }
 
+            // Após o cálculo, volta para a thread principal para atualizar a UI
+            if (resultados != null) {
+                atualizarUI(resultados)
+            } else {
+                Toast.makeText(this@MediaGeralActivity, "Nenhum dado encontrado para o módulo.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    /**
+     * Esta função roda em uma thread de background.
+     * Ela foca apenas em acessar o banco, calcular os valores e retornar um objeto de dados.
+     */
+    private fun calcularMedias(moduloParaFiltrar: String): ResultadosCalculados? {
         val sql = """
-            SELECT
-                sc.modulo_selecionado,
-                rc.tempo_coleta,
-                rc.qtd_itens_coletados,
-                rc.produto_embalado,
-                rc.caixa_fechada
-            FROM
-                RegistroColeta rc
-            JOIN
-                SessaoColeta sc ON rc.id_sessao = sc.id_sessao
-            WHERE
-                sc.modulo_selecionado = ?
+            SELECT sc.modulo_selecionado, rc.tempo_coleta, rc.qtd_itens_coletados, rc.produto_embalado, rc.caixa_fechada
+            FROM RegistroColeta rc
+            JOIN SessaoColeta sc ON rc.id_sessao = sc.id_sessao
+            WHERE sc.modulo_selecionado = ?
         """.trimIndent()
 
         val cursor = bancoDeDados.readableDatabase.rawQuery(sql, arrayOf(moduloParaFiltrar))
+
+        // Se não houver resultados, fecha o cursor e retorna nulo imediatamente.
+        if (!cursor.moveToFirst()) {
+            Log.w(TAG, "Nenhum dado encontrado para o módulo '$moduloParaFiltrar'")
+            cursor.close()
+            return null
+        }
 
         var totalEnderecos = 0
         var totalTempoSegundos: Long = 0
@@ -79,84 +102,87 @@ class MediaGeralActivity : AppCompatActivity() {
         var tempoSemEmbalagem: Long = 0
         var totalCaixaFechada = 0
         var tempoCaixaFechada: Long = 0
-        var nomeModulo = moduloParaFiltrar
+        val nomeModulo = cursor.getString(cursor.getColumnIndexOrThrow("modulo_selecionado"))
 
-        if (cursor.moveToFirst()) {
-            totalEnderecos = cursor.count
-            nomeModulo = cursor.getString(cursor.getColumnIndexOrThrow("modulo_selecionado"))
+        totalEnderecos = cursor.count
 
-            do {
-                val itensDaLinha = cursor.getInt(cursor.getColumnIndexOrThrow("qtd_itens_coletados"))
-                totalItens += itensDaLinha
+        do {
+            val itensDaLinha = cursor.getInt(cursor.getColumnIndexOrThrow("qtd_itens_coletados"))
+            totalItens += itensDaLinha
 
-                val tempoColetaStr = cursor.getString(cursor.getColumnIndexOrThrow("tempo_coleta"))
-                var segundosDaLinha: Long = 0
-                if (!tempoColetaStr.isNullOrEmpty() && tempoColetaStr.contains(":")) {
-                    try {
-                        val partes = tempoColetaStr.split(":")
-                        segundosDaLinha = (partes[0].toLong() * 60) + partes[1].toLong()
-                        totalTempoSegundos += segundosDaLinha
-                    } catch (e: Exception) {
-                        Log.e(TAG, "Erro ao converter tempo: '$tempoColetaStr'", e)
-                    }
+            val tempoColetaStr = cursor.getString(cursor.getColumnIndexOrThrow("tempo_coleta"))
+            var segundosDaLinha: Long = 0
+            if (!tempoColetaStr.isNullOrEmpty() && tempoColetaStr.contains(":")) {
+                try {
+                    val partes = tempoColetaStr.split(":")
+                    segundosDaLinha = (partes[0].toLong() * 60) + partes[1].toLong()
+                    totalTempoSegundos += segundosDaLinha
+                } catch (e: Exception) {
+                    Log.e(TAG, "Erro ao converter tempo: '$tempoColetaStr'", e)
                 }
+            }
 
-                val caixaFechada = cursor.getInt(cursor.getColumnIndexOrThrow("caixa_fechada")) == 1
-                if (caixaFechada) {
-                    totalCaixaFechada++
-                    tempoCaixaFechada += segundosDaLinha
-                    continue
-                }
+            val caixaFechada = cursor.getInt(cursor.getColumnIndexOrThrow("caixa_fechada")) == 1
+            if (caixaFechada) {
+                totalCaixaFechada++
+                tempoCaixaFechada += segundosDaLinha
+                continue
+            }
 
-                val produtoEmbalado = cursor.getInt(cursor.getColumnIndexOrThrow("produto_embalado")) == 1
-                if (produtoEmbalado) {
-                    totalComEmbalagem++
-                    tempoComEmbalagem += segundosDaLinha
-                } else {
-                    totalSemEmbalagem++
-                    tempoSemEmbalagem += segundosDaLinha
-                }
+            val produtoEmbalado = cursor.getInt(cursor.getColumnIndexOrThrow("produto_embalado")) == 1
+            if (produtoEmbalado) {
+                totalComEmbalagem++
+                tempoComEmbalagem += segundosDaLinha
+            } else {
+                totalSemEmbalagem++
+                tempoSemEmbalagem += segundosDaLinha
+            }
+        } while (cursor.moveToNext())
 
-            } while (cursor.moveToNext())
-        } else {
-            Log.w(TAG, "Nenhum dado encontrado para o módulo '$moduloParaFiltrar'")
-        }
         cursor.close()
 
-        // --- Cálculos Finais das Médias ---
+        // Cálculos
         val mediaGeralSegundos = if (totalEnderecos > 0) totalTempoSegundos.toDouble() / totalEnderecos else 0.0
         val mediaComEmbalagemSegundos = if (totalComEmbalagem > 0) tempoComEmbalagem / totalComEmbalagem else 0L
         val mediaSemEmbalagemSegundos = if (totalSemEmbalagem > 0) tempoSemEmbalagem / totalSemEmbalagem else 0L
         val mediaItensPorEndereco = if (totalEnderecos > 0) totalItens.toDouble() / totalEnderecos else 0.0
         val mediaCaixaFechadaSegundos = if (totalCaixaFechada > 0) tempoCaixaFechada / totalCaixaFechada else 0L
 
-        // --- ATUALIZAÇÃO DA UI (MÉDIAS) ---
-        binding.moduloGeralTextView.text = nomeModulo
-        binding.tempoGeralTextView.text = formatarSegundos(mediaGeralSegundos.toLong())
-        binding.tempoGeralCEmbalagemTextView.text = formatarSegundos(mediaComEmbalagemSegundos)
-        binding.tempoGeralSemEmbalagemtextView.text = formatarSegundos(mediaSemEmbalagemSegundos)
-        binding.tempoGeralCaixaFechadaTextView.text = formatarSegundos(mediaCaixaFechadaSegundos)
-        binding.quantidadeGeralItensPorEnderecoTextView.text = String.format("%.1f", mediaItensPorEndereco)
-
-        // --- LÓGICA DE CÁLCULO DAS PREVISÕES ---
         var previsaoEm1h = 0
         var previsaoEm7h20m = 0
-
         if (mediaGeralSegundos > 0) {
-            // 1 hora = 3600 segundos
-            val segundosEm1h = 3600
-            previsaoEm1h = (segundosEm1h / mediaGeralSegundos).toInt()
-
-            // 7 horas e 20 minutos = (7 * 3600) + (20 * 60) = 26400 segundos
-            val segundosEm7h20m = 26400
-            previsaoEm7h20m = (segundosEm7h20m / mediaGeralSegundos).toInt()
+            previsaoEm1h = (3600 / mediaGeralSegundos).toInt()
+            previsaoEm7h20m = (26400 / mediaGeralSegundos).toInt()
         }
 
-        // --- ATUALIZAÇÃO DA UI (PREVISÕES) ---
-        binding.previsao1hTextView.text = previsaoEm1h.toString()
-        binding.previsao7h20TextView.text = previsaoEm7h20m.toString()
+        // Retorna o objeto de dados preenchido
+        return ResultadosCalculados(
+            nomeModulo = nomeModulo,
+            mediaGeralSegundos = mediaGeralSegundos.toLong(),
+            mediaComEmbalagemSegundos = mediaComEmbalagemSegundos,
+            mediaSemEmbalagemSegundos = mediaSemEmbalagemSegundos,
+            mediaCaixaFechadaSegundos = mediaCaixaFechadaSegundos,
+            mediaItensPorEndereco = mediaItensPorEndereco,
+            previsaoEm1h = previsaoEm1h,
+            previsaoEm7h20m = previsaoEm7h20m
+        )
+    }
 
-        Log.d(TAG, "Cálculos concluídos e UI atualizada para o módulo: $nomeModulo")
+    /**
+     * Esta função roda na UI Thread e sua única responsabilidade
+     * é pegar os dados pré-calculados e atualizar as views.
+     */
+    private fun atualizarUI(resultados: ResultadosCalculados) {
+        binding.moduloGeralTextView.text = resultados.nomeModulo
+        binding.tempoGeralTextView.text = formatarSegundos(resultados.mediaGeralSegundos)
+        binding.tempoGeralCEmbalagemTextView.text = formatarSegundos(resultados.mediaComEmbalagemSegundos)
+        binding.tempoGeralSemEmbalagemtextView.text = formatarSegundos(resultados.mediaSemEmbalagemSegundos)
+        binding.tempoGeralCaixaFechadaTextView.text = formatarSegundos(resultados.mediaCaixaFechadaSegundos)
+        binding.quantidadeGeralItensPorEnderecoTextView.text = String.format("%.1f", resultados.mediaItensPorEndereco)
+        binding.previsao1hTextView.text = resultados.previsaoEm1h.toString()
+        binding.previsao7h20TextView.text = resultados.previsaoEm7h20m.toString()
+
+        Log.d(TAG, "UI atualizada para o módulo: ${resultados.nomeModulo}")
     }
 
     private fun formatarSegundos(segundosTotais: Long): String {

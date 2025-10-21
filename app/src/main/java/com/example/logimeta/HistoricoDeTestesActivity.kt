@@ -233,7 +233,6 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
         binding.tempoComSacoFrutaTextView.text = "00:00:00"
         binding.tempoSemSacoFrutaTextView.text = "00:00:00"
         binding.tempoCaixaFechadaTextView.text = "00:00:00"
-        // Limpa os novos campos de previsão
         binding.tarefasEm1h.text = "0"
         binding.tarefasEm720h.text = "0"
         atualizarVisibilidadeBotoes()

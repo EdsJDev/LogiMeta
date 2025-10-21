@@ -105,6 +105,7 @@ class PreencherDadosActivity : AppCompatActivity() {
                 intent.putExtra("TOTAL_ITENS", totalItens)
                 intent.putExtra("NOME_SEPARADOR", nomeSeparador)
                 startActivity(intent)
+                finish()
             }
         }
     }

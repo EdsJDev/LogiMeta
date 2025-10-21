@@ -13,8 +13,6 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.logimeta.databinding.ActivityEscolherModuloBinding
 
 class EscolherModuloActivity : AppCompatActivity() {
-
-    // Variável para guardar o módulo que o usuário seleciona.
     private var moduloSelecionado: String? = null
 
     private val binding by lazy {
@@ -53,7 +51,7 @@ class EscolherModuloActivity : AppCompatActivity() {
         binding.moduloSelecionadoAutoCompleteTextView.setOnItemClickListener { parent, _, position, _ ->
             // Salva o módulo selecionado na variável
             moduloSelecionado = parent.getItemAtPosition(position).toString()
-            Toast.makeText(this, "Módulo selecionado: $moduloSelecionado", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Módulo selecionado: $moduloSelecionado", Toast.LENGTH_SHORT).show()
         }
 
         // Listener para o botão de avançar (lógica unificada)

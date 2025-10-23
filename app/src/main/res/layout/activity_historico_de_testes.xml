@@ -459,6 +459,21 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:text="280" />
 
+                <TextView
+                    android:id="@+id/delete_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:drawableEnd="@drawable/delete_data_24"
+                    android:drawablePadding="8dp"
+                    android:text="Deletar Coleta"
+                    android:textColor="#a2b427"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView102" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 

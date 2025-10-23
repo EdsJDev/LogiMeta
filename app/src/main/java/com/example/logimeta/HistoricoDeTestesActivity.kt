@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.logimeta.database.DatabaseHelper
 import com.example.logimeta.databinding.ActivityHistoricoDeTestesBinding
@@ -19,9 +20,7 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
         DatabaseHelper(this)
     }
 
-    // Armazena os IDs de todas as sessões de coleta disponíveis.
-    private var listaDeSessoes = listOf<Int>()
-    // Controla o índice da sessão atualmente exibida na lista.
+    private var listaDeSessoes = mutableListOf<Int>()
     private var posicaoAtual = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,13 +28,67 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
 
+        // --- ALTERAÇÃO IMPORTANTE ---
+        // Garante que a primeira carga sempre começará do registro mais recente.
+        posicaoAtual = 0
         carregarSessoesDisponiveis()
+
         configurarNavegacao()
 
         binding.historicoVoltarButton.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
+
+        binding.deleteTextView.setOnClickListener {
+            if (listaDeSessoes.isNotEmpty()) {
+                mostrarDialogoDeConfirmacao()
+            }
+        }
+    }
+
+    private fun mostrarDialogoDeConfirmacao() {
+        val idSessaoParaDeletar = listaDeSessoes[posicaoAtual]
+
+        AlertDialog.Builder(this)
+            .setTitle("Confirmar Exclusão")
+            .setMessage("Tem certeza de que deseja excluir esta coleta (ID: $idSessaoParaDeletar)?\n\nEsta ação não pode ser desfeita.")
+            .setIcon(R.drawable.delete_data_24)
+            .setPositiveButton("Sim, Excluir") { dialog, _ ->
+                deletarSessao(idSessaoParaDeletar)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Não") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
+    }
+
+    private fun deletarSessao(idSessao: Int) {
+        try {
+            bancoDeDados.writableDatabase.beginTransaction()
+            bancoDeDados.writableDatabase.delete(
+                "RegistroColeta",
+                "id_sessao = ?",
+                arrayOf(idSessao.toString())
+            )
+            bancoDeDados.writableDatabase.delete(
+                "SessaoColeta",
+                "id_sessao = ?",
+                arrayOf(idSessao.toString())
+            )
+            bancoDeDados.writableDatabase.setTransactionSuccessful()
+        } catch (e: Exception) {
+            Log.e("info_db_delete", "Erro ao deletar sessão $idSessao", e)
+        } finally {
+            bancoDeDados.writableDatabase.endTransaction()
+        }
+
+        // --- ALTERAÇÃO IMPORTANTE ---
+        // Reseta a posição para 0 para mostrar o novo item mais recente após a exclusão.
+        posicaoAtual = 0
+        carregarSessoesDisponiveis()
     }
 
     /**
@@ -43,7 +96,9 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
      */
     private fun carregarSessoesDisponiveis() {
         val ids = mutableListOf<Int>()
-        val sql = "SELECT id_sessao FROM SessaoColeta ORDER BY id_sessao ASC"
+        // --- ALTERAÇÃO PRINCIPAL AQUI ---
+        // Ordena por ID em ordem DECRESCENTE (DESC) para que o maior ID venha primeiro.
+        val sql = "SELECT id_sessao FROM SessaoColeta ORDER BY id_sessao DESC"
         val cursor = bancoDeDados.readableDatabase.rawQuery(sql, null)
 
         if (cursor.moveToFirst()) {
@@ -54,20 +109,21 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
         cursor.close()
 
         listaDeSessoes = ids
-        Log.d("info_db_nav", "Sessões encontradas: $listaDeSessoes")
+        Log.d("info_db_nav", "Sessões encontradas (ordem DESC): $listaDeSessoes")
 
         if (listaDeSessoes.isNotEmpty()) {
-            posicaoAtual = listaDeSessoes.size - 1
+            // Se a posição atual for inválida, ajusta para a primeira (0), que é a mais recente.
+            if (posicaoAtual >= listaDeSessoes.size) {
+                posicaoAtual = 0
+            }
             exibirDadosDaSessao(posicaoAtual)
         } else {
             Log.w("info_db_nav", "Nenhuma sessão encontrada no histórico.")
+            posicaoAtual = 0
             limparTela()
         }
     }
 
-    /**
-     * Configura os listeners de clique para os botões de navegação.
-     */
     private fun configurarNavegacao() {
         binding.nextImageView.setOnClickListener {
             if (posicaoAtual < listaDeSessoes.size - 1) {
@@ -84,21 +140,18 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Busca e exibe os dados para uma sessão específica.
-     */
     private fun exibirDadosDaSessao(posicao: Int) {
         if (listaDeSessoes.isEmpty() || posicao < 0 || posicao >= listaDeSessoes.size) {
-            Log.e("info_db_nav", "Posição inválida ou lista de sessões vazia.")
             limparTela()
             return
         }
 
         val idSessao = listaDeSessoes[posicao]
-        Log.d("info_db_nav", "Exibindo dados para a sessão ID: $idSessao (Posição: $posicao)")
+        Log.d("info_db_nav", "Exibindo dados para a sessão ID: $idSessao (Posição na lista: $posicao)")
 
         atualizarVisibilidadeBotoes()
 
+        // O resto desta função não precisa de alteração, pois ela já busca os dados pelo ID correto.
         val sqlSessao = "SELECT *, strftime('%d/%m/%Y - %H:%M', data_sessao, 'localtime') AS data_formatada FROM SessaoColeta WHERE id_sessao = ?"
         val cursorSessao = bancoDeDados.readableDatabase.rawQuery(sqlSessao, arrayOf(idSessao.toString()))
 
@@ -109,7 +162,6 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
             binding.dataTextView.text = cursorSessao.getString(cursorSessao.getColumnIndexOrThrow("data_formatada"))
             cursorSessao.close()
         } else {
-            Log.e("info_db_nav", "Sessão com ID $idSessao não encontrada no banco de dados.")
             cursorSessao.close()
             limparTela()
             return
@@ -140,84 +192,57 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
                     Log.e("info_db_soma", "Erro ao converter tempo: '$tempoColetaStr'", e)
                 }
             }
-
             totalItensColetados += cursorRegistros.getInt(cursorRegistros.getColumnIndexOrThrow("qtd_itens_coletados"))
-
-            // --- LÓGICA DE CONTAGEM EXCLUSIVA ---
             val caixaFechada = cursorRegistros.getInt(cursorRegistros.getColumnIndexOrThrow("caixa_fechada")) == 1
-
-            // Processa 'caixa fechada' como prioridade.
             if (caixaFechada) {
                 totalCaixaFechada++
                 tempoCategoriaCaixaFechada += segundosDaLinha
-                // Pula para o próximo registro, ignorando a contagem de 'saco fruta'.
                 continue
             }
-
-            // Este bloco só será executado se o item NÃO for de caixa fechada.
             val produtoEmbalado = cursorRegistros.getInt(cursorRegistros.getColumnIndexOrThrow("produto_embalado")) == 1
             if (produtoEmbalado) {
                 totalComSaco++
                 tempoCategoriaComSaco += segundosDaLinha
             } else {
-                totalSemSaco++ // Contagem direta
+                totalSemSaco++
                 tempoCategoriaSemSaco += segundosDaLinha
             }
         }
         cursorRegistros.close()
 
-        val mediaGeral = if (totalEnderecos > 0) totalTempoEmSegundos / totalEnderecos else 0
+        val mediaGeral = if (totalEnderecos > 0) totalTempoEmSegundos.toDouble() / totalEnderecos else 0.0
         val mediaComSaco = if (totalComSaco > 0) tempoCategoriaComSaco / totalComSaco else 0
         val mediaSemSaco = if (totalSemSaco > 0) tempoCategoriaSemSaco / totalSemSaco else 0
         val mediaCaixaFechada = if (totalCaixaFechada > 0) tempoCategoriaCaixaFechada / totalCaixaFechada else 0
 
-        val tempoTotalFormatado = formatarSegundos(totalTempoEmSegundos)
-        val mediaGeralFormatada = formatarSegundos(mediaGeral)
-        val mediaComSacoFormatada = formatarSegundos(mediaComSaco)
-        val mediaSemSacoFormatada = formatarSegundos(mediaSemSaco)
-        val mediaCaixaFechadaFormatada = formatarSegundos(mediaCaixaFechada)
-
-        binding.tempoTotalTextView.text = tempoTotalFormatado
+        binding.tempoTotalTextView.text = formatarSegundos(totalTempoEmSegundos)
         binding.itensTextView.text = totalItensColetados.toString()
         binding.enderecosTextView.text = totalEnderecos.toString()
         binding.itensComSacoFrutaTextView.text = totalComSaco.toString()
         binding.itensSemSacoFrutaTextView.text = totalSemSaco.toString()
         binding.itensCaixaFechadaTextView.text = totalCaixaFechada.toString()
+        binding.tempoMedioTotalTextView.text = formatarSegundos(mediaGeral.toLong())
+        binding.tempoComSacoFrutaTextView.text = formatarSegundos(mediaComSaco)
+        binding.tempoSemSacoFrutaTextView.text = formatarSegundos(mediaSemSaco)
+        binding.tempoCaixaFechadaTextView.text = formatarSegundos(mediaCaixaFechada)
 
-        binding.tempoMedioTotalTextView.text = mediaGeralFormatada
-        binding.tempoComSacoFrutaTextView.text = mediaComSacoFormatada
-        binding.tempoSemSacoFrutaTextView.text = mediaSemSacoFormatada
-        binding.tempoCaixaFechadaTextView.text = mediaCaixaFechadaFormatada
-
-        // --- CÁLCULO DA PREVISÃO ---
         var previsaoEm1h = 0
         var previsaoEm7h20m = 0
-
         if (mediaGeral > 0) {
-            // 1 hora = 3600 segundos
             previsaoEm1h = (3600 / mediaGeral).toInt()
-
-            // 7 horas e 20 minutos = (7 * 3600) + (20 * 60) = 25200 + 1200 = 26400 segundos
-            val segundosEm7h20m = 26400
-            previsaoEm7h20m = (segundosEm7h20m / mediaGeral).toInt()
+            previsaoEm7h20m = (26400 / mediaGeral).toInt()
         }
-
-        // --- ATUALIZAÇÃO DA UI ---
         binding.tarefasEm1h.text = previsaoEm1h.toString()
         binding.tarefasEm720h.text = previsaoEm7h20m.toString()
     }
 
-    /**
-     * Atualiza a visibilidade dos botões de navegação.
-     */
     private fun atualizarVisibilidadeBotoes() {
-        binding.previousImageView.visibility = if (posicaoAtual > 0) View.VISIBLE else View.INVISIBLE
-        binding.nextImageView.visibility = if (posicaoAtual < listaDeSessoes.size - 1) View.VISIBLE else View.INVISIBLE
+        val temSessoes = listaDeSessoes.isNotEmpty()
+        binding.previousImageView.visibility = if (temSessoes && posicaoAtual > 0) View.VISIBLE else View.INVISIBLE
+        binding.nextImageView.visibility = if (temSessoes && posicaoAtual < listaDeSessoes.size - 1) View.VISIBLE else View.INVISIBLE
+        binding.deleteTextView.visibility = if (temSessoes) View.VISIBLE else View.GONE
     }
 
-    /**
-     * Limpa os campos de texto da tela e oculta os botões de navegação.
-     */
     private fun limparTela() {
         binding.idTextView.text = "-"
         binding.nomeTextView.text = "-"
@@ -238,9 +263,6 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
         atualizarVisibilidadeBotoes()
     }
 
-    /**
-     * Converte um valor em segundos para uma String no formato "HH:MM:SS".
-     */
     private fun formatarSegundos(segundosTotais: Long): String {
         if (segundosTotais <= 0) return "00:00:00"
         val horas = TimeUnit.SECONDS.toHours(segundosTotais)

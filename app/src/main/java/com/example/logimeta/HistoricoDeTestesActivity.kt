@@ -50,7 +50,7 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
     private fun mostrarDialogoDeConfirmacao() {
         val idSessaoParaDeletar = listaDeSessoes[posicaoAtual]
 
-        AlertDialog.Builder(this)
+        AlertDialog.Builder(this, R.style.AlertDialogTheme_Custom)
             .setTitle("Confirmar Exclusão")
             .setMessage("Tem certeza de que deseja excluir esta coleta (ID: $idSessaoParaDeletar)?\n\nEsta ação não pode ser desfeita.")
             .setIcon(R.drawable.delete_data_24)

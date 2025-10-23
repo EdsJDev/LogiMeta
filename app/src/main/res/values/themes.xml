@@ -1,8 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Tema base do aplicativo -->
     <style name="Base.Theme.LogiMeta" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Cores customizadas-->
         <item name="colorPrimary">#7b3c33</item>
         <item name="colorSecondary">@color/white</item>
         <item name="android:colorBackground">#7b2b33</item>
@@ -10,5 +9,40 @@
         <item name="android:textColorPrimary">#a2b427</item>
     </style>
 
+    <!-- Tema principal do aplicativo, que herda do tema base -->
     <style name="Theme.LogiMeta" parent="Base.Theme.LogiMeta" />
+
+
+    <!-- =============================================================== -->
+    <!--          ESTILO CUSTOMIZADO PARA O ALERTDIALOG                  -->
+    <!-- =============================================================== -->
+    <style name="AlertDialogTheme_Custom" parent="Theme.AppCompat.Light.Dialog.Alert">
+
+        <item name="android:textSize">24sp</item>
+
+        <!-- Cor de fundo do dialog -->
+        <item name="android:background">#7b2b33</item>
+
+        <!-- Cor do texto do título -->
+        <item name="android:textColorPrimary">#FFFFFF</item>
+
+        <!-- Cor do texto da mensagem -->
+        <item name="android:textColorSecondary">#E0E0E0</item>
+
+        <!-- Cor de destaque dos botões (Sim/Não) e outros elementos -->
+        <item name="colorAccent">@android:color/holo_red_light</item>
+
+
+        <!-- Aplica o estilo customizado para a barra de título do diálogo -->
+        <item name="android:windowTitleStyle">@style/AlertDialogTitle_Custom</item>
+    </style>
+
+    <!-- Estilo customizado APENAS para o texto do título (opcional, mas bom para dar destaque) -->
+    <style name="AlertDialogTitle_Custom" parent="RtlOverlay.DialogWindowTitle.AppCompat">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <!-- =============================================================== -->
+
 </resources>

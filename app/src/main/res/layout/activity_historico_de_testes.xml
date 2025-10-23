@@ -485,7 +485,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/historico_voltar_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/historico_voltar_button"
-            app:srcCompat="@drawable/arrow2" />
+            app:srcCompat="@drawable/seta_arrow_left_24" />
 
         <ImageView
             android:id="@+id/next_imageView"
@@ -495,7 +495,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/historico_voltar_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/historico_voltar_button"
-            app:srcCompat="@drawable/arrow1" />
+            app:srcCompat="@drawable/seta_arrow_right_24" />
 
         <Button
             android:id="@+id/historico_voltar_button"

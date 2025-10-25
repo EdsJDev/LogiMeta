@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 1. Adicionado ScrollView como o elemento raiz -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,13 +7,12 @@
     android:fillViewport="true"
     tools:context=".ColetaDeDadosActivity">
 
-    <!-- 2. Seu ConstraintLayout original agora fica dentro do ScrollView -->
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"> <!-- Altura alterada para wrap_content -->
+        android:layout_height="wrap_content">
 
-        <!--  TODO O SEU CÓDIGO ORIGINAL ESTÁ AQUI, INTACTO -->
 
         <Button
             android:id="@+id/caixa_fechada_nao_button"
@@ -46,7 +44,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:text="caixa fechada?"
+            android:text="Caixa Fechada?"
             android:textColor="#a2b427"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -136,7 +134,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:text="O produto foi embalado?"
+            android:text="Com Saco-Fruta?"
             android:textColor="#a2b427"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -170,7 +168,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:text="quantidade de itens coletados"
+            android:text="Quantidade de Itens Coletados"
             android:textColor="#a2b427"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -205,7 +203,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:text="Rua referente ao endereço"
+            android:text="Rua Referente ao Endereço"
             android:textColor="#a2b427"
             android:textSize="24sp"
             android:textStyle="bold"

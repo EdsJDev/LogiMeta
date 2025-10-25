@@ -1,10 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".SobreActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Adicionado um ID para ser usado na SobreActivity.kt -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- ================== CABEÇALHO ================== -->
+        <TextView
+            android:id="@+id/textView_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="LogiMeta"
+            android:textColor="#a2b427"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- ================== DESCRIÇÃO APP ================== -->
+        <ImageView
+            android:id="@+id/icon_description"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_description"
+            app:srcCompat="@drawable/diagram"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/text_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:text="O LogiMeta é uma ferramenta de Business Intelligence projetada para cronometrar, analisar e otimizar o processo de separação de pedidos (picking) em centros de distribuição."
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/icon_description"
+            app:layout_constraintTop_toBottomOf="@+id/textView_title" />
+
+        <!-- ================== OBJETIVO ================== -->
+        <ImageView
+            android:id="@+id/icon_target"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_target"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_target"
+            app:srcCompat="@drawable/target"
+            app:tint="@color/white" />
+
+        <!-- ================== DESENVOLVIDO POR ================== -->
+        <TextView
+            android:id="@+id/text_target"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:text="Nosso objetivo é transformar dados operacionais brutos em KPIs (Indicadores-Chave de Performance) claros e acionáveis. Com o LogiMeta, gestores podem identificar gargalos, medir a produtividade da equipe, reduzir custos operacionais e tomar decisões estratégicas baseadas em dados precisos e confiáveis"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/icon_target"
+            app:layout_constraintTop_toBottomOf="@+id/text_description" />
+
+        <ImageView
+            android:id="@+id/icon_developer"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_developer_desc"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_developer_name"
+            app:srcCompat="@drawable/user"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/text_developer_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:text="Desenvolvido por Edson Ramos Bezerra"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/icon_developer"
+            app:layout_constraintTop_toBottomOf="@+id/text_target" />
+
+        <TextView
+            android:id="@+id/text_developer_desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:text="Desenvolvedor de Software e entusiasta de soluções para otimização de processos."
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/text_developer_name"
+            app:layout_constraintTop_toBottomOf="@+id/text_developer_name" />
+
+        <!-- ================== MOTIVAÇÃO (FRASE REINSERIDA) ================== -->
+        <TextView
+            android:id="@+id/text_developer_passion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Este aplicativo nasceu da paixão por tecnologia e da busca por soluções práticas que gerem um impacto real na eficiência da empresa."
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/text_developer_desc"
+            app:layout_constraintTop_toBottomOf="@+id/text_developer_desc" />
+
+
+        <!-- ================== CONTATO (CONSTRAINT CORRIGIDA) ================== -->
+        <ImageView
+            android:id="@+id/icon_contact"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_contact_email"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_contact_title"
+            app:srcCompat="@drawable/email"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/text_contact_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:text="Feedback e Contato"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/icon_contact"
+            app:layout_constraintTop_toBottomOf="@+id/text_developer_passion" />
+
+        <TextView
+            android:id="@+id/text_contact_email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:autoLink="email"
+            android:text="Sua opinião é fundamental para a evolução do LogiMeta. Se você encontrou um bug, tem uma sugestão para uma nova funcionalidade ou deseja discutir uma parceria, por favor entre em contato. E-mail: edson-ramos54@hotmail.com"
+            android:textColor="@color/white"
+            android:textColorLink="@android:color/holo_blue_light"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/text_contact_title"
+            app:layout_constraintTop_toBottomOf="@+id/text_contact_title" />
+
+        <!-- ================== LICENÇA ================== -->
+        <ImageView
+            android:id="@+id/icon_license"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_license"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_license"
+            app:srcCompat="@drawable/certificate"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/text_license"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:text="Versão 1.0.0\nDistribuído sob a Licença MIT.\nCopyright (c) 2025 Edson Ramos Bezerra"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/icon_license"
+            app:layout_constraintTop_toBottomOf="@+id/text_contact_email" />
+
+        <!-- ================== BOTÃO VOLTAR ================== -->
+        <Button
+            android:id="@+id/voltar_sobre_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
+            android:text="Voltar"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_license" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -12,15 +12,24 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.logimeta.databinding.ActivityEscolherModuloBinding
 
+/**
+ * Activity responsável por permitir que o usuário selecione um módulo específico
+ * para visualizar as estatísticas de média geral.
+ */
 class EscolherModuloActivity : AppCompatActivity() {
+    // Armazena a escolha do usuário para ser usada ao avançar para a próxima tela.
     private var moduloSelecionado: String? = null
 
     private val binding by lazy {
         ActivityEscolherModuloBinding.inflate(layoutInflater)
     }
 
-    // Chave para passar o dado na Intent
+    // O companion object agrupa constantes relacionadas à classe.
     companion object {
+        /**
+         * Chave pública usada para passar o nome do módulo via Intent,
+         * garantindo consistência na comunicação entre Activities.
+         */
         const val MODULO_SELECIONADO_EXTRA = "MODULO_SELECIONADO"
     }
 
@@ -29,7 +38,7 @@ class EscolherModuloActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
 
-        // Lista de módulos para o AutoCompleteTextView
+        // Define a lista de módulos que será exibida no menu suspenso.
         val modulos = arrayOf(
             "Plantas alto giro", "Plantas baixo giro", "Natalino alto giro",
             "Natalinos baixo giro", "Arvores alto giro", "Arvores baixo giro",
@@ -40,44 +49,44 @@ class EscolherModuloActivity : AppCompatActivity() {
             "Produtos Pesados", "Indefinido"
         )
 
-        // Configura o adapter para a lista de módulos usando o binding
+        // Associa a lista de módulos ao componente AutoCompleteTextView através de um ArrayAdapter.
         val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, modulos)
         binding.moduloSelecionadoAutoCompleteTextView.setAdapter(adapter)
 
-        // Define o fundo do dropdown
+        // Personaliza a cor de fundo do menu suspenso para manter a identidade visual do app.
         binding.moduloSelecionadoAutoCompleteTextView.setDropDownBackgroundDrawable(ColorDrawable(Color.parseColor("#622229")))
 
-        // Listener para quando um item é clicado na lista
+        // Define a ação a ser executada quando o usuário seleciona um item da lista.
         binding.moduloSelecionadoAutoCompleteTextView.setOnItemClickListener { parent, _, position, _ ->
-            // Salva o módulo selecionado na variável
+            // Armazena a string do item selecionado na variável da classe.
             moduloSelecionado = parent.getItemAtPosition(position).toString()
-            //Toast.makeText(this, "Módulo selecionado: $moduloSelecionado", Toast.LENGTH_SHORT).show()
         }
 
-        // Listener para o botão de avançar (lógica unificada)
+        // Define a ação do botão "Avançar".
         binding.avancarEscolherModuloButton.setOnClickListener {
-            // Verifica se o usuário realmente selecionou um módulo
+            // Garante que o usuário fez uma seleção antes de prosseguir.
             if (moduloSelecionado != null) {
-                // Se selecionou, cria a Intent para a próxima tela
+                // Prepara a Intent para abrir a tela de visualização de médias.
                 val intent = Intent(this, MediaGeralActivity::class.java)
 
-                // Adiciona o módulo selecionado como um "extra" na Intent
+                // Anexa o módulo selecionado à Intent para que a próxima tela possa recebê-lo.
                 intent.putExtra(MODULO_SELECIONADO_EXTRA, moduloSelecionado)
 
-                // Inicia a próxima atividade
+                // Inicia a próxima atividade.
                 startActivity(intent)
             } else {
-                // Se não selecionou, avisa o usuário
+                // Fornece um feedback ao usuário caso ele tente avançar sem fazer uma seleção.
                 Toast.makeText(this, "Por favor, selecione um módulo.", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Listener para o botão de voltar
+        // Define a ação do botão "Voltar".
         binding.voltarEscolherModuloButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
 
+        // Ajusta o padding da tela para acomodar as barras do sistema (Edge-to-Edge).
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)

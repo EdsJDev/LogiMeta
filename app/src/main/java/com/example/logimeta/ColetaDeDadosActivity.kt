@@ -243,6 +243,3 @@ class ColetaDeDadosActivity : AppCompatActivity() {
         handler.removeCallbacksAndMessages(null)
     }
 }
-
-
-// botão caixa fechada implementado //

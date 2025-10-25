@@ -57,7 +57,6 @@ class PreencherDadosActivity : AppCompatActivity() {
 
 
     private fun setupClickListeners() {
-        // Listener para quando um item do dropdown é selecionado.
         binding.moduloSelecionadoAutoCompleteTextView.setOnItemClickListener { parent, _, position, _ ->
             moduloSelecionado = parent.getItemAtPosition(position).toString()
         }

@@ -9,38 +9,41 @@
 
     <Button
         android:id="@+id/media_geral_button"
-        android:layout_width="200dp"
+        android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:textColor="@color/accent_color"
         android:text="Média Geral"
+        android:textColor="@color/accent_color"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/historico_button" />
 
     <Button
         android:id="@+id/historico_button"
-        android:layout_width="200dp"
+        android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:textColor="@color/accent_color"
         android:text="Histórico"
+        android:textColor="@color/accent_color"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_NovoTeste" />
 
     <Button
         android:id="@+id/btn_NovoTeste"
-        android:layout_width="200dp"
+        android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="250dp"
         android:layout_marginEnd="16dp"
-        android:textColor="@color/accent_color"
         android:text="Novo Teste"
+        android:textColor="@color/accent_color"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView5" />
@@ -57,12 +60,13 @@
 
     <Button
         android:id="@+id/btnSobre"
-        android:layout_width="200dp"
+        android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Sobre"
         android:textColor="@color/accent_color"
         android:textSize="24dp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

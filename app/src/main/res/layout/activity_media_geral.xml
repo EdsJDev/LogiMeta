@@ -21,7 +21,7 @@
             android:layout_marginTop="50dp"
             android:text="Média Geral"
             android:textColor="@color/accent_color"
-            android:textSize="28sp"
+            android:textSize="34sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

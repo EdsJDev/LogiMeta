@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- ==================================== -->
+    <!--    CORES PARA O TEMA CLARO (LIGHT)  -->
+    <!-- ==================================== -->
+
+    <!-- Cores Padrão -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- cores personalizadas para o tema Claro -->
+    <color name="fundoMenu">#c08a52</color> <!-- bege bem suave -->
+    <color name="background_color">#7b2b33</color> <!-- terracota forte -->
+    <color name="text_color">#FFC107</color>       <!-- texto amarelo escuro -->
+    <color name="accent_color">#a2b427</color>       <!-- Sua cor de destaque original (verde musgo) -->
+    <color name="button_background_color">#7b3b33</color> <!-- Fundo de cards/botões terracota médio -->
+    <color name="card_internal_background_color">#7b3c33</color> <!-- do painel interno terracota médio -->
+
 </resources>

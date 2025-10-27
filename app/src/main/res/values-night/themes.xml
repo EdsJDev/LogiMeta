@@ -1,7 +1,39 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.LogiMeta" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <!-- =============================================================== -->
+    <!--               TEMA PARA O MODO ESCURO (NIGHT)                   -->
+    <!-- =============================================================== -->
+    <style name="Base.Theme.LogiMeta" parent="Theme.Material3.Dark.NoActionBar">
+        <!-- COR DOS BOTÕES E OUTROS BACKGROUNDS -->
+        <item name="colorPrimary">@color/button_background_color</item>
+        <!-- COR DO BACKGROUND DO APP -->
+        <item name="android:windowBackground">@color/background_color</item>
+        <!-- COR DO TEXTO -->
+        <item name="android:textColor">@color/accent_color</item>
+        <!-- COR DO TEXTO DE TÍTULOS E BOTÕES -->
+        <item name="colorAccent">@color/accent_color</item>
+    </style>
+
+    <style name="Theme.LogiMeta" parent="Base.Theme.LogiMeta" />
+
+    <!-- =============================================================== -->
+    <!--          ESTILO CUSTOMIZADO PARA O ALERTDIALOG (CLARO)          -->
+    <!-- =============================================================== -->
+    <style name="AlertDialogTheme_Custom" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Cor de fundo do diálogo -->
+        <item name="android:background">@color/white</item>
+
+        <!-- Cor do Texto -->
+        <item name="android:textColorPrimary">@color/cardview_dark_background</item>
+
+        <!-- Aplica o estilo de texto customizado ao título -->
+        <item name="android:windowTitleStyle">@style/AlertDialogTitle_Custom</item>
+    </style>
+
+    <!-- Estilo para o TÍTULO do AlertDialog -->
+    <style name="AlertDialogTitle_Custom" parent="RtlOverlay.DialogWindowTitle.AppCompat">
+        <!-- A COR É DEFINIDA EM textColorPrimary. Aqui definimos apenas o resto. -->
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/button_background_color</item>
     </style>
 </resources>

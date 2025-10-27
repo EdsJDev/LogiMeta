@@ -1,48 +1,36 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Tema base do aplicativo -->
+    <!-- Tema base do aplicativo para modo CLARO (padrão) -->
     <style name="Base.Theme.LogiMeta" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Cores customizadas-->
-        <item name="colorPrimary">#7b3c33</item>
-        <item name="colorSecondary">@color/white</item>
-        <item name="android:colorBackground">#7b2b33</item>
-        <item name="colorOnPrimary">#a2b427</item>
-        <item name="android:textColorPrimary">#a2b427</item>
+        <!--            Itens de customização que usam referências. -->
+        <item name="colorPrimary">@color/button_background_color</item>
+        <item name="android:windowBackground">@color/background_color</item>
+        <item name="android:textColor">@color/accent_color</item>
+        <item name="colorAccent">@color/accent_color</item>
     </style>
 
-    <!-- Tema principal do aplicativo, que herda do tema base -->
     <style name="Theme.LogiMeta" parent="Base.Theme.LogiMeta" />
 
-
     <!-- =============================================================== -->
-    <!--          ESTILO CUSTOMIZADO PARA O ALERTDIALOG                  -->
+    <!--          ESTILO CUSTOMIZADO PARA O ALERTDIALOG (CLARO)          -->
     <!-- =============================================================== -->
     <style name="AlertDialogTheme_Custom" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Cor de fundo do diálogo -->
+        <item name="android:background">@color/background_color</item>
 
-        <item name="android:textSize">24sp</item>
+        <!-- Cor do texto -->
+        <item name="android:textColorPrimary">@color/white</item>
 
-        <!-- Cor de fundo do dialog -->
-        <item name="android:background">#7b2b33</item>
+        <!-- Cor do Texto da Mensagem -->
+        <item name="android:textColorSecondary">@color/white</item>
 
-        <!-- Cor do texto do título -->
-        <item name="android:textColorPrimary">#FFFFFF</item>
-
-        <!-- Cor do texto da mensagem -->
-        <item name="android:textColorSecondary">#E0E0E0</item>
-
-        <!-- Cor de destaque dos botões (Sim/Não) e outros elementos -->
-        <item name="colorAccent">@android:color/holo_red_light</item>
-
-
-        <!-- Aplica o estilo customizado para a barra de título do diálogo -->
-        <item name="android:windowTitleStyle">@style/AlertDialogTitle_Custom</item>
+        <!-- Cor dos botões ("Excluir", "Cancelar") -->
+        <item name="colorAccent">@color/button_background_color</item>
     </style>
 
-    <!-- Estilo customizado APENAS para o texto do título (opcional, mas bom para dar destaque) -->
+    <!-- Estilo para o TÍTULO do AlertDialog -->
     <style name="AlertDialogTitle_Custom" parent="RtlOverlay.DialogWindowTitle.AppCompat">
-        <item name="android:textColor">#FFFFFF</item>
+        <!-- A COR É DEFINIDA EM textColorPrimary. Aqui definimos apenas o resto. -->
         <item name="android:textSize">25sp</item>
         <item name="android:textStyle">bold</item>
     </style>
-    <!-- =============================================================== -->
-
 </resources>

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:text="Escolher Módulo"
-        android:textColor="#a2b427"
+        android:textColor="@color/accent_color"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,12 +22,14 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout8"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
         android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
         android:padding="4dp"
-        app:boxBackgroundColor="#c08a52"
+        android:textColor="@color/accent_color"
+        android:textColorHint="#FFEA00"
+        app:boxBackgroundColor="@color/fundoMenu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10">
@@ -39,6 +41,7 @@
             android:inputType="none"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
+            android:textColorLink="#c08a52"
             android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -50,6 +53,7 @@
         android:text="Avançar"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="@color/accent_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/voltar_escolher_modulo_button"
         app:layout_constraintHorizontal_bias="0.5"
@@ -63,6 +67,7 @@
         android:text="Voltar"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="@color/accent_color"
         app:layout_constraintBottom_toBottomOf="@+id/avancar_escolher_modulo_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.textfield.TextInputEditText
@@ -44,7 +45,8 @@ class ColetaDeDadosActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_coleta_de_dados)
 
-        corOriginalBotao = Color.parseColor("#7c3c33")
+        //Busca a cor do tema.
+        corOriginalBotao = ContextCompat.getColor(this, R.color.button_background_color)
 
         voltar2_imageView = findViewById(R.id.voltar2_imageView)
         finalizaButton = findViewById(R.id.finalizar_ir_para_SaveScreen_button)
@@ -118,14 +120,12 @@ class ColetaDeDadosActivity : AppCompatActivity() {
                 putExtra("NOME_SEPARADOR", nomeSeparador)
                 putExtra("lista", ArrayList(ListaDeDados))
             }
-                startActivity(intent)
-                ListaDeDados.clear() // Limpar a lista após o clique no botão "Finalizar"
-                finish()
-            }
+            startActivity(intent)
+            ListaDeDados.clear() // Limpar a lista após o clique no botão "Finalizar"
+            finish()
+        }
 
         proximoButton.setOnClickListener {
-
-            //var modulo = moduloSelecionado
             var enderecos = totalEnderecos
             var itens = totalItens
             var tempoDoEndereco = contadorTextView.text
@@ -205,8 +205,8 @@ class ColetaDeDadosActivity : AppCompatActivity() {
         resetarSelecaoBotoesVisualmente()
 
         // Opcional: Limpar campos de texto também
-         //rua_referente_ao_endereco_TextInputEditText.text = null
-         quantidade_de_itens_coletados_TextInputEditText.text = null
+        rua_referente_ao_endereco_TextInputEditText.text = null
+        quantidade_de_itens_coletados_TextInputEditText.text = null
 
         //Toast.makeText(this, "Pronto para nova coleta.", Toast.LENGTH_SHORT).show()
     }

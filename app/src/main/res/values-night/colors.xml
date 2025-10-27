@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ==================================== -->
+    <!--    CORES PARA O TEMA ESCURO (NIGHT)  -->
+    <!-- ==================================== -->
+
+    <!-- Cores Padrão -->
+    <color name="black">#FFFFFFFF</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- cores personalizadas para o tema ESCURO -->
+    <color name="fundoMenu">#3A3A3A</color> <!-- cinza bem suave -->
+    <color name="background_color">#010101</color> <!-- cinza bem escuro -->
+    <color name="text_color">#E0E0E0</color>       <!-- Texto branco suave -->
+    <color name="accent_color">#2979FF</color>       <!-- cor de destaque original (azul médio) -->
+    <color name="button_background_color">#3A3A3A</color> <!--  cards/botões cinza médio -->
+    <color name="card_internal_background_color">#2C2C2C</color> <!-- painel interno cinza escuro -->
+
+</resources>

@@ -1,13 +1,13 @@
 package com.example.logimeta
 
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.logimeta.databinding.ActivityEscolherModuloBinding
@@ -40,13 +40,14 @@ class EscolherModuloActivity : AppCompatActivity() {
 
         // Define a lista de módulos que será exibida no menu suspenso.
         val modulos = arrayOf(
-            "Plantas alto giro", "Plantas baixo giro", "Natalino alto giro",
-            "Natalinos baixo giro", "Arvores alto giro", "Arvores baixo giro",
-            "Vasos rua 23", "Vasos alto giro rua 9 até 11", "Vasos baixo giro rua 9 até 11",
-            "Rua 8 Saldo base alto giro", "Rua 8 Saldo base baixo giro", "Rua 6 e 7 alto giro",
-            "Rua 6 e 7 baixo giro", "Mezanino 1", "Mezanino 2", "Mezanino Pulmão",
-            "Pulmão Rua 61 até 05", "Pulmão rua 09 até 16", "Pulmão Natalinos",
-            "Produtos Pesados", "Indefinido"
+            "Plantas Alto Giro", "Plantas Baixo Giro", "Natalino Alto Giro",
+            "Natalinos Baixo Giro", "Arvores Alto Giro", "Arvores Baixo Giro",
+            "Vasos Rua 23", "Vasos Alto Giro Rua 9 Até 11", "Vasos Baixo Giro Rua 9 Até 11",
+            "Rua 8 Saldo Base Alto Giro", "Rua 8 Saldo Base Baixo Giro", "Rua 6 e 7 Alto Giro",
+            "Rua 6 e 7 Baixo Giro", "Mezanino 1", "Mezanino 2", "Mezanino Pulmão",
+            "Pulmão Rua 61 Até 05", "Pulmão Rua 09 Até 16", "Pulmão Natalinos",
+            "Produtos Pesados", "Coleta 1", "Coleta 2", "Coleta 3","Coleta 4",
+            "Coleta 5", "Coleta 6", "Coleta 7", "Coleta 8", "Coleta 9", "Coleta 10"
         )
 
         // Associa a lista de módulos ao componente AutoCompleteTextView através de um ArrayAdapter.
@@ -54,7 +55,9 @@ class EscolherModuloActivity : AppCompatActivity() {
         binding.moduloSelecionadoAutoCompleteTextView.setAdapter(adapter)
 
         // Personaliza a cor de fundo do menu suspenso para manter a identidade visual do app.
-        binding.moduloSelecionadoAutoCompleteTextView.setDropDownBackgroundDrawable(ColorDrawable(Color.parseColor("#622229")))
+        val corDeFundoDoTema = ContextCompat.getColor(this, R.color.card_internal_background_color)
+        val corDropdown = ColorDrawable(corDeFundoDoTema)
+        binding.moduloSelecionadoAutoCompleteTextView.setDropDownBackgroundDrawable(corDropdown)
 
         // Define a ação a ser executada quando o usuário seleciona um item da lista.
         binding.moduloSelecionadoAutoCompleteTextView.setOnItemClickListener { parent, _, position, _ ->

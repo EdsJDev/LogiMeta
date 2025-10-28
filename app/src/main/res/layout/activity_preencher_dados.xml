@@ -20,7 +20,7 @@
             android:layout_marginTop="45dp"
             android:text="Preencher Dados"
             android:textColor="@color/accent_color"
-            android:textSize="34sp"
+            android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +35,7 @@
             android:layout_marginEnd="16dp"
             android:text="Módulo Selecionado"
             android:textColor="@color/accent_color"
-            android:textSize="24sp"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -57,9 +57,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
+                android:maxLines="1"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
-                android:textSize="20sp" />
+                android:textSize="18sp"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -71,7 +76,7 @@
             android:layout_marginEnd="16dp"
             android:text="Total de Endereços na Tarefa"
             android:textColor="@color/accent_color"
-            android:textSize="24sp"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ModuloSelecionado_textInputLayout" />
@@ -91,9 +96,14 @@
                 android:id="@+id/totalEnderecos_editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number|numberDecimal"
+                android:inputType="number"
+                android:maxLines="1"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="18sp"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -105,7 +115,7 @@
             android:layout_marginEnd="16dp"
             android:text="Quantidade de Itens"
             android:textColor="@color/accent_color"
-            android:textSize="24sp"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
@@ -125,9 +135,14 @@
                 android:id="@+id/totalItens_editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number|numberDecimal"
+                android:inputType="number"
+                android:maxLines="1"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="18sp"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -140,7 +155,7 @@
             android:layout_marginEnd="16dp"
             android:text="Nome do Separador"
             android:textColor="@color/accent_color"
-            android:textSize="24sp"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
@@ -160,9 +175,14 @@
                 android:id="@+id/nomeSeparador_editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:inputType="textCapWords"
+                android:maxLines="1"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="18sp"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -172,7 +192,7 @@
             android:layout_marginTop="35dp"
             android:text="INICIAR"
             android:textColor="@color/accent_color"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

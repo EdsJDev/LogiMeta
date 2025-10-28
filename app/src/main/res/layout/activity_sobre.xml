@@ -73,7 +73,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
-            android:text="Nosso objetivo é transformar dados operacionais brutos em KPIs (Indicadores-Chave de Performance) claros e acionáveis. Com o LogiMeta, gestores podem identificar gargalos, medir a produtividade da equipe, reduzir custos operacionais e tomar decisões estratégicas baseadas em dados precisos e confiáveis"
+            android:text="Nosso objetivo é transformar dados operacionais brutos em KPIs (Indicadores-Chave de Performance) claros e acionáveis. Com o LogiMeta, gestores podem identificar gargalos, medir a produtividade da equipe, reduzir custos operacionais e tomar decisões estratégicas baseadas em dados precisos e confiáveis."
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -109,6 +109,7 @@
             app:layout_constraintStart_toEndOf="@+id/icon_developer"
             app:layout_constraintTop_toBottomOf="@+id/text_target" />
 
+        <!-- ================== MOTIVAÇÃO ================== -->
         <TextView
             android:id="@+id/text_developer_desc"
             android:layout_width="0dp"
@@ -120,10 +121,10 @@
             android:textSize="16sp"
             android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/text_developer_name"
             app:layout_constraintTop_toBottomOf="@+id/text_developer_name" />
 
-        <!-- ================== MOTIVAÇÃO ================== -->
         <TextView
             android:id="@+id/text_developer_passion"
             android:layout_width="0dp"

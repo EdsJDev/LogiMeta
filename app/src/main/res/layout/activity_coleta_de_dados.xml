@@ -155,7 +155,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:padding="4dp"
-            app:boxBackgroundColor="#c08a52"
+            app:boxBackgroundColor="@color/fundoMenu"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/quantidade_de_itens_coletados_textView">
@@ -189,7 +189,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:padding="4dp"
-            app:boxBackgroundColor="#c08a52"
+            app:boxBackgroundColor="@color/fundoMenu"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rua_referente_ao_endereco_textView">
@@ -250,7 +250,7 @@
             android:layout_marginTop="45dp"
             android:text="Coleta de Dados"
             android:textColor="@color/accent_color"
-            android:textSize="24sp"
+            android:textSize="34sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

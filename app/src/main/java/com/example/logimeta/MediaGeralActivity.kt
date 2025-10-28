@@ -24,8 +24,9 @@ class MediaGeralActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityMediaGeralBinding.inflate(layoutInflater)
     }
+
     private val bancoDeDados by lazy {
-        DatabaseHelper(this)
+        DatabaseHelper(applicationContext)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +37,6 @@ class MediaGeralActivity : AppCompatActivity() {
         val moduloSelecionado = intent.getStringExtra(EscolherModuloActivity.MODULO_SELECIONADO_EXTRA)
 
         if (moduloSelecionado != null) {
-            // Inicia o processo de cálculo em uma corrotina para não bloquear a UI Thread
             carregarEExibirMediasAsync(moduloSelecionado)
         } else {
             Toast.makeText(this, "Erro: Módulo não especificado.", Toast.LENGTH_LONG).show()
@@ -58,12 +58,9 @@ class MediaGeralActivity : AppCompatActivity() {
 
     private fun carregarEExibirMediasAsync(moduloParaFiltrar: String) {
         lifecycleScope.launch {
-            // Executa a tarefa pesada em uma thread de background (IO)
             val resultados: ResultadosCalculados? = withContext(Dispatchers.IO) {
                 calcularMedias(moduloParaFiltrar)
             }
-
-            // Após o cálculo, volta para a thread principal para atualizar a UI
             if (resultados != null) {
                 atualizarUI(resultados)
             } else {
@@ -72,106 +69,95 @@ class MediaGeralActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Esta função roda em uma thread de background.
-     * Ela foca apenas em acessar o banco, calcular os valores e retornar um objeto de dados.
-     */
     private fun calcularMedias(moduloParaFiltrar: String): ResultadosCalculados? {
+        // CORREÇÃO APLICADA AQUI: Trocado 'sc.id' por 'sc.id_sessao'
         val sql = """
             SELECT sc.modulo_selecionado, rc.tempo_coleta, rc.qtd_itens_coletados, rc.produto_embalado, rc.caixa_fechada
             FROM RegistroColeta rc
             JOIN SessaoColeta sc ON rc.id_sessao = sc.id_sessao
-            WHERE sc.modulo_selecionado = ?
+            WHERE sc.modulo_selecionado = ? COLLATE NOCASE
         """.trimIndent()
 
-        val cursor = bancoDeDados.readableDatabase.rawQuery(sql, arrayOf(moduloParaFiltrar))
+        bancoDeDados.readableDatabase.rawQuery(sql, arrayOf(moduloParaFiltrar)).use { cursor ->
 
-        // Se não houver resultados, fecha o cursor e retorna nulo imediatamente.
-        if (!cursor.moveToFirst()) {
-            Log.w(TAG, "Nenhum dado encontrado para o módulo '$moduloParaFiltrar'")
-            cursor.close()
-            return null
-        }
+            if (cursor == null || !cursor.moveToFirst()) {
+                Log.w(TAG, "Nenhum dado encontrado para o módulo '$moduloParaFiltrar'")
+                return null
+            }
 
-        var totalEnderecos = 0
-        var totalTempoSegundos: Long = 0
-        var totalItens = 0
-        var totalComEmbalagem = 0
-        var totalSemEmbalagem = 0
-        var tempoComEmbalagem: Long = 0
-        var tempoSemEmbalagem: Long = 0
-        var totalCaixaFechada = 0
-        var tempoCaixaFechada: Long = 0
-        val nomeModulo = cursor.getString(cursor.getColumnIndexOrThrow("modulo_selecionado"))
+            var totalEnderecos: Int
+            var totalTempoSegundos: Long = 0
+            var totalItens = 0
+            var totalComEmbalagem = 0
+            var totalSemEmbalagem = 0
+            var tempoComEmbalagem: Long = 0
+            var tempoSemEmbalagem: Long = 0
+            var totalCaixaFechada = 0
+            var tempoCaixaFechada: Long = 0
+            val nomeModulo = cursor.getString(cursor.getColumnIndexOrThrow("modulo_selecionado"))
 
-        totalEnderecos = cursor.count
+            totalEnderecos = cursor.count
 
-        do {
-            val itensDaLinha = cursor.getInt(cursor.getColumnIndexOrThrow("qtd_itens_coletados"))
-            totalItens += itensDaLinha
+            do {
+                val itensDaLinha = cursor.getInt(cursor.getColumnIndexOrThrow("qtd_itens_coletados"))
+                totalItens += itensDaLinha
 
-            val tempoColetaStr = cursor.getString(cursor.getColumnIndexOrThrow("tempo_coleta"))
-            var segundosDaLinha: Long = 0
-            if (!tempoColetaStr.isNullOrEmpty() && tempoColetaStr.contains(":")) {
-                try {
-                    val partes = tempoColetaStr.split(":")
-                    segundosDaLinha = (partes[0].toLong() * 60) + partes[1].toLong()
-                    totalTempoSegundos += segundosDaLinha
-                } catch (e: Exception) {
-                    Log.e(TAG, "Erro ao converter tempo: '$tempoColetaStr'", e)
+                val tempoColetaStr = cursor.getString(cursor.getColumnIndexOrThrow("tempo_coleta"))
+                var segundosDaLinha: Long = 0
+                if (!tempoColetaStr.isNullOrEmpty() && tempoColetaStr.contains(":")) {
+                    try {
+                        val partes = tempoColetaStr.split(":")
+                        segundosDaLinha = (partes[0].toLong() * 60) + partes[1].toLong()
+                        totalTempoSegundos += segundosDaLinha
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Erro ao converter tempo: '$tempoColetaStr'", e)
+                    }
                 }
+
+                val caixaFechada = cursor.getInt(cursor.getColumnIndexOrThrow("caixa_fechada")) == 1
+                if (caixaFechada) {
+                    totalCaixaFechada++
+                    tempoCaixaFechada += segundosDaLinha
+                    continue
+                }
+
+                val produtoEmbalado = cursor.getInt(cursor.getColumnIndexOrThrow("produto_embalado")) == 1
+                if (produtoEmbalado) {
+                    totalComEmbalagem++
+                    tempoComEmbalagem += segundosDaLinha
+                } else {
+                    totalSemEmbalagem++
+                    tempoSemEmbalagem += segundosDaLinha
+                }
+            } while (cursor.moveToNext())
+
+            // Cálculos
+            val mediaGeralSegundos = if (totalEnderecos > 0) totalTempoSegundos.toDouble() / totalEnderecos else 0.0
+            val mediaComEmbalagemSegundos = if (totalComEmbalagem > 0) tempoComEmbalagem / totalComEmbalagem else 0L
+            val mediaSemEmbalagemSegundos = if (totalSemEmbalagem > 0) tempoSemEmbalagem / totalSemEmbalagem else 0L
+            val mediaItensPorEndereco = if (totalEnderecos > 0) totalItens.toDouble() / totalEnderecos else 0.0
+            val mediaCaixaFechadaSegundos = if (totalCaixaFechada > 0) tempoCaixaFechada / totalCaixaFechada else 0L
+
+            var previsaoEm1h = 0
+            var previsaoEm7h20m = 0
+            if (mediaGeralSegundos > 0) {
+                previsaoEm1h = (3600 / mediaGeralSegundos).toInt()
+                previsaoEm7h20m = (26400 / mediaGeralSegundos).toInt()
             }
 
-            val caixaFechada = cursor.getInt(cursor.getColumnIndexOrThrow("caixa_fechada")) == 1
-            if (caixaFechada) {
-                totalCaixaFechada++
-                tempoCaixaFechada += segundosDaLinha
-                continue
-            }
-
-            val produtoEmbalado = cursor.getInt(cursor.getColumnIndexOrThrow("produto_embalado")) == 1
-            if (produtoEmbalado) {
-                totalComEmbalagem++
-                tempoComEmbalagem += segundosDaLinha
-            } else {
-                totalSemEmbalagem++
-                tempoSemEmbalagem += segundosDaLinha
-            }
-        } while (cursor.moveToNext())
-
-        cursor.close()
-
-        // Cálculos
-        val mediaGeralSegundos = if (totalEnderecos > 0) totalTempoSegundos.toDouble() / totalEnderecos else 0.0
-        val mediaComEmbalagemSegundos = if (totalComEmbalagem > 0) tempoComEmbalagem / totalComEmbalagem else 0L
-        val mediaSemEmbalagemSegundos = if (totalSemEmbalagem > 0) tempoSemEmbalagem / totalSemEmbalagem else 0L
-        val mediaItensPorEndereco = if (totalEnderecos > 0) totalItens.toDouble() / totalEnderecos else 0.0
-        val mediaCaixaFechadaSegundos = if (totalCaixaFechada > 0) tempoCaixaFechada / totalCaixaFechada else 0L
-
-        var previsaoEm1h = 0
-        var previsaoEm7h20m = 0
-        if (mediaGeralSegundos > 0) {
-            previsaoEm1h = (3600 / mediaGeralSegundos).toInt()
-            previsaoEm7h20m = (26400 / mediaGeralSegundos).toInt()
+            return ResultadosCalculados(
+                nomeModulo = nomeModulo,
+                mediaGeralSegundos = mediaGeralSegundos.toLong(),
+                mediaComEmbalagemSegundos = mediaComEmbalagemSegundos,
+                mediaSemEmbalagemSegundos = mediaSemEmbalagemSegundos,
+                mediaCaixaFechadaSegundos = mediaCaixaFechadaSegundos,
+                mediaItensPorEndereco = mediaItensPorEndereco,
+                previsaoEm1h = previsaoEm1h,
+                previsaoEm7h20m = previsaoEm7h20m
+            )
         }
-
-        // Retorna o objeto de dados preenchido
-        return ResultadosCalculados(
-            nomeModulo = nomeModulo,
-            mediaGeralSegundos = mediaGeralSegundos.toLong(),
-            mediaComEmbalagemSegundos = mediaComEmbalagemSegundos,
-            mediaSemEmbalagemSegundos = mediaSemEmbalagemSegundos,
-            mediaCaixaFechadaSegundos = mediaCaixaFechadaSegundos,
-            mediaItensPorEndereco = mediaItensPorEndereco,
-            previsaoEm1h = previsaoEm1h,
-            previsaoEm7h20m = previsaoEm7h20m
-        )
     }
 
-    /**
-     * Esta função roda na UI Thread e sua única responsabilidade
-     * é pegar os dados pré-calculados e atualizar as views.
-     */
     private fun atualizarUI(resultados: ResultadosCalculados) {
         binding.moduloGeralTextView.text = resultados.nomeModulo
         binding.tempoGeralTextView.text = formatarSegundos(resultados.mediaGeralSegundos)

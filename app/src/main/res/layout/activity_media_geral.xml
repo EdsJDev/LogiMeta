@@ -70,6 +70,7 @@
                     android:textColor="@color/accent_color"
                     android:textSize="20sp"
                     android:textStyle="bold"
+                    android:maxLines="1"
                     app:layout_constraintEnd_toStartOf="@+id/previsao7h20_textView"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView24" />
@@ -82,6 +83,7 @@
                     android:textColor="@color/accent_color"
                     android:textSize="20sp"
                     android:textStyle="bold"
+                    android:maxLines="1"
                     app:layout_constraintEnd_toStartOf="@+id/moduloGeral_textView"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -92,6 +94,11 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/text_color"
                     android:textSize="20sp"
+                    android:maxLines="1"
+                    app:autoSizeMaxTextSize="20sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform"
                     app:layout_constraintBaseline_toBaselineOf="@+id/label_modulo_geral"
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:text="WMS" />
@@ -106,6 +113,7 @@
                     android:textColor="@color/accent_color"
                     android:textSize="20sp"
                     android:textStyle="bold"
+                    android:maxLines="1"
                     app:layout_constraintEnd_toStartOf="@+id/tempo_geral_textView"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/label_modulo_geral" />
@@ -130,6 +138,7 @@
                     android:textColor="@color/accent_color"
                     android:textSize="20sp"
                     android:textStyle="bold"
+                    android:maxLines="1"
                     app:layout_constraintEnd_toStartOf="@+id/tempo_geral_c_embalagem_textView"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/label_tempo_medio_geral" />
@@ -154,6 +163,7 @@
                     android:textColor="@color/accent_color"
                     android:textSize="20sp"
                     android:textStyle="bold"
+                    android:maxLines="1"
                     app:layout_constraintEnd_toStartOf="@+id/tempo_geral_sem_embalagemtextView"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/label_tempo_com_embalagem" />
@@ -178,6 +188,7 @@
                     android:textColor="@color/accent_color"
                     android:textSize="20sp"
                     android:textStyle="bold"
+                    android:maxLines="1"
                     app:layout_constraintEnd_toStartOf="@+id/tempo_geral_caixa_fechada_textView"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/label_tempo_sem_embalagem" />
@@ -202,6 +213,7 @@
                     android:textColor="@color/accent_color"
                     android:textSize="20sp"
                     android:textStyle="bold"
+                    android:maxLines="1"
                     app:layout_constraintEnd_toStartOf="@+id/quantidade_geral_itens_por_endereco_textView"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView14" />
@@ -235,6 +247,7 @@
                     android:textColor="@color/accent_color"
                     android:textSize="20sp"
                     android:textStyle="bold"
+                    android:maxLines="1"
                     app:layout_constraintEnd_toStartOf="@+id/previsao1h_textView"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/divider" />
@@ -248,9 +261,6 @@
                     android:textSize="20sp"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView24"
                     app:layout_constraintEnd_toEndOf="parent" />
-
-
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>

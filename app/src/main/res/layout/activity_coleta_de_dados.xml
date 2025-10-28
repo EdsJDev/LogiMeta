@@ -16,17 +16,22 @@
         <!-- TÍTULO PRINCIPAL -->
         <TextView
             android:id="@+id/textView7"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="45dp"
+            android:gravity="center"
+            android:maxLines="1"
             android:text="Coleta de Dados"
             android:textColor="@color/accent_color"
             android:textSize="32sp"
             android:textStyle="bold"
-            android:gravity="center"
-            app:layout_constraintTop_toTopOf="parent"
+            app:autoSizeMaxTextSize="32sp"
+            app:autoSizeMinTextSize="20sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- CRONÔMETRO -->
         <TextView
@@ -38,45 +43,59 @@
             android:textColor="@color/accent_color"
             android:textSize="22sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/textView7"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
         <TextView
             android:id="@+id/contador_cronometro_textView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:maxLines="1"
             android:text="00:00"
             android:textColor="@color/accent_color"
             android:textSize="48sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/textView8"
+            app:autoSizeMaxTextSize="48sp"
+            app:autoSizeMinTextSize="24sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
         <!-- ENDEREÇO -->
         <TextView
             android:id="@+id/rua_referente_ao_endereco_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
+            android:maxLines="1"
             android:text="Rua Referente ao Endereço"
             android:textColor="@color/accent_color"
             android:textSize="22sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/contador_cronometro_textView"
+            app:autoSizeMaxTextSize="22sp"
+            app:autoSizeMinTextSize="16sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/contador_cronometro_textView" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/rua_referente_ao_endereco_textInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             app:boxBackgroundColor="@color/fundoMenu"
-            app:layout_constraintTop_toBottomOf="@+id/rua_referente_ao_endereco_textView"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/rua_referente_ao_endereco_textView">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/rua_referente_ao_endereco_TextInputEditText"
@@ -91,23 +110,31 @@
             android:id="@+id/quantidade_de_itens_coletados_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
+            android:maxLines="1"
             android:text="Quantidade de Itens Coletados"
             android:textColor="@color/accent_color"
             android:textSize="22sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/rua_referente_ao_endereco_textInputLayout"
+            app:autoSizeMaxTextSize="22sp"
+            app:autoSizeMinTextSize="16sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/rua_referente_ao_endereco_textInputLayout" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/quantidade_de_itens_coletados_textInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             app:boxBackgroundColor="@color/fundoMenu"
-            app:layout_constraintTop_toBottomOf="@+id/quantidade_de_itens_coletados_textView"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/quantidade_de_itens_coletados_textView">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/quantidade_de_itens_coletados_TextInputEditText"
@@ -122,170 +149,184 @@
             android:id="@+id/produto_foi_embalado_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
+            android:maxLines="1"
             android:text="Com Saco-Fruta?"
             android:textColor="@color/accent_color"
             android:textSize="22sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/quantidade_de_itens_coletados_textInputLayout"
+            app:autoSizeMaxTextSize="22sp"
+            app:autoSizeMinTextSize="16sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/quantidade_de_itens_coletados_textInputLayout" />
 
-        <LinearLayout
-            android:id="@+id/embalado_group"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/embalado_sim_button"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@+id/produto_foi_embalado_textView"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Sim"
+            android:textColor="@color/accent_color"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/embalado_nao_button"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/produto_foi_embalado_textView" />
 
-            <Button
-                android:id="@+id/embalado_sim_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sim"
-                android:textSize="18sp"
-                android:textColor="@color/accent_color"
-                android:layout_marginEnd="16dp" />
-
-            <Button
-                android:id="@+id/embalado_nao_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Não"
-                android:textSize="18sp"
-                android:textColor="@color/accent_color" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/embalado_nao_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Não"
+            android:textColor="@color/accent_color"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/embalado_sim_button"
+            app:layout_constraintTop_toTopOf="@+id/embalado_sim_button" />
 
         <!-- CORTE NO ENDEREÇO -->
         <TextView
             android:id="@+id/corte_no_endereco_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
+            android:maxLines="1"
             android:text="Corte no Endereço?"
             android:textColor="@color/accent_color"
             android:textSize="22sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/embalado_group"
+            app:autoSizeMaxTextSize="22sp"
+            app:autoSizeMinTextSize="16sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/embalado_sim_button" />
 
-        <LinearLayout
-            android:id="@+id/corte_group"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/corte_no_endereco_sim_button"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@+id/corte_no_endereco_textView"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Sim"
+            android:textColor="@color/accent_color"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/corte_no_endereco_nao_button"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/corte_no_endereco_textView" />
 
-            <Button
-                android:id="@+id/corte_no_endereco_sim_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sim"
-                android:textSize="18sp"
-                android:textColor="@color/accent_color"
-                android:layout_marginEnd="16dp" />
-
-            <Button
-                android:id="@+id/corte_no_endereco_nao_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Não"
-                android:textSize="18sp"
-                android:textColor="@color/accent_color" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/corte_no_endereco_nao_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Não"
+            android:textColor="@color/accent_color"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/corte_no_endereco_sim_button"
+            app:layout_constraintTop_toTopOf="@+id/corte_no_endereco_sim_button" />
 
         <!-- CAIXA FECHADA -->
         <TextView
             android:id="@+id/caixa_fechada_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
+            android:maxLines="1"
             android:text="Caixa Fechada?"
             android:textColor="@color/accent_color"
             android:textSize="22sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/corte_group"
+            app:autoSizeMaxTextSize="22sp"
+            app:autoSizeMinTextSize="16sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/corte_no_endereco_sim_button" />
 
-        <LinearLayout
-            android:id="@+id/caixa_group"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/caixa_fechada_sim_button"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@+id/caixa_fechada_textView"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Sim"
+            android:textColor="@color/accent_color"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/caixa_fechada_nao_button"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/caixa_fechada_textView" />
 
-            <Button
-                android:id="@+id/caixa_fechada_sim_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sim"
-                android:textSize="18sp"
-                android:textColor="@color/accent_color"
-                android:layout_marginEnd="16dp" />
-
-            <Button
-                android:id="@+id/caixa_fechada_nao_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Não"
-                android:textSize="18sp"
-                android:textColor="@color/accent_color" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/caixa_fechada_nao_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Não"
+            android:textColor="@color/accent_color"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/caixa_fechada_sim_button"
+            app:layout_constraintTop_toTopOf="@+id/caixa_fechada_sim_button" />
 
         <!-- BOTÕES FINAIS -->
-        <LinearLayout
-            android:id="@+id/action_group"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/proximo_ir_saveScreen_button"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="24dp"
-            app:layout_constraintTop_toBottomOf="@+id/caixa_group"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:text="Próximo"
+            android:textColor="@color/accent_color"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/finalizar_ir_para_SaveScreen_button"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/caixa_fechada_sim_button" />
 
-            <Button
-                android:id="@+id/proximo_ir_saveScreen_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Próximo"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/accent_color"
-                android:layout_marginEnd="16dp" />
-
-            <Button
-                android:id="@+id/finalizar_ir_para_SaveScreen_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Finalizar"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/accent_color" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/finalizar_ir_para_SaveScreen_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Finalizar"
+            android:textColor="@color/accent_color"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/proximo_ir_saveScreen_button"
+            app:layout_constraintTop_toTopOf="@+id/proximo_ir_saveScreen_button" />
 
         <!-- ÍCONE DE VOLTAR -->
         <ImageView
             android:id="@+id/voltar2_imageView"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginTop="24dp"
             android:contentDescription="Voltar"
-            app:srcCompat="@drawable/turnback"
-            app:layout_constraintTop_toBottomOf="@+id/action_group"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/proximo_ir_saveScreen_button"
+            app:srcCompat="@drawable/turnback" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -90,18 +90,22 @@
 
                 <TextView
                     android:id="@+id/moduloGeral_textView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:gravity="end"
+                    android:maxLines="1"
                     android:textColor="@color/text_color"
                     android:textSize="20sp"
-                    android:maxLines="1"
                     app:autoSizeMaxTextSize="20sp"
                     app:autoSizeMinTextSize="12sp"
                     app:autoSizeStepGranularity="2sp"
                     app:autoSizeTextType="uniform"
                     app:layout_constraintBaseline_toBaselineOf="@+id/label_modulo_geral"
                     app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="WMS" />
+                    app:layout_constraintStart_toEndOf="@+id/label_modulo_geral"
+                    tools:text="Um Nome de Módulo Muito Comprido" />
+
 
                 <!-- Tempo Médio por endereço -->
                 <TextView

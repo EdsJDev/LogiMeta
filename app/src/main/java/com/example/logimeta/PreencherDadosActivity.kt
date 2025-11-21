@@ -68,6 +68,8 @@ class PreencherDadosActivity : AppCompatActivity() {
         }
 
         binding.voltarImageView.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
             finish()
         }
     }

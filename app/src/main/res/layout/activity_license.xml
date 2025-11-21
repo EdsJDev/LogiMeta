@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:windowBackground="@color/background_color"
+    tools:context=".LicenseActivity">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="150dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/certificate"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="TERMOS DE USO"
+        android:textColor="@color/accent_color"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+    <!-- BOTÃO MOVIDO PARA CÁ E FIXADO NA PARTE INFERIOR -->
+    <Button
+        android:id="@+id/button_entendi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/button_glass"
+        android:paddingStart="48dp"
+        android:paddingEnd="48dp"
+        android:text="Entendi"
+        android:textColor="@color/accent_color"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- SCROLLVIEW AGORA OCUPA O ESPAÇO ENTRE O TÍTULO E O BOTÃO -->
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_entendi"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView23">
+
+        <!-- O LinearLayout foi removido pois o ScrollView só tem um filho (o TextView) -->
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="5dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingBottom="16dp"
+            android:text="Última atualização: 01 de novembro de 2025\n\nObrigado por usar o LogiMeta! Ao usar este aplicativo, você concorda com os termos:\n\n1. Uso Livre e Gratuito\nVocê pode usar o LogiMeta livremente para suas atividades de coleta e separação. Atualmente, o aplicativo é 100% gratuito.\n\n2. Propriedade do Código\nO aplicativo LogiMeta, incluindo todo o seu código-fonte, design e funcionalidades, é propriedade intelectual exclusiva de Edson Ramos Bezerra. Todos os direitos são reservados.\n\n3. O Que Você NÃO Pode Fazer\nPara proteger o futuro do projeto, as seguintes ações não são permitidas:\n• Proibido Alterar: Apenas o autor (Edson Ramos Bezerra) pode alterar, corrigir ou adicionar funcionalidades ao código. Engenharia reversa ou qualquer tentativa de modificar o aplicativo é estritamente proibida.\n• Proibido Vender ou Lucrar: Você não pode vender, alugar, ou de qualquer forma gerar lucro com o aplicativo LogiMeta sem a permissão explícita e participação do autor.\n\n4. Futuro do App\nReservamo-nos o direito de, no futuro, fazer parcerias e introduzir funcionalidades pagas ou um modelo de assinatura para garantir o desenvolvimento e suporte contínuo do LogiMeta.\n\n5. Garantia\nO aplicativo é fornecido 'como está'. Fazemos o nosso melhor para que ele seja útil e livre de erros, mas não podemos oferecer garantias.\n\n6. Coleta e Armazenamento de Dados \nO LogiMeta coleta as informações que você insere, como dados de coletas e separações. Todos esses dados são armazenados exclusivamente no armazenamento interno do seu próprio dispositivo. Nenhuma informação é enviada para servidores online, nuvem ou compartilhada com o autor ou terceiros. O controle e a posse dos dados permanecem inteiramente com você.\n\nObrigado por respeitar esse trabalho!\n\nCopyright © 2025 Edson Ramos Bezerra.\nTodos os direitos reservados."
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

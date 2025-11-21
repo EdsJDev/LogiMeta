@@ -2,6 +2,7 @@ package com.example.logimeta
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -15,6 +16,10 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
+    lateinit var logo: ImageView
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -23,22 +28,35 @@ class MainActivity : AppCompatActivity() {
         binding.historicoButton.setOnClickListener {
             val intent = Intent(this, HistoricoDeTestesActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         binding.mediaGeralButton.setOnClickListener {
             val intent = Intent(this, EscolherModuloActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         binding.btnNovoTeste.setOnClickListener {
             val intent = Intent(this, PreencherDadosActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         binding.btnSobre.setOnClickListener {
             val intent = Intent(this, SobreActivity::class.java)
             startActivity(intent)
+            finish()
         }
+
+        binding.termosDeLicencaTextView.setOnClickListener {
+            val intent = Intent(this, LicenseActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        binding.imageView3.alpha = 0f
+        binding.imageView3.animate().setDuration(1700).alpha(1f).start()
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->

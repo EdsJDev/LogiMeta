@@ -11,7 +11,7 @@
         android:id="@+id/constraint_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_color"
+        android:windowBackground="@color/background_color"
         android:padding="16dp">
 
         <!-- ================== CABEÇALHO ================== -->
@@ -96,7 +96,7 @@
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/text_developer_desc"
+            app:layout_constraintBottom_toBottomOf="@+id/text_developer_passion"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/text_developer_name"
             app:srcCompat="@drawable/user"
@@ -182,7 +182,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
             android:autoLink="email"
-            android:text="Sua opinião é fundamental para a evolução do LogiMeta. Se você encontrou um bug, tem uma sugestão para uma nova funcionalidade ou deseja discutir uma parceria, por favor entre em contato. E-mail: edson-ramos54@hotmail.com"
+            android:text="Sua opinião é fundamental para a evolução do LogiMeta. Se você encontrou um erro, tem uma sugestão para uma nova funcionalidade ou deseja discutir uma parceria, por favor entre em contato. E-mail: edson-ramos54@hotmail.com"
             android:textColor="@color/white"
             android:textColorLink="@color/accent_color"
             android:textSize="16sp"
@@ -209,7 +209,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
-            android:text="Versão 1.0.0\nDistribuído sob a Licença MIT.\nCopyright (c) 2025 Edson Ramos Bezerra"
+            android:text="Versão 1.0.0\nCopyright © 2025 Edson Ramos Bezerra.\nTodos os direitos reservados."
             android:textColor="@color/white"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -228,6 +228,7 @@
             android:textColor="@color/accent_color"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:background="@drawable/button_glass"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

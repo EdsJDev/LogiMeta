@@ -6,7 +6,7 @@
         <!-- COR DOS BOTÕES E OUTROS BACKGROUNDS -->
         <item name="colorPrimary">@color/button_background_color</item>
         <!-- COR DO BACKGROUND DO APP -->
-        <item name="android:windowBackground">@color/background_color</item>
+        <item name="android:windowBackground">@drawable/bg_dark_gradient</item>
         <!-- COR DO TEXTO -->
         <item name="android:textColor">@color/accent_color</item>
         <!-- COR DO TEXTO DE TÍTULOS E BOTÕES -->

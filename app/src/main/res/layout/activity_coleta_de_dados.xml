@@ -19,10 +19,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="45dp"
+            android:fontFamily="sans-serif"
             android:gravity="center"
             android:maxLines="1"
             android:text="Coleta de Dados"
-            android:textColor="@color/accent_color"
+            android:textColor="@color/white"
             android:textSize="32sp"
             android:textStyle="bold"
             app:autoSizeMaxTextSize="32sp"
@@ -101,7 +102,7 @@
                 android:id="@+id/rua_referente_ao_endereco_TextInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:inputType="text"
+                android:inputType="number"
                 android:padding="4dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -173,6 +174,7 @@
             android:text="Sim"
             android:textColor="@color/accent_color"
             android:textSize="18sp"
+            android:background="@drawable/button_glass"
             app:layout_constraintEnd_toStartOf="@+id/embalado_nao_button"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
@@ -297,6 +299,7 @@
             android:textColor="@color/accent_color"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:background="@drawable/button_glass"
             app:layout_constraintEnd_toStartOf="@+id/finalizar_ir_para_SaveScreen_button"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
@@ -312,6 +315,7 @@
             android:textColor="@color/accent_color"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:background="@drawable/button_glass"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/proximo_ir_saveScreen_button"
             app:layout_constraintTop_toTopOf="@+id/proximo_ir_saveScreen_button" />

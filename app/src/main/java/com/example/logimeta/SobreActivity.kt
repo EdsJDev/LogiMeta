@@ -1,5 +1,6 @@
 package com.example.logimeta
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,8 @@ class SobreActivity : AppCompatActivity() {
 
         // O 'finish()' fecha a tela atual (SobreActivity) e volta para a anterior (MainActivity).
         binding.voltarSobreButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
             finish()
         }
     }

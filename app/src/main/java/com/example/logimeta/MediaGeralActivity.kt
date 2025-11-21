@@ -15,7 +15,7 @@ import com.example.logimeta.model.ResultadosCalculados
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.concurrent.TimeUnit
+import kotlin.math.roundToLong
 
 class MediaGeralActivity : AppCompatActivity() {
 
@@ -64,13 +64,12 @@ class MediaGeralActivity : AppCompatActivity() {
             if (resultados != null) {
                 atualizarUI(resultados)
             } else {
-                Toast.makeText(this@MediaGeralActivity, "Nenhum dado encontrado para o módulo.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MediaGeralActivity, "Nenhum dado encontrado para este módulo.", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun calcularMedias(moduloParaFiltrar: String): ResultadosCalculados? {
-        // CORREÇÃO APLICADA AQUI: Trocado 'sc.id' por 'sc.id_sessao'
         val sql = """
             SELECT sc.modulo_selecionado, rc.tempo_coleta, rc.qtd_itens_coletados, rc.produto_embalado, rc.caixa_fechada
             FROM RegistroColeta rc
@@ -85,72 +84,89 @@ class MediaGeralActivity : AppCompatActivity() {
                 return null
             }
 
-            var totalEnderecos: Int
-            var totalTempoSegundos: Long = 0
-            var totalItens = 0
+            var totalEnderecosPicking = 0
+            var totalTempoPicking: Long = 0
+            var totalItensPicking = 0
             var totalComEmbalagem = 0
-            var totalSemEmbalagem = 0
             var tempoComEmbalagem: Long = 0
+            var totalSemEmbalagem = 0
             var tempoSemEmbalagem: Long = 0
+
             var totalCaixaFechada = 0
             var tempoCaixaFechada: Long = 0
+
             val nomeModulo = cursor.getString(cursor.getColumnIndexOrThrow("modulo_selecionado"))
 
-            totalEnderecos = cursor.count
-
             do {
-                val itensDaLinha = cursor.getInt(cursor.getColumnIndexOrThrow("qtd_itens_coletados"))
-                totalItens += itensDaLinha
-
-                val tempoColetaStr = cursor.getString(cursor.getColumnIndexOrThrow("tempo_coleta"))
                 var segundosDaLinha: Long = 0
-                if (!tempoColetaStr.isNullOrEmpty() && tempoColetaStr.contains(":")) {
+                val tempoColetaStr = cursor.getString(cursor.getColumnIndexOrThrow("tempo_coleta"))
+
+                if (!tempoColetaStr.isNullOrEmpty()) {
                     try {
                         val partes = tempoColetaStr.split(":")
-                        segundosDaLinha = (partes[0].toLong() * 60) + partes[1].toLong()
-                        totalTempoSegundos += segundosDaLinha
+                        segundosDaLinha = when (partes.size) {
+                            3 -> partes[0].toLong() * 3600 + partes[1].toLong() * 60 + partes[2].toLong()
+                            2 -> partes[0].toLong() * 60 + partes[1].toLong()
+                            else -> 0
+                        }
                     } catch (e: Exception) {
                         Log.e(TAG, "Erro ao converter tempo: '$tempoColetaStr'", e)
+                        continue
                     }
-                }
+                } else continue
 
                 val caixaFechada = cursor.getInt(cursor.getColumnIndexOrThrow("caixa_fechada")) == 1
+
                 if (caixaFechada) {
                     totalCaixaFechada++
                     tempoCaixaFechada += segundosDaLinha
-                    continue
-                }
-
-                val produtoEmbalado = cursor.getInt(cursor.getColumnIndexOrThrow("produto_embalado")) == 1
-                if (produtoEmbalado) {
-                    totalComEmbalagem++
-                    tempoComEmbalagem += segundosDaLinha
                 } else {
-                    totalSemEmbalagem++
-                    tempoSemEmbalagem += segundosDaLinha
+                    totalEnderecosPicking++
+                    totalTempoPicking += segundosDaLinha
+                    totalItensPicking += cursor.getInt(cursor.getColumnIndexOrThrow("qtd_itens_coletados"))
+
+                    val produtoEmbalado = cursor.getInt(cursor.getColumnIndexOrThrow("produto_embalado")) == 1
+                    if (produtoEmbalado) {
+                        totalComEmbalagem++
+                        tempoComEmbalagem += segundosDaLinha
+                    } else {
+                        totalSemEmbalagem++
+                        tempoSemEmbalagem += segundosDaLinha
+                    }
                 }
             } while (cursor.moveToNext())
 
-            // Cálculos
-            val mediaGeralSegundos = if (totalEnderecos > 0) totalTempoSegundos.toDouble() / totalEnderecos else 0.0
-            val mediaComEmbalagemSegundos = if (totalComEmbalagem > 0) tempoComEmbalagem / totalComEmbalagem else 0L
-            val mediaSemEmbalagemSegundos = if (totalSemEmbalagem > 0) tempoSemEmbalagem / totalSemEmbalagem else 0L
-            val mediaItensPorEndereco = if (totalEnderecos > 0) totalItens.toDouble() / totalEnderecos else 0.0
-            val mediaCaixaFechadaSegundos = if (totalCaixaFechada > 0) tempoCaixaFechada / totalCaixaFechada else 0L
+            if (totalEnderecosPicking == 0 && totalCaixaFechada == 0) return null
 
-            var previsaoEm1h = 0
-            var previsaoEm7h20m = 0
-            if (mediaGeralSegundos > 0) {
-                previsaoEm1h = (3600 / mediaGeralSegundos).toInt()
-                previsaoEm7h20m = (26400 / mediaGeralSegundos).toInt()
-            }
+            // --- CÁLCULOS CORRIGIDOS ---
+            val totalEnderecosGerais = totalEnderecosPicking + totalCaixaFechada
+            val tempoTotalGeral = totalTempoPicking + tempoCaixaFechada
+
+            val mediaGeralSegundos = if (totalEnderecosGerais > 0)
+                tempoTotalGeral.toDouble() / totalEnderecosGerais else 0.0
+
+            val mediaComEmbalagemSegundos = if (totalComEmbalagem > 0)
+                tempoComEmbalagem.toDouble() / totalComEmbalagem else 0.0
+
+            val mediaSemEmbalagemSegundos = if (totalSemEmbalagem > 0)
+                tempoSemEmbalagem.toDouble() / totalSemEmbalagem else 0.0
+
+            val mediaCaixaFechadaSegundos = if (totalCaixaFechada > 0)
+                tempoCaixaFechada.toDouble() / totalCaixaFechada else 0.0
+
+            val mediaItensPorEndereco = if (totalEnderecosGerais > 0)
+                totalItensPicking.toDouble() / totalEnderecosGerais else 0.0
+
+            // 🔧 Previsões corrigidas (usam a média geral)
+            val previsaoEm1h = if (mediaGeralSegundos > 0) (3600 / mediaGeralSegundos).roundToLong().toInt() else 0
+            val previsaoEm7h20m = if (mediaGeralSegundos > 0) (26400 / mediaGeralSegundos).roundToLong().toInt() else 0
 
             return ResultadosCalculados(
                 nomeModulo = nomeModulo,
                 mediaGeralSegundos = mediaGeralSegundos.toLong(),
-                mediaComEmbalagemSegundos = mediaComEmbalagemSegundos,
-                mediaSemEmbalagemSegundos = mediaSemEmbalagemSegundos,
-                mediaCaixaFechadaSegundos = mediaCaixaFechadaSegundos,
+                mediaComEmbalagemSegundos = mediaComEmbalagemSegundos.toLong(),
+                mediaSemEmbalagemSegundos = mediaSemEmbalagemSegundos.toLong(),
+                mediaCaixaFechadaSegundos = mediaCaixaFechadaSegundos.toLong(),
                 mediaItensPorEndereco = mediaItensPorEndereco,
                 previsaoEm1h = previsaoEm1h,
                 previsaoEm7h20m = previsaoEm7h20m
@@ -167,14 +183,12 @@ class MediaGeralActivity : AppCompatActivity() {
         binding.quantidadeGeralItensPorEnderecoTextView.text = String.format("%.1f", resultados.mediaItensPorEndereco)
         binding.previsao1hTextView.text = resultados.previsaoEm1h.toString()
         binding.previsao7h20TextView.text = resultados.previsaoEm7h20m.toString()
-
-        Log.d(TAG, "UI atualizada para o módulo: ${resultados.nomeModulo}")
     }
 
     private fun formatarSegundos(segundosTotais: Long): String {
         if (segundosTotais <= 0) return "00:00:00"
-        val horas = TimeUnit.SECONDS.toHours(segundosTotais)
-        val minutos = TimeUnit.SECONDS.toMinutes(segundosTotais) % 60
+        val horas = segundosTotais / 3600
+        val minutos = (segundosTotais % 3600) / 60
         val segundos = segundosTotais % 60
         return String.format("%02d:%02d:%02d", horas, minutos, segundos)
     }

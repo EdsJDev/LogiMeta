@@ -77,6 +77,7 @@ class EscolherModuloActivity : AppCompatActivity() {
 
                 // Inicia a próxima atividade.
                 startActivity(intent)
+                finish()
             } else {
                 // Fornece um feedback ao usuário caso ele tente avançar sem fazer uma seleção.
                 Toast.makeText(this, "Por favor, selecione um módulo.", Toast.LENGTH_SHORT).show()
@@ -87,6 +88,7 @@ class EscolherModuloActivity : AppCompatActivity() {
         binding.voltarEscolherModuloButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         // Ajusta o padding da tela para acomodar as barras do sistema (Edge-to-Edge).

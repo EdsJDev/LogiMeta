@@ -138,7 +138,7 @@ class MediaGeralActivity : AppCompatActivity() {
 
             if (totalEnderecosPicking == 0 && totalCaixaFechada == 0) return null
 
-            // --- CÁLCULOS CORRIGIDOS ---
+            // --- CÁLCULOS GERAIS ---
             val totalEnderecosGerais = totalEnderecosPicking + totalCaixaFechada
             val tempoTotalGeral = totalTempoPicking + tempoCaixaFechada
 
@@ -157,9 +157,9 @@ class MediaGeralActivity : AppCompatActivity() {
             val mediaItensPorEndereco = if (totalEnderecosGerais > 0)
                 totalItensPicking.toDouble() / totalEnderecosGerais else 0.0
 
-            // 🔧 Previsões corrigidas (usam a média geral)
+            //  Previsões com base na média geral real
             val previsaoEm1h = if (mediaGeralSegundos > 0) (3600 / mediaGeralSegundos).roundToLong().toInt() else 0
-            val previsaoEm7h20m = if (mediaGeralSegundos > 0) (26400 / mediaGeralSegundos).roundToLong().toInt() else 0
+            val previsaoEm7h20m = if (mediaGeralSegundos > 0) (25200 / mediaGeralSegundos).roundToLong().toInt() else 0
 
             return ResultadosCalculados(
                 nomeModulo = nomeModulo,

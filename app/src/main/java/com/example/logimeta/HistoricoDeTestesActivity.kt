@@ -217,7 +217,7 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
             val totalEnderecosDePicking = totalEnderecosComSaco + totalEnderecosSemSaco
             val tempoTotalDePicking = tempoTotalComSaco + tempoTotalSemSaco
 
-            // 🔧 CORRIGIDO: agora a média geral soma todos os tipos de endereço
+            // agora a média geral soma todos os tipos de endereço
             val totalEnderecosGerais = totalEnderecosDePicking + totalTarefasCaixaFechada
             val tempoTotalGeral = tempoTotalDePicking + tempoTotalCaixaFechada
 
@@ -225,9 +225,9 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
                 tempoTotalGeral.toDouble() / totalEnderecosGerais
             else 0.0
 
-            // 🔧 CORRIGIDO: previsões com base na média geral real
+            //  previsões com base na média geral real
             val previsaoEm1h = if (mediaGeral > 0) (3600 / mediaGeral).roundToLong() else 0
-            val previsaoEm7h20m = if (mediaGeral > 0) (26400 / mediaGeral).roundToLong() else 0
+            val previsaoEm7h20m = if (mediaGeral > 0) (25200 / mediaGeral).roundToLong() else 0
 
             val mediaComSaco = if (totalEnderecosComSaco > 0)
                 tempoTotalComSaco.toDouble() / totalEnderecosComSaco else 0.0
@@ -236,7 +236,7 @@ class HistoricoDeTestesActivity : AppCompatActivity() {
             val mediaCaixaFechada = if (totalTarefasCaixaFechada > 0)
                 tempoTotalCaixaFechada.toDouble() / totalTarefasCaixaFechada else 0.0
 
-            // 🔧 CORRIGIDO: arredondamento da média para segundos mais próximos
+            //  arredondamento da média para segundos mais próximos
             binding.tempoTotalTextView.text = formatarSegundos(tempoTotalSessao)
             binding.itensTextView.text = totalItensColetados.toString()
             binding.enderecosTextView.text = totalEnderecosGerais.toString()

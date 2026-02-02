@@ -1,0 +1,3 @@
+    properties
+    sdk.dir=C:\\Users\\Edson\\AppData\\Local\\Android\\Sdk
+    

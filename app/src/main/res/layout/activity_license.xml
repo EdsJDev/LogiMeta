@@ -31,7 +31,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
-    <!-- BOTÃO MOVIDO PARA CÁ E FIXADO NA PARTE INFERIOR -->
+    <!-- BOTÃO FIXADO NA PARTE INFERIOR -->
     <Button
         android:id="@+id/button_entendi"
         android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- SCROLLVIEW AGORA OCUPA O ESPAÇO ENTRE O TÍTULO E O BOTÃO -->
+    <!-- SCROLLVIEW OCUPA O ESPAÇO ENTRE O TÍTULO E O BOTÃO -->
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="0dp"
@@ -59,7 +59,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView23">
 
-        <!-- O LinearLayout foi removido pois o ScrollView só tem um filho (o TextView) -->
+
         <TextView
             android:id="@+id/textView27"
             android:layout_width="match_parent"

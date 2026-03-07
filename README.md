@@ -1,4 +1,32 @@
-# LogiMeta
+# LogiMeta - English
+LogiMeta is an Android application, developed in Kotlin, with the goal of optimizing goal management and productivity in logistics companies. The project was created to offer a fair and data-driven solution to a common challenge in the sector: the ineffectiveness of fixed-goal systems.
+
+Important: This application is a personal project, developed by me (Edson Ramos Bezerra) with the intention of presenting a solution in a simple way. It has no financial purpose and is not an official application of any company.
+
+The Problem
+
+Many traditional goal systems, such as collecting a fixed number of addresses per shift, do not take into account the variables that influence productivity. Factors such as travel time, corridor obstruction, technical problems, or even the difficulty of each type of task, can hinder or facilitate the achievement of the goal.
+
+This can lead to demotivation when difficult tasks make the goal unattainable, or to underutilization of time when easy tasks allow the goal to be achieved quickly, resulting in lower productivity throughout the day.
+
+The Solution
+
+LogiMeta proposes a dynamic and fair goal-setting model, using a mathematical scoring system to recalculate the value of each task based on its actual difficulty. The application allows for the collection of productivity data by sector (storage room, mezzanine, plants, pots, etc.) so that goals reflect the effort required.
+
+Benefits and Features
+
+Proportional Goals: Ensures that productivity is measured fairly, preventing easy or difficult tasks from affecting the employee's final result.
+
+Increased Productivity: Reduces demotivation and encourages consistent performance, as everyone will have fair and balanced goals.
+
+Performance Analysis: Allows managers to identify the real productivity of employees, as results will not be distorted by assigned tasks.
+
+Scalability: The goal adjustment methodology can be applied to other areas of the company to promote greater fairness and balance.
+
+
+-------------------------------------------------------------------------------------
+
+# LogiMeta - Português
 LogiMeta é um aplicativo para Android, desenvolvido em Kotlin, com o objetivo de otimizar a gestão de metas e a produtividade em empresas de logística. O projeto foi criado para oferecer uma solução justa e baseada em dados para um desafio comum no setor: a ineficácia dos sistemas de metas fixas.
 
 Importante: Este aplicativo é um projeto pessoal, desenvolvido por mim (Edson Ramos) com o intuito de apresentar uma solução de forma simples. Não possui fins financeiros e não é um aplicativo oficial de nenhuma empresa.

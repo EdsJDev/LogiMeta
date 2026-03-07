@@ -63,6 +63,8 @@ Escalabilidade: A metodologia de ajuste de metas pode ser aplicada em outros set
 
 <img width="414" height="931" alt="image" src="https://github.com/user-attachments/assets/6bce37f4-f30f-410e-8004-85a9d6af31a2" />
 
+<img width="412" height="930" alt="image" src="https://github.com/user-attachments/assets/5c4f6338-c3d1-4572-8eef-76a7684ca800" />
+
 <img width="416" height="936" alt="image" src="https://github.com/user-attachments/assets/06cfeea6-70d1-4cd0-9218-9772e26fa6cf" />
 
 <img width="420" height="929" alt="image" src="https://github.com/user-attachments/assets/b62a192b-7bc1-46a0-bd83-7b2694c98059" />

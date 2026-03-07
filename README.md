@@ -53,3 +53,27 @@ Aumento da Produtividade: Reduz a desmotivação e incentiva o desempenho consta
 Análise de Desempenho: Permite que gestores identifiquem a produtividade real dos colaboradores, já que os resultados não serão distorcidos pelas tarefas recebidas.
 
 Escalabilidade: A metodologia de ajuste de metas pode ser aplicada em outros setores da empresa, para promover maior justiça e equilíbrio.
+
+
+<img width="420" height="929" alt="image" src="https://github.com/user-attachments/assets/de62cc8d-08f7-4964-b5d3-05170923cb96" />
+
+<img width="416" height="929" alt="image" src="https://github.com/user-attachments/assets/04c96396-d8f6-42d1-b8f4-1cca4576ece4" />
+
+<img width="416" height="929" alt="image" src="https://github.com/user-attachments/assets/71dea10c-6d90-44c9-8819-67f6ea986059" />
+
+<img width="414" height="931" alt="image" src="https://github.com/user-attachments/assets/6bce37f4-f30f-410e-8004-85a9d6af31a2" />
+
+<img width="416" height="936" alt="image" src="https://github.com/user-attachments/assets/06cfeea6-70d1-4cd0-9218-9772e26fa6cf" />
+
+<img width="420" height="929" alt="image" src="https://github.com/user-attachments/assets/b62a192b-7bc1-46a0-bd83-7b2694c98059" />
+
+<img width="416" height="935" alt="image" src="https://github.com/user-attachments/assets/c5bb3d69-c502-4918-bf68-3c9bd3df959f" />
+
+<img width="418" height="929" alt="image" src="https://github.com/user-attachments/assets/9d8a7ddf-df87-4b20-9111-7e9fa6d507e9" />
+
+
+
+
+
+
+

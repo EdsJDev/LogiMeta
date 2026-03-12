@@ -54,52 +54,52 @@ Análise de Desempenho: Permite que gestores identifiquem a produtividade real d
 
 Escalabilidade: A metodologia de ajuste de metas pode ser aplicada em outros setores da empresa, para promover maior justiça e equilíbrio.
 
-Abaixo algumas imagens das funcionalidades e telas do aplicativo:
+Abaixo algumas imagens das funcionalidades e telas do aplicativo: </br> </br>
 
 
 **Tela Inicial** </br>
-Onde podemos escolher entre novo teste, histórico, média geral ou saber mais sobre o aplicativo.
-<img width="430" height="939" alt="image" src="https://github.com/user-attachments/assets/de62cc8d-08f7-4964-b5d3-05170923cb96" />  </br>
+Onde podemos escolher entre novo teste, histórico, média geral ou saber mais sobre o aplicativo. </br>
+<img width="430" height="939" alt="image" src="https://github.com/user-attachments/assets/de62cc8d-08f7-4964-b5d3-05170923cb96" />  </br> </br>
 
 
 **Preencher Dados** </br>
-Ao clicar em "Novo Teste", alguns dados serão requeridos. A tela de preenchimento faz a coleta das informações necessárias.
-<img width="430" height="939" alt="image" src="https://github.com/user-attachments/assets/04c96396-d8f6-42d1-b8f4-1cca4576ece4" /> </br>
+Ao clicar em "Novo Teste", alguns dados serão requeridos. A tela de preenchimento faz a coleta das informações necessárias. </br>
+<img width="430" height="939" alt="image" src="https://github.com/user-attachments/assets/04c96396-d8f6-42d1-b8f4-1cca4576ece4" /> </br> </br>
 
 
 **Coleta de Dados** </br>
-Ao tocar em "Iniciar", um novo teste é começado. Nesta etapa, ocorre a coleta de diversos tipos de medições da tarefa.
-<img width="430" height="939" alt="image" src="https://github.com/user-attachments/assets/71dea10c-6d90-44c9-8819-67f6ea986059" /> </br>
+Ao tocar em "Iniciar", um novo teste é começado. Nesta etapa, ocorre a coleta de diversos tipos de medições da tarefa. </br>
+<img width="430" height="939" alt="image" src="https://github.com/user-attachments/assets/71dea10c-6d90-44c9-8819-67f6ea986059" /> </br> </br>
 
 
-**Finalização do Teste**
-Quando a etapa de coleta termina, você tem a opção de salvar ou descartar o teste realizado.
-<img width="430" height="939" alt="image" src="https://github.com/user-attachments/assets/6bce37f4-f30f-410e-8004-85a9d6af31a2" /> </br>
+**Finalização do Teste** </br>
+Quando a etapa de coleta termina, você tem a opção de salvar ou descartar o teste realizado. </br>
+<img width="430" height="939" alt="image" src="https://github.com/user-attachments/assets/6bce37f4-f30f-410e-8004-85a9d6af31a2" /> </br> </br>
 
 
 **Histórico** </br>
-Ao salvar um teste ou acessar o "Histórico" na tela inicial, são apresentadas as medições individuais de todas as tarefas realizadas.
-<img width="430" height="939" alt="image" src="https://github.com/user-attachments/assets/5c4f6338-c3d1-4572-8eef-76a7684ca800" /> </br>
+Ao salvar um teste ou acessar o "Histórico" na tela inicial, são apresentadas as medições individuais de todas as tarefas realizadas. </br>
+<img width="430" height="939" alt="image" src="https://github.com/user-attachments/assets/5c4f6338-c3d1-4572-8eef-76a7684ca800" /> </br> </br>
 
 
 **Seleção de Região** </br>
-Através do botão "Média Geral" na tela inicial, é possível escolher a região específica que se deseja analisar.
-<img width="430" height="939" alt="image" src="https://github.com/user-attachments/assets/06cfeea6-70d1-4cd0-9218-9772e26fa6cf" /> </br>
+Através do botão "Média Geral" na tela inicial, é possível escolher a região específica que se deseja analisar. </br>
+<img width="430" height="939" alt="image" src="https://github.com/user-attachments/assets/06cfeea6-70d1-4cd0-9218-9772e26fa6cf" /> </br> </br>
 
 
 **Média Geral** </br>
-Após escolher a região, a tela exibe uma análise consolidada de todas as tarefas realizadas naquela localidade selecionada.
-<img width="430" height="939" alt="image" src="https://github.com/user-attachments/assets/b62a192b-7bc1-46a0-bd83-7b2694c98059" /> </br>
+Após escolher a região, a tela exibe uma análise consolidada de todas as tarefas realizadas naquela localidade selecionada. </br>
+<img width="430" height="939" alt="image" src="https://github.com/user-attachments/assets/b62a192b-7bc1-46a0-bd83-7b2694c98059" /> </br> </br>
 
 
 **Sobre o Aplicativo** </br>
-Ao selecionar o botão "Sobre", são exibidas informações detalhadas sobre o propósito do aplicativo e seu desenvolvimento.
-<img width="430" height="939" alt="image" src="https://github.com/user-attachments/assets/c5bb3d69-c502-4918-bf68-3c9bd3df959f" /> </br>
+Ao selecionar o botão "Sobre", são exibidas informações detalhadas sobre o propósito do aplicativo e seu desenvolvimento. </br>
+<img width="430" height="939" alt="image" src="https://github.com/user-attachments/assets/c5bb3d69-c502-4918-bf68-3c9bd3df959f" /> </br> </br>
 
 
 **Termos de Uso e Privacidade** </br>
-Acesso aos termos legais, garantindo informações sobre direitos, segurança e diretrizes de uso do aplicativo.
-<img width="430" height="939" alt="image" src="https://github.com/user-attachments/assets/9d8a7ddf-df87-4b20-9111-7e9fa6d507e9" /> </br>
+Acesso aos termos legais, garantindo informações sobre direitos, segurança e diretrizes de uso do aplicativo. </br>
+<img width="430" height="939" alt="image" src="https://github.com/user-attachments/assets/9d8a7ddf-df87-4b20-9111-7e9fa6d507e9" /> </br> </br>
 
 
 
